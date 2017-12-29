@@ -1,6 +1,6 @@
 ﻿namespace GamerSkyLite_CS
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -28,9 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Form1";
+            this.SuspendLayout();
+            // 
+            // MainForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.ClientSize = new System.Drawing.Size(640, 540);
+            this.DoubleBuffered = true;
+            this.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Name = "MainForm";
+            this.Padding = new System.Windows.Forms.Padding(5);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "GamerSky-Lite";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
