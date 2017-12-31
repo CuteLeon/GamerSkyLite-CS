@@ -6,9 +6,9 @@ using System.Text;
 namespace GamerSkyLite_CS.Controller
 {
     /// <summary>
-    /// 内容控制器
+    /// 文章控制器
     /// </summary>
-    static class ContextController
+    static class ArticleController
     {
         
     }

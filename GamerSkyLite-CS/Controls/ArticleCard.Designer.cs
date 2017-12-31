@@ -1,6 +1,6 @@
 ﻿namespace GamerSkyLite_CS.Controls
 {
-    partial class ContextCard
+    partial class ArticleCard
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -30,14 +30,14 @@
         {
             this.SuspendLayout();
             // 
-            // ContextCard
+            // ContentCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.White;
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Name = "ContextCard";
+            this.Name = "ContentCard";
             this.Size = new System.Drawing.Size(640, 159);
             this.ResumeLayout(false);
 

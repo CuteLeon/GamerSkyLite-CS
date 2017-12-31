@@ -72,15 +72,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\ContextController.cs" />
+    <Compile Include="Controller\ArticleController.cs" />
     <Compile Include="Controller\DataBaseController.cs" />
     <Compile Include="Controller\FileController.cs" />
     <Compile Include="Controller\UnityModule.cs" />
-    <Compile Include="Controls\ContextCard.cs">
+    <Compile Include="Controls\ArticleCard.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ContextCard.Designer.cs">
-      <DependentUpon>ContextCard.cs</DependentUpon>
+    <Compile Include="Controls\ArticleCard.Designer.cs">
+      <DependentUpon>ArticleCard.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
@@ -95,8 +95,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UnityResource.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Controls\ContextCard.resx">
-      <DependentUpon>ContextCard.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\ArticleCard.resx">
+      <DependentUpon>ArticleCard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

@@ -19,11 +19,11 @@ namespace GamerSkyLite_CS
         /// <summary>
         /// 存档目录名称
         /// </summary>
-        private static readonly string CDName = "GamerSky-Context";
+        private static readonly string CDName = "GamerSky-Content";
         /// <summary>
         /// 存档目录路径
         /// </summary>
-        public static readonly string ContextDirectory = FileController.PathCombine(Application.StartupPath, CDName);
+        public static readonly string ContentDirectory = FileController.PathCombine(Application.StartupPath, CDName);
         /// <summary>
         /// 数据库路径
         /// </summary>

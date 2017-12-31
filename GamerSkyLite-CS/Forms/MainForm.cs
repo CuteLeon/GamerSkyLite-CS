@@ -82,11 +82,11 @@ namespace GamerSkyLite_CS
         private void MainForm_Shown(object sender, EventArgs e)
         {
             //Check存档目录
-            if (!Directory.Exists(UnityModule.ContextDirectory))
+            if (!Directory.Exists(UnityModule.ContentDirectory))
             {
                 try
                 {
-                    Directory.CreateDirectory(UnityModule.ContextDirectory);
+                    Directory.CreateDirectory(UnityModule.ContentDirectory);
                 }
                 catch (Exception ex)
                 {
