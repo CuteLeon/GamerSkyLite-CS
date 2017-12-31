@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -65,10 +66,36 @@ namespace GamerSkyLite_CS
 
         private void MainForm_Shown(object sender, EventArgs e)
         {
+            //Check存档目录
+            if (!Directory.Exists(UnityModule.ContextDirectory))
+            {
+                try
+                {
+                    Directory.CreateDirectory(UnityModule.ContextDirectory);
+                }
+                catch (Exception ex)
+                {
+                    new LeonMessageBox("无法创建缓存目录", "存档目录不存在，创建存档目录时遇到错误：\n{0}", LeonMessageBox.IconType.Error, ex.Message).ShowDialog(this);
+                    CloseMainForm();
+                    return;
+                }
+            }
+            //Check数据库文件
+            if (!File.Exists(UnityModule.DataBasePath))
+            {
+                try
+                {
+                    //TODO:把数据库文件添加进 UnityResource，使用 FileController.SaveResource() 释放到存档目录
+                }
+                catch (Exception ex)
+                {
+                    new LeonMessageBox("无法释放数据库文件", "数据库文件不存在，释放数据库文件时遇到错误：\n{0}", LeonMessageBox.IconType.Error, ex.Message).ShowDialog(this);
+                }
+            }
             return;
 
             //连接数据库
-            if (UnityDBController.CreateConnection(FileController.PathCombine(Application.StartupPath, UnityModule.DataBaseFileName)))
+            if (UnityDBController.CreateConnection(UnityModule.DataBasePath))
             {
                 UnityModule.DebugPrint("数据库连接创建成功...");
             }

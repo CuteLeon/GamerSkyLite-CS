@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GamerSkyLite_CS.Controller;
 
 namespace GamerSkyLite_CS
 {
@@ -14,7 +15,19 @@ namespace GamerSkyLite_CS
         /// <summary>
         /// 数据库文件名称
         /// </summary>
-        public static readonly string DataBaseFileName = "GamerSky.db";
+        private static readonly string DBName = "GamerSky.db";
+        /// <summary>
+        /// 存档目录名称
+        /// </summary>
+        private static readonly string CDName = "GamerSky-Context";
+        /// <summary>
+        /// 存档目录路径
+        /// </summary>
+        public static readonly string ContextDirectory = FileController.PathCombine(Application.StartupPath, CDName);
+        /// <summary>
+        /// 数据库路径
+        /// </summary>
+        public static readonly string DataBasePath = FileController.PathCombine(Application.StartupPath, DBName);
 
         //用于鼠标拖动无边框窗体
         [DllImportAttribute("user32.dll")] private static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
