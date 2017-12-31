@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using GamerSkyLite_CS.Controls;
 
 namespace GamerSkyLite_CS.Controls
 {

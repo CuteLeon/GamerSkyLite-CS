@@ -188,7 +188,7 @@ namespace GamerSkyLite_CS.Controller
         /// </summary>
         public void CloseConnection()
         {
-            UnityModule.DebugPrint("正在关闭数据库连接...");
+            UnityModule.DebugPrint("关闭数据库连接...");
             try
             {
                 if (DataBaseConnection == null) return;
@@ -199,7 +199,6 @@ namespace GamerSkyLite_CS.Controller
             catch (Exception ex) {
                 UnityModule.DebugPrint("关闭数据库连接时遇到错误：",ex.Message);
             }
-            UnityModule.DebugPrint("已经关闭数据库连接");
         }
 
         public void Dispose()

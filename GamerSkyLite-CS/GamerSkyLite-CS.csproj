@@ -73,14 +73,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\ArticleController.cs" />
+    <Compile Include="Controller\CatalogController.cs" />
     <Compile Include="Controller\DataBaseController.cs" />
     <Compile Include="Controller\FileController.cs" />
+    <Compile Include="Controller\GUIDController.cs" />
     <Compile Include="Controller\UnityModule.cs" />
     <Compile Include="Controls\ArticleCard.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\ArticleCard.Designer.cs">
       <DependentUpon>ArticleCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FlowLayoutPanelEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TableLayoutPanelEx.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
@@ -160,6 +168,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Location_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GamerSky.mdb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

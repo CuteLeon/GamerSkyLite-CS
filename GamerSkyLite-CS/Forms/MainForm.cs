@@ -53,6 +53,7 @@ namespace GamerSkyLite_CS
                  ControlStyles.OptimizedDoubleBuffer |
                  ControlStyles.ResizeRedraw |
                  ControlStyles.UserPaint, true);
+            UpdateStyles();
 
             InitializeApplication();
 
@@ -100,14 +101,13 @@ namespace GamerSkyLite_CS
             {
                 try
                 {
-                    //TODO:把数据库文件添加进 UnityResource，使用 FileController.SaveResource() 释放到存档目录
+                    FileController.SaveResource(UnityResource.DataBase, UnityModule.DataBasePath);
                 }
                 catch (Exception ex)
                 {
                     new LeonMessageBox("无法释放数据库文件", "数据库文件不存在，释放数据库文件时遇到错误：\n{0}", LeonMessageBox.IconType.Error, ex.Message).ShowDialog(this);
                 }
             }
-            return;
 
             //连接数据库
             if (UnityDBController.CreateConnection(UnityModule.DataBasePath))

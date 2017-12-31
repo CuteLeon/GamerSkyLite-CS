@@ -30,13 +30,21 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TitlePanel = new System.Windows.Forms.Panel();
-            this.CloseButton = new LeonUI.TitleButtons.CloseButton();
-            this.MaxButton = new LeonUI.TitleButtons.MaxButton();
-            this.RestoreButton = new LeonUI.TitleButtons.RestoreButton();
-            this.MinButton = new LeonUI.TitleButtons.MinButton();
-            this.IconLabel = new System.Windows.Forms.Label();
             this.TitleLabel = new System.Windows.Forms.Label();
+            this.IconLabel = new System.Windows.Forms.Label();
+            this.MinButton = new LeonUI.TitleButtons.MinButton();
+            this.RestoreButton = new LeonUI.TitleButtons.RestoreButton();
+            this.MaxButton = new LeonUI.TitleButtons.MaxButton();
+            this.CloseButton = new LeonUI.TitleButtons.CloseButton();
+            this.flowLayoutPanel1 = new GamerSkyLite_CS.Controls.FlowLayoutPanelEx();
+            this.articleCard1 = new GamerSkyLite_CS.Controls.ArticleCard();
+            this.articleCard2 = new GamerSkyLite_CS.Controls.ArticleCard();
+            this.articleCard3 = new GamerSkyLite_CS.Controls.ArticleCard();
+            this.articleCard4 = new GamerSkyLite_CS.Controls.ArticleCard();
+            this.articleCard5 = new GamerSkyLite_CS.Controls.ArticleCard();
+            this.articleCard6 = new GamerSkyLite_CS.Controls.ArticleCard();
             this.TitlePanel.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // TitlePanel
@@ -53,29 +61,39 @@
             this.TitlePanel.Size = new System.Drawing.Size(790, 32);
             this.TitlePanel.TabIndex = 0;
             // 
-            // CloseButton
+            // TitleLabel
             // 
-            this.CloseButton.BackColor = System.Drawing.Color.Transparent;
-            this.CloseButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("CloseButton.BackgroundImage")));
-            this.CloseButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.CloseButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.CloseButton.Location = new System.Drawing.Point(760, 0);
-            this.CloseButton.MinimumSize = new System.Drawing.Size(20, 20);
-            this.CloseButton.Name = "CloseButton";
-            this.CloseButton.Size = new System.Drawing.Size(30, 32);
-            this.CloseButton.TabIndex = 1;
+            this.TitleLabel.AutoEllipsis = true;
+            this.TitleLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TitleLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.TitleLabel.Location = new System.Drawing.Point(32, 0);
+            this.TitleLabel.Name = "TitleLabel";
+            this.TitleLabel.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.TitleLabel.Size = new System.Drawing.Size(638, 32);
+            this.TitleLabel.TabIndex = 7;
+            this.TitleLabel.Text = "GamerSky-Lite [需求才是第一生产力]";
+            this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // MaxButton
+            // IconLabel
             // 
-            this.MaxButton.BackColor = System.Drawing.Color.Transparent;
-            this.MaxButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("MaxButton.BackgroundImage")));
-            this.MaxButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.MaxButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.MaxButton.Location = new System.Drawing.Point(730, 0);
-            this.MaxButton.MinimumSize = new System.Drawing.Size(20, 20);
-            this.MaxButton.Name = "MaxButton";
-            this.MaxButton.Size = new System.Drawing.Size(30, 32);
-            this.MaxButton.TabIndex = 2;
+            this.IconLabel.AutoEllipsis = true;
+            this.IconLabel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.IconLabel.Location = new System.Drawing.Point(0, 0);
+            this.IconLabel.Name = "IconLabel";
+            this.IconLabel.Size = new System.Drawing.Size(32, 32);
+            this.IconLabel.TabIndex = 6;
+            // 
+            // MinButton
+            // 
+            this.MinButton.BackColor = System.Drawing.Color.Transparent;
+            this.MinButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("MinButton.BackgroundImage")));
+            this.MinButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.MinButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.MinButton.Location = new System.Drawing.Point(670, 0);
+            this.MinButton.MinimumSize = new System.Drawing.Size(20, 20);
+            this.MinButton.Name = "MinButton";
+            this.MinButton.Size = new System.Drawing.Size(30, 32);
+            this.MinButton.TabIndex = 4;
             // 
             // RestoreButton
             // 
@@ -90,39 +108,107 @@
             this.RestoreButton.TabIndex = 3;
             this.RestoreButton.Visible = false;
             // 
-            // MinButton
+            // MaxButton
             // 
-            this.MinButton.BackColor = System.Drawing.Color.Transparent;
-            this.MinButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("MinButton.BackgroundImage")));
-            this.MinButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.MinButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.MinButton.Location = new System.Drawing.Point(670, 0);
-            this.MinButton.MinimumSize = new System.Drawing.Size(20, 20);
-            this.MinButton.Name = "MinButton";
-            this.MinButton.Size = new System.Drawing.Size(30, 32);
-            this.MinButton.TabIndex = 4;
+            this.MaxButton.BackColor = System.Drawing.Color.Transparent;
+            this.MaxButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("MaxButton.BackgroundImage")));
+            this.MaxButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.MaxButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.MaxButton.Location = new System.Drawing.Point(730, 0);
+            this.MaxButton.MinimumSize = new System.Drawing.Size(20, 20);
+            this.MaxButton.Name = "MaxButton";
+            this.MaxButton.Size = new System.Drawing.Size(30, 32);
+            this.MaxButton.TabIndex = 2;
             // 
-            // IconLabel
+            // CloseButton
             // 
-            this.IconLabel.AutoEllipsis = true;
-            this.IconLabel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.IconLabel.Location = new System.Drawing.Point(0, 0);
-            this.IconLabel.Name = "IconLabel";
-            this.IconLabel.Size = new System.Drawing.Size(32, 32);
-            this.IconLabel.TabIndex = 6;
+            this.CloseButton.BackColor = System.Drawing.Color.Transparent;
+            this.CloseButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("CloseButton.BackgroundImage")));
+            this.CloseButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.CloseButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.CloseButton.Location = new System.Drawing.Point(760, 0);
+            this.CloseButton.MinimumSize = new System.Drawing.Size(20, 20);
+            this.CloseButton.Name = "CloseButton";
+            this.CloseButton.Size = new System.Drawing.Size(30, 32);
+            this.CloseButton.TabIndex = 1;
             // 
-            // TitleLabel
+            // flowLayoutPanel1
             // 
-            this.TitleLabel.AutoEllipsis = true;
-            this.TitleLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TitleLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.TitleLabel.Location = new System.Drawing.Point(32, 0);
-            this.TitleLabel.Name = "TitleLabel";
-            this.TitleLabel.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.TitleLabel.Size = new System.Drawing.Size(638, 32);
-            this.TitleLabel.TabIndex = 7;
-            this.TitleLabel.Text = "GamerSky-Lite [需求才是第一生产力]";
-            this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.flowLayoutPanel1.AutoScroll = true;
+            this.flowLayoutPanel1.Controls.Add(this.articleCard1);
+            this.flowLayoutPanel1.Controls.Add(this.articleCard2);
+            this.flowLayoutPanel1.Controls.Add(this.articleCard3);
+            this.flowLayoutPanel1.Controls.Add(this.articleCard4);
+            this.flowLayoutPanel1.Controls.Add(this.articleCard5);
+            this.flowLayoutPanel1.Controls.Add(this.articleCard6);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(5, 37);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(790, 558);
+            this.flowLayoutPanel1.TabIndex = 1;
+            this.flowLayoutPanel1.WrapContents = false;
+            // 
+            // articleCard1
+            // 
+            this.articleCard1.BackColor = System.Drawing.Color.White;
+            this.articleCard1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.articleCard1.Location = new System.Drawing.Point(0, 0);
+            this.articleCard1.Margin = new System.Windows.Forms.Padding(0);
+            this.articleCard1.Name = "articleCard1";
+            this.articleCard1.Size = new System.Drawing.Size(640, 112);
+            this.articleCard1.TabIndex = 0;
+            // 
+            // articleCard2
+            // 
+            this.articleCard2.BackColor = System.Drawing.Color.White;
+            this.articleCard2.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.articleCard2.Location = new System.Drawing.Point(0, 112);
+            this.articleCard2.Margin = new System.Windows.Forms.Padding(0);
+            this.articleCard2.Name = "articleCard2";
+            this.articleCard2.Size = new System.Drawing.Size(640, 112);
+            this.articleCard2.TabIndex = 1;
+            // 
+            // articleCard3
+            // 
+            this.articleCard3.BackColor = System.Drawing.Color.White;
+            this.articleCard3.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.articleCard3.Location = new System.Drawing.Point(0, 224);
+            this.articleCard3.Margin = new System.Windows.Forms.Padding(0);
+            this.articleCard3.Name = "articleCard3";
+            this.articleCard3.Size = new System.Drawing.Size(640, 112);
+            this.articleCard3.TabIndex = 2;
+            // 
+            // articleCard4
+            // 
+            this.articleCard4.BackColor = System.Drawing.Color.White;
+            this.articleCard4.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.articleCard4.Location = new System.Drawing.Point(0, 336);
+            this.articleCard4.Margin = new System.Windows.Forms.Padding(0);
+            this.articleCard4.Name = "articleCard4";
+            this.articleCard4.Size = new System.Drawing.Size(640, 112);
+            this.articleCard4.TabIndex = 3;
+            // 
+            // articleCard5
+            // 
+            this.articleCard5.BackColor = System.Drawing.Color.White;
+            this.articleCard5.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.articleCard5.Location = new System.Drawing.Point(0, 448);
+            this.articleCard5.Margin = new System.Windows.Forms.Padding(0);
+            this.articleCard5.Name = "articleCard5";
+            this.articleCard5.Size = new System.Drawing.Size(640, 112);
+            this.articleCard5.TabIndex = 4;
+            // 
+            // articleCard6
+            // 
+            this.articleCard6.BackColor = System.Drawing.Color.White;
+            this.articleCard6.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.articleCard6.Location = new System.Drawing.Point(0, 560);
+            this.articleCard6.Margin = new System.Windows.Forms.Padding(0);
+            this.articleCard6.Name = "articleCard6";
+            this.articleCard6.Size = new System.Drawing.Size(640, 112);
+            this.articleCard6.TabIndex = 5;
             // 
             // MainForm
             // 
@@ -130,6 +216,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(800, 600);
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.TitlePanel);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -146,6 +233,7 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.TitlePanel.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -159,6 +247,13 @@
         private LeonUI.TitleButtons.CloseButton CloseButton;
         private System.Windows.Forms.Label IconLabel;
         private System.Windows.Forms.Label TitleLabel;
+        private GamerSkyLite_CS.Controls.FlowLayoutPanelEx flowLayoutPanel1;
+        private Controls.ArticleCard articleCard1;
+        private Controls.ArticleCard articleCard2;
+        private Controls.ArticleCard articleCard3;
+        private Controls.ArticleCard articleCard4;
+        private Controls.ArticleCard articleCard5;
+        private Controls.ArticleCard articleCard6;
     }
 }
 

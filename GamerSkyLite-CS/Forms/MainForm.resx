@@ -118,24 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="CloseButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="MinButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1
-        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACxMAAAsTAQCanBgAAAEZSURBVDhPrZS9agJRFIQthWAV
-        sJF0pszDWBtJevEnITYixrDaKnmWvMS+1ToHZpbjvWdd0BQf3J2ZM+xdjnaqqvpXQvEe6kNZlgMwAg8+
-        0AZnnvXsjTH4A4W0NpBdcmYuzZt9sGNgK70JK2H2BJ6kR8FvBn9ST8BbMXNMvYsHYWUc2AfeF73f1DMy
-        QWCg4GB9fZx1zezNRCgKDOr6M/DOc2OZEYoeFExZZKyjjCcUPSh5c4XLKOMJRYGCBYs24IPnqysVigYG
-        P1lQfzMro9ZYGooY0J6dAk/Ln62UkQkI6ucU7pkB78DMLvV8qAda90wgU18fPEr3gVcGGt8sBVldP/xz
-        GIIJ6EtrA9kusBd5kZaF7iUUb6fqnAGqrZ1UzqijmQAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="MaxButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1
-        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACxMAAAsTAQCanBgAAACUSURBVDhP7c0xCoQwEIVhTyfY
-        2LmonY23WbZZxEJbBQ9hYWMK75R9AYuJDEnYCVYWX5HH8CfRWkfFjhLsKMGOEtZDKZXDG0YYPMzNB160
-        cQ0epxkWD3Ozw0EbXND60QW3WUiwpZsLbqvYwfoJ3hMs6OaC2zQkuEEHvYe5WcEZLOELUyATbWjDCsbA
-        jhLsKMGO/9PJD+FaqFR+uT9AAAAAAElFTkSuQmCC
+        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACxMAAAsTAQCanBgAAABoSURBVDhPrcyxCYAwGEThrCU4
+        jIUjiI3oekZwpz9XJvJA8VJ8xb3iUkR0hdGB0YHRgdGB0YHRgdGB0YHRgdGB0YHRgdHRjJzzJJfcH50y
+        1x/Pw0FW2WV7ccgiY/3RHPaA0YHRgfG/SAVTCan/GKRRzAAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="RestoreButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -149,12 +137,24 @@
         Ajq2pDFsM2sYAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="MinButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="MaxButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1
-        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACxMAAAsTAQCanBgAAABoSURBVDhPrcyxCYAwGEThrCU4
-        jIUjiI3oekZwpz9XJvJA8VJ8xb3iUkR0hdGB0YHRgdGB0YHRgdGB0YHRgdGB0YHRgdHRjJzzJJfcH50y
-        1x/Pw0FW2WV7ccgiY/3RHPaA0YHRgfG/SAVTCan/GKRRzAAAAABJRU5ErkJggg==
+        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACxMAAAsTAQCanBgAAACUSURBVDhP7c0xCoQwEIVhTyfY
+        2LmonY23WbZZxEJbBQ9hYWMK75R9AYuJDEnYCVYWX5HH8CfRWkfFjhLsKMGOEtZDKZXDG0YYPMzNB160
+        cQ0epxkWD3Ozw0EbXND60QW3WUiwpZsLbqvYwfoJ3hMs6OaC2zQkuEEHvYe5WcEZLOELUyATbWjDCsbA
+        jhLsKMGO/9PJD+FaqFR+uT9AAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="CloseButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1
+        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACxMAAAsTAQCanBgAAAEZSURBVDhPrZS9agJRFIQthWAV
+        sJF0pszDWBtJevEnITYixrDaKnmWvMS+1ToHZpbjvWdd0BQf3J2ZM+xdjnaqqvpXQvEe6kNZlgMwAg8+
+        0AZnnvXsjTH4A4W0NpBdcmYuzZt9sGNgK70JK2H2BJ6kR8FvBn9ST8BbMXNMvYsHYWUc2AfeF73f1DMy
+        QWCg4GB9fZx1zezNRCgKDOr6M/DOc2OZEYoeFExZZKyjjCcUPSh5c4XLKOMJRYGCBYs24IPnqysVigYG
+        P1lQfzMro9ZYGooY0J6dAk/Ln62UkQkI6ucU7pkB78DMLvV8qAda90wgU18fPEr3gVcGGt8sBVldP/xz
+        GIIJ6EtrA9kusBd5kZaF7iUUb6fqnAGqrZ1UzqijmQAAAABJRU5ErkJggg==
 </value>
   </data>
 </root>
