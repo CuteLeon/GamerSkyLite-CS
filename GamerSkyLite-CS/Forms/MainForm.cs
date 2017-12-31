@@ -59,9 +59,24 @@ namespace GamerSkyLite_CS
             AttachEvent();
         }
 
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Escape:
+                    {
+                        //TODO:如果是浏览文章状态，则返回文章目录
+                        //TODO:如果是文章目录状态，则退出应用程序
+                        this.Close();
+                        break;
+                    }
+            }
+        }
+
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.DrawRectangle(Pens.DimGray, 0, 0, this.Width - 1, this.Height - 1);
+            e.Graphics.DrawRectangle(Pens.LightGray, 0, 0, this.Width - 1, this.Height - 1);
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
@@ -260,5 +275,6 @@ namespace GamerSkyLite_CS
         }
 
         #endregion
+
     }
 }

@@ -12,7 +12,7 @@ namespace GamerSkyLite_CS.Controls
     public partial class ContextCard : UserControl
     {
         #region 属性字段
-
+        //TODO:选中的文章，高亮显示
         #endregion
 
         public ContextCard()

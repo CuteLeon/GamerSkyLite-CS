@@ -50,7 +50,7 @@
             this.TitlePanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.TitlePanel.Location = new System.Drawing.Point(5, 5);
             this.TitlePanel.Name = "TitlePanel";
-            this.TitlePanel.Size = new System.Drawing.Size(630, 32);
+            this.TitlePanel.Size = new System.Drawing.Size(790, 32);
             this.TitlePanel.TabIndex = 0;
             // 
             // CloseButton
@@ -59,7 +59,7 @@
             this.CloseButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("CloseButton.BackgroundImage")));
             this.CloseButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.CloseButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.CloseButton.Location = new System.Drawing.Point(600, 0);
+            this.CloseButton.Location = new System.Drawing.Point(760, 0);
             this.CloseButton.MinimumSize = new System.Drawing.Size(20, 20);
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(30, 32);
@@ -71,7 +71,7 @@
             this.MaxButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("MaxButton.BackgroundImage")));
             this.MaxButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.MaxButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.MaxButton.Location = new System.Drawing.Point(570, 0);
+            this.MaxButton.Location = new System.Drawing.Point(730, 0);
             this.MaxButton.MinimumSize = new System.Drawing.Size(20, 20);
             this.MaxButton.Name = "MaxButton";
             this.MaxButton.Size = new System.Drawing.Size(30, 32);
@@ -83,7 +83,7 @@
             this.RestoreButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("RestoreButton.BackgroundImage")));
             this.RestoreButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.RestoreButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.RestoreButton.Location = new System.Drawing.Point(540, 0);
+            this.RestoreButton.Location = new System.Drawing.Point(700, 0);
             this.RestoreButton.MinimumSize = new System.Drawing.Size(20, 20);
             this.RestoreButton.Name = "RestoreButton";
             this.RestoreButton.Size = new System.Drawing.Size(30, 32);
@@ -96,7 +96,7 @@
             this.MinButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("MinButton.BackgroundImage")));
             this.MinButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.MinButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.MinButton.Location = new System.Drawing.Point(510, 0);
+            this.MinButton.Location = new System.Drawing.Point(670, 0);
             this.MinButton.MinimumSize = new System.Drawing.Size(20, 20);
             this.MinButton.Name = "MinButton";
             this.MinButton.Size = new System.Drawing.Size(30, 32);
@@ -119,7 +119,7 @@
             this.TitleLabel.Location = new System.Drawing.Point(32, 0);
             this.TitleLabel.Name = "TitleLabel";
             this.TitleLabel.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.TitleLabel.Size = new System.Drawing.Size(478, 32);
+            this.TitleLabel.Size = new System.Drawing.Size(638, 32);
             this.TitleLabel.TabIndex = 7;
             this.TitleLabel.Text = "GamerSky-Lite [需求才是第一生产力]";
             this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -129,12 +129,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(640, 540);
+            this.ClientSize = new System.Drawing.Size(800, 600);
             this.Controls.Add(this.TitlePanel);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(400, 42);
             this.Name = "MainForm";
             this.Padding = new System.Windows.Forms.Padding(5);
@@ -143,6 +144,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.TitlePanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
