@@ -67,7 +67,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -76,7 +75,6 @@
     <Compile Include="Controller\CatalogController.cs" />
     <Compile Include="Controller\DataBaseController.cs" />
     <Compile Include="Controller\FileController.cs" />
-    <Compile Include="Controller\GUIDController.cs" />
     <Compile Include="Controller\UnityModule.cs" />
     <Compile Include="Controls\ArticleCard.cs">
       <SubType>UserControl</SubType>

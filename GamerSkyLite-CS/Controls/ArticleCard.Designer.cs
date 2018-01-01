@@ -93,6 +93,7 @@
             // ImageLabel
             // 
             this.ImageLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ImageLabel.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ImageLabel.ForeColor = System.Drawing.Color.DarkGray;
             this.ImageLabel.Location = new System.Drawing.Point(0, 0);
             this.ImageLabel.Margin = new System.Windows.Forms.Padding(0);

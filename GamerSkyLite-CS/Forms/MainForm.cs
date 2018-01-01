@@ -120,6 +120,16 @@ namespace GamerSkyLite_CS
                 CloseMainForm();
                 return;
             }
+
+            //更新文章目录
+            try
+            {
+                CatalogController.GetCatalog(UnityModule.CatalogAddress, UnityDBController);
+            }
+            catch (Exception ex)
+            {
+                new LeonMessageBox("更新目录失败", "无法联网更新文章目录，请阅读离线文章。\n{0}", LeonMessageBox.IconType.Error, ex.Message).ShowDialog(this);
+            }
         }
 
         //为窗体添加阴影

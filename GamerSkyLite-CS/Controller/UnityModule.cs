@@ -13,6 +13,14 @@ namespace GamerSkyLite_CS
     class UnityModule
     {
         /// <summary>
+        /// 文章目录地址
+        /// </summary>
+        public static readonly string CatalogAddress = "http://www.gamersky.com/ent/qw/";
+        /// <summary>
+        /// 网站地址
+        /// </summary>
+        public static readonly string WebSite = "http://www.gamersky.com";
+        /// <summary>
         /// 数据库文件名称
         /// </summary>
         private static readonly string DBName = "GamerSky.mdb";

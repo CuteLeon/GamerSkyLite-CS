@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamerSkyLite-CS", "GamerSkyLite-CS\GamerSkyLite-CS.csproj", "{6EDCF44E-9DAE-4209-B245-5F3B7163958A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamerSkyLite-CSTests", "GamerSkyLite-CSTests\GamerSkyLite-CSTests.csproj", "{5828D306-7516-4FA8-95BF-86992E25B3DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,14 @@ Global
 		{6EDCF44E-9DAE-4209-B245-5F3B7163958A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6EDCF44E-9DAE-4209-B245-5F3B7163958A}.Release|x86.ActiveCfg = Release|x86
 		{6EDCF44E-9DAE-4209-B245-5F3B7163958A}.Release|x86.Build.0 = Release|x86
+		{5828D306-7516-4FA8-95BF-86992E25B3DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5828D306-7516-4FA8-95BF-86992E25B3DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5828D306-7516-4FA8-95BF-86992E25B3DF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5828D306-7516-4FA8-95BF-86992E25B3DF}.Debug|x86.Build.0 = Debug|Any CPU
+		{5828D306-7516-4FA8-95BF-86992E25B3DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5828D306-7516-4FA8-95BF-86992E25B3DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5828D306-7516-4FA8-95BF-86992E25B3DF}.Release|x86.ActiveCfg = Release|Any CPU
+		{5828D306-7516-4FA8-95BF-86992E25B3DF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
