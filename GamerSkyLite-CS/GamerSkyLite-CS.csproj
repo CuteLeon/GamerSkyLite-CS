@@ -85,6 +85,9 @@
     <Compile Include="Controls\FlowLayoutPanelEx.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\PanelEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\TableLayoutPanelEx.cs">
       <SubType>Component</SubType>
     </Compile>

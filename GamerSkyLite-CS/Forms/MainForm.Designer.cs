@@ -36,6 +36,7 @@
             this.RestoreButton = new LeonUI.TitleButtons.RestoreButton();
             this.MaxButton = new LeonUI.TitleButtons.MaxButton();
             this.CloseButton = new LeonUI.TitleButtons.CloseButton();
+            this.ControlPanel = new GamerSkyLite_CS.Controls.PanelEx();
             this.CatalogLayoutPanel = new GamerSkyLite_CS.Controls.FlowLayoutPanelEx();
             this.TitlePanel.SuspendLayout();
             this.SuspendLayout();
@@ -125,18 +126,26 @@
             this.CloseButton.Size = new System.Drawing.Size(30, 32);
             this.CloseButton.TabIndex = 1;
             // 
+            // ControlPanel
+            // 
+            this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ControlPanel.Location = new System.Drawing.Point(5, 37);
+            this.ControlPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.ControlPanel.Name = "ControlPanel";
+            this.ControlPanel.Size = new System.Drawing.Size(90, 558);
+            this.ControlPanel.TabIndex = 2;
+            // 
             // CatalogLayoutPanel
             // 
             this.CatalogLayoutPanel.AutoScroll = true;
             this.CatalogLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CatalogLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.CatalogLayoutPanel.Location = new System.Drawing.Point(5, 37);
+            this.CatalogLayoutPanel.Location = new System.Drawing.Point(95, 37);
             this.CatalogLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
             this.CatalogLayoutPanel.Name = "CatalogLayoutPanel";
-            this.CatalogLayoutPanel.Size = new System.Drawing.Size(790, 558);
-            this.CatalogLayoutPanel.TabIndex = 1;
+            this.CatalogLayoutPanel.Size = new System.Drawing.Size(700, 558);
+            this.CatalogLayoutPanel.TabIndex = 3;
             this.CatalogLayoutPanel.WrapContents = false;
-            this.CatalogLayoutPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.CatalogLayoutPanel_Paint);
             // 
             // MainForm
             // 
@@ -145,6 +154,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(800, 600);
             this.Controls.Add(this.CatalogLayoutPanel);
+            this.Controls.Add(this.ControlPanel);
             this.Controls.Add(this.TitlePanel);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -174,7 +184,8 @@
         private LeonUI.TitleButtons.CloseButton CloseButton;
         private System.Windows.Forms.Label IconLabel;
         private System.Windows.Forms.Label TitleLabel;
-        private GamerSkyLite_CS.Controls.FlowLayoutPanelEx CatalogLayoutPanel;
+        private Controls.PanelEx ControlPanel;
+        private Controls.FlowLayoutPanelEx CatalogLayoutPanel;
     }
 }
 
