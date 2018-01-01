@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using GamerSkyLite_CS.Controls;
 using System.IO;
 using System.Net;
+using System.Diagnostics;
+using GamerSkyLite_CS.Controller;
 
 namespace GamerSkyLite_CS.Controls
 {
@@ -25,6 +27,7 @@ namespace GamerSkyLite_CS.Controls
             set
             {
                 _articleID = value;
+                DownloadDirectory = FileController.PathCombine(UnityModule.ContentDirectory, value);
             }
         }
 
@@ -147,6 +150,11 @@ namespace GamerSkyLite_CS.Controls
             set => _imageLink = value;
         }
 
+        /// <summary>
+        /// 下载目录
+        /// </summary>
+        private string DownloadDirectory = string.Empty;
+
         #endregion
 
         #region 私有变量
@@ -161,11 +169,17 @@ namespace GamerSkyLite_CS.Controls
         /// </summary>
         EventHandler CardMouseLeave;
 
+        EventHandler ButtonMouseEnter;
+        MouseEventHandler ButtonMouseDown;
+        MouseEventHandler ButtonMouseUp;
+        EventHandler ButtonMouseLeave;
+
         #endregion
 
         public ArticleCard()
         {
             InitializeComponent();
+            InitializeControl();
             AttachEvent();
         }
 
@@ -181,7 +195,7 @@ namespace GamerSkyLite_CS.Controls
 
         private void ArticleCard_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.FillRectangle(Brushes.DeepSkyBlue, 0, 0, this.Width - 1, 3);
+            e.Graphics.FillRectangle(Brushes.SkyBlue, 0, UnityLayoutPanel.Bottom, this.Width - 1, this.Padding.Bottom);
         }
 
         #region 功能函数
@@ -195,7 +209,6 @@ namespace GamerSkyLite_CS.Controls
                 TitleLabel.ForeColor = Color.OrangeRed;
             });
             CardMouseLeave = new EventHandler((s, e) => {
-                //TODO:新加入的文章，使用深空蓝
                 TitleLabel.ForeColor = Color.Black;
             });
 
@@ -211,9 +224,77 @@ namespace GamerSkyLite_CS.Controls
             DescriptionLabel.MouseLeave += CardMouseLeave;
             PublishTimeLabel.MouseEnter += CardMouseEnter;
             PublishTimeLabel.MouseLeave += CardMouseLeave;
+
+            ButtonMouseEnter = new EventHandler((s,e)=> {(s as Label).ImageIndex = 1;});
+            ButtonMouseDown = new MouseEventHandler((s,e)=> {(s as Label).ImageIndex = 0;});
+            ButtonMouseUp = new MouseEventHandler((s,e)=> {(s as Label).ImageIndex = 1;});
+            ButtonMouseLeave = new EventHandler((s,e)=> {(s as Label).ImageIndex = 0;});
+
+            LocationButton.MouseEnter += ButtonMouseEnter;
+            BrowseButton.MouseEnter += ButtonMouseEnter;
+            DeleteButton.MouseEnter += ButtonMouseEnter;
+
+            LocationButton.MouseDown += ButtonMouseDown;
+            BrowseButton.MouseDown += ButtonMouseDown;
+            DeleteButton.MouseDown += ButtonMouseDown;
+
+            LocationButton.MouseUp += ButtonMouseUp;
+            BrowseButton.MouseUp += ButtonMouseUp;
+            DeleteButton.MouseUp += ButtonMouseUp;
+
+            LocationButton.MouseLeave += ButtonMouseLeave;
+            BrowseButton.MouseLeave += ButtonMouseLeave;
+            DeleteButton.MouseLeave += ButtonMouseLeave;
+
+        }
+
+        /// <summary>
+        /// 初始化控件
+        /// </summary>
+        private void InitializeControl()
+        {
+            LocationButton.ImageList = new ImageList
+            {
+                ImageSize = new Size(28, 28)
+            };
+            LocationButton.ImageList.Images.Add(UnityResource.Location_0);
+            LocationButton.ImageList.Images.Add(UnityResource.Location_1);
+            LocationButton.ImageIndex = 0;
+
+            BrowseButton.ImageList = new ImageList()
+            {
+                ImageSize = new Size(28, 28)
+            };
+            BrowseButton.ImageList.Images.Add(UnityResource.Browser_0);
+            BrowseButton.ImageList.Images.Add(UnityResource.Browser_1);
+            BrowseButton.ImageIndex = 0;
+
+            DeleteButton.ImageList = new ImageList()
+            {
+                ImageSize = new Size(28, 28)
+            };
+            DeleteButton.ImageList.Images.Add(UnityResource.Delete_0);
+            DeleteButton.ImageList.Images.Add(UnityResource.Delete_1);
+            DeleteButton.ImageIndex = 0;
         }
 
         #endregion
+
+        private void LocationButton_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(DownloadDirectory)) Process.Start(DownloadDirectory);
+
+        }
+
+        private void BrowseButton_Click(object sender, EventArgs e)
+        {
+            Process.Start(ArticleLink);
+        }
+
+        private void DeleteButton_Click(object sender, EventArgs e)
+        {
+
+        }
 
     }
 }

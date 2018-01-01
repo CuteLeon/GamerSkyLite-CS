@@ -272,6 +272,8 @@ namespace GamerSkyLite_CS
             AllowToClose = true;
             new Thread(new ThreadStart(delegate
             {
+                //关闭数据库连接
+                UnityDBController?.CloseConnection();
                 while (this.Opacity > 0)
                 {
                     this.Invoke(new Action(() =>
@@ -281,13 +283,16 @@ namespace GamerSkyLite_CS
                     }));
                     Thread.Sleep(30);
                 }
-                //关闭数据库连接
-                UnityDBController?.CloseConnection();
                 this.Close();
             })).Start();
         }
 
         #endregion
 
+        private void CatalogLayoutPanel_Paint(object sender, PaintEventArgs e)
+        {
+            if (CatalogLayoutPanel.Width > 800)
+                e.Graphics.DrawString("嘻嘻嘻~\n我不管，我最帅，\n我是你们的小可爱~~~", this.Font, Brushes.DeepSkyBlue, 800, 100);
+        }
     }
 }

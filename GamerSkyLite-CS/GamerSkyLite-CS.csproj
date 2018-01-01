@@ -144,9 +144,6 @@
     <None Include="Resources\Browser_1.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Browser_2.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\ClockIcon.png" />
   </ItemGroup>
   <ItemGroup>
@@ -156,9 +153,6 @@
     <None Include="Resources\Delete_1.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Delete_2.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\GamerSky.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -166,9 +160,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Location_1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Location_2.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\GamerSky.mdb" />

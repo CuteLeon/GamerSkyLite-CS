@@ -6,6 +6,8 @@ using GamerSkyLite_CS.Controls;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace GamerSkyLite_CS
 {
@@ -44,15 +46,16 @@ namespace GamerSkyLite_CS
                                 TempDate = Convert.ToDateTime((CatalogReader["PublishTime"] as string).Split(' ').First()).Date;
                                 if (TempDate != GroupDate)
                                 {
-                                    CatalohLayoutPanel.Controls.Add(new System.Windows.Forms.Label()
+                                    CatalogLayoutPanel.Controls.Add(new System.Windows.Forms.Label()
                                     {
                                         AutoSize = false,
-                                        Size = new System.Drawing.Size(150,30),
-                                        Font = new System.Drawing.Font(this.Font.FontFamily, 11, System.Drawing.FontStyle.Bold),
-                                        ImageAlign = System.Drawing.ContentAlignment.MiddleLeft,
-                                        TextAlign= System.Drawing.ContentAlignment.MiddleRight,
+                                        Size = new Size(150, 30),
+                                        Font = new Font(this.Font.FontFamily, 11, System.Drawing.FontStyle.Bold),
+                                        ForeColor = Color.DimGray,
+                                        ImageAlign = ContentAlignment.MiddleLeft,
+                                        TextAlign= ContentAlignment.MiddleRight,
                                         Image = UnityResource.ClockIcon,
-                                        Padding = new System.Windows.Forms.Padding(3, 8, 3, 0),
+                                        Padding = new Padding(3, 8, 3, 1),
                                         Text = TempDate.ToString("yyyy-MM-dd")
                                     });
                                     GroupDate = TempDate;
@@ -60,7 +63,7 @@ namespace GamerSkyLite_CS
                             }
                             catch { }
 
-                            CatalohLayoutPanel.Controls.Add(NewArticleCard);
+                            CatalogLayoutPanel.Controls.Add(NewArticleCard);
                             NewArticleCard.Show();
                         }
                         catch(Exception ex)

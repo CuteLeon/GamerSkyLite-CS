@@ -83,16 +83,6 @@ namespace GamerSkyLite_CS {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap Browser_2 {
-            get {
-                object obj = ResourceManager.GetObject("Browser_2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
         internal static System.Drawing.Bitmap ClockIcon {
             get {
                 object obj = ResourceManager.GetObject("ClockIcon", resourceCulture);
@@ -131,16 +121,6 @@ namespace GamerSkyLite_CS {
         }
         
         /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap Delete_2 {
-            get {
-                object obj = ResourceManager.GetObject("Delete_2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Icon GamerSky {
@@ -166,16 +146,6 @@ namespace GamerSkyLite_CS {
         internal static System.Drawing.Bitmap Location_1 {
             get {
                 object obj = ResourceManager.GetObject("Location_1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap Location_2 {
-            get {
-                object obj = ResourceManager.GetObject("Location_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
