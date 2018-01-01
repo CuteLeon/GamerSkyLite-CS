@@ -46,25 +46,31 @@ namespace GamerSkyLite_CS
                                 TempDate = Convert.ToDateTime((CatalogReader["PublishTime"] as string).Split(' ').First()).Date;
                                 if (TempDate != GroupDate)
                                 {
-                                    CatalogLayoutPanel.Controls.Add(new System.Windows.Forms.Label()
-                                    {
-                                        AutoSize = false,
-                                        Size = new Size(150, 30),
-                                        Font = new Font(this.Font.FontFamily, 11, System.Drawing.FontStyle.Bold),
-                                        ForeColor = Color.DimGray,
-                                        ImageAlign = ContentAlignment.MiddleLeft,
-                                        TextAlign= ContentAlignment.MiddleRight,
-                                        Image = UnityResource.ClockIcon,
-                                        Padding = new Padding(3, 8, 3, 1),
-                                        Text = TempDate.ToString("yyyy-MM-dd")
-                                    });
+                                    this.Invoke(new Action(() => {
+                                        CatalogLayoutPanel.Controls.Add(new System.Windows.Forms.Label()
+                                        {
+                                            AutoSize = false,
+                                            Size = new Size(150, 30),
+                                            Font = new Font(this.Font.FontFamily, 11, System.Drawing.FontStyle.Bold),
+                                            ForeColor = Color.DimGray,
+                                            ImageAlign = ContentAlignment.MiddleLeft,
+                                            TextAlign= ContentAlignment.MiddleRight,
+                                            Image = UnityResource.ClockIcon,
+                                            Padding = new Padding(3, 8, 3, 1),
+                                            Text = TempDate.ToString("yyyy-MM-dd")
+                                        });
+                                    }));
                                     GroupDate = TempDate;
                                 }
                             }
                             catch { }
 
-                            CatalogLayoutPanel.Controls.Add(NewArticleCard);
-                            NewArticleCard.Show();
+                            this.Invoke(new Action(()=> {
+                                CatalogLayoutPanel.Controls.Add(NewArticleCard);
+                                NewArticleCard.Show();
+                                CatalogLayoutPanel.Invalidate();
+                                Application.DoEvents();
+                            }));
                         }
                         catch(Exception ex)
                         {

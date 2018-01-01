@@ -164,5 +164,8 @@
   <ItemGroup>
     <None Include="Resources\GamerSky.mdb" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DownloadIcon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

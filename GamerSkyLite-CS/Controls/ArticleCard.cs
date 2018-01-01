@@ -155,6 +155,45 @@ namespace GamerSkyLite_CS.Controls
         /// </summary>
         private string DownloadDirectory = string.Empty;
 
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public enum StateEnum
+        {
+            /// <summary>
+            /// 初始状态
+            /// </summary>
+            None=0,
+            /// <summary>
+            /// 正在分析
+            /// </summary>
+            Analysing=1,
+            /// <summary>
+            /// 正在下载
+            /// </summary>
+            Downloading=2,
+            /// <summary>
+            /// 暂停
+            /// </summary>
+            Pause=3,
+            /// <summary>
+            /// 下载结束
+            /// </summary>
+            Finish=4,
+        }
+        private StateEnum _state = StateEnum.None;
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public StateEnum State
+        {
+            get => _state;
+            set
+            {
+                _state = value;
+
+            }
+        }
         #endregion
 
         #region 私有变量
@@ -181,6 +220,15 @@ namespace GamerSkyLite_CS.Controls
             InitializeComponent();
             InitializeControl();
             AttachEvent();
+
+            if (Directory.Exists(DownloadDirectory))
+            {
+                StateLabel.Text = string.Format("已下载文件数：{0}", Directory.GetFiles(DownloadDirectory));
+            }
+            else
+            {
+                StateLabel.Text = "爸爸，点旁边的按钮开始下载...";
+            }
         }
 
         public ArticleCard(string articleID, string title = "", string description = "", string time = "", string imageLink = "", string imagePath="") : this()
@@ -293,7 +341,13 @@ namespace GamerSkyLite_CS.Controls
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
+            if (!Directory.Exists(DownloadDirectory)) return;
+            foreach (string FilePath in Directory.GetFiles(DownloadDirectory))
+                try { File.Delete(FilePath); } catch { }
+            try { Directory.Delete(DownloadDirectory); } catch { }
 
+            if (Directory.Exists(DownloadDirectory)) ;
+            //TODO:显示目录内文件总数
         }
 
     }

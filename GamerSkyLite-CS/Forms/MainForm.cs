@@ -132,7 +132,7 @@ namespace GamerSkyLite_CS
             }
 
             //加载文章目录
-            LoadCatalog();
+            ThreadPool.QueueUserWorkItem(new WaitCallback((v) => { LoadCatalog(); }));
         }
 
         //为窗体添加阴影
