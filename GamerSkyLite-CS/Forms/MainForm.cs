@@ -38,7 +38,7 @@ namespace GamerSkyLite_CS
         /// <summary>
         /// 全局数据库连接
         /// </summary>
-        private DataBaseController UnityDBController = new DataBaseController();
+        public DataBaseController UnityDBController = new DataBaseController();
 
         #endregion
 
@@ -130,6 +130,9 @@ namespace GamerSkyLite_CS
             {
                 new LeonMessageBox("更新目录失败", "无法联网更新文章目录，请阅读离线文章。\n{0}", LeonMessageBox.IconType.Error, ex.Message).ShowDialog(this);
             }
+
+            //加载文章目录
+            LoadCatalog();
         }
 
         //为窗体添加阴影

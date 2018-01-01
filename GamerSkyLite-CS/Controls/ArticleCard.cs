@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using GamerSkyLite_CS.Controls;
 using System.IO;
+using System.Net;
 
 namespace GamerSkyLite_CS.Controls
 {
@@ -48,10 +49,10 @@ namespace GamerSkyLite_CS.Controls
         /// <summary>
         /// 文章时间
         /// </summary>
-        public string Time
+        public string PublishTime
         {
-            get => TimeLabel.Text;
-            set => TimeLabel.Text = value;
+            get => PublishTimeLabel.Text;
+            set => PublishTimeLabel.Text = value;
         }
 
         private string _imagePath = string.Empty;
@@ -67,16 +68,83 @@ namespace GamerSkyLite_CS.Controls
                 //非占用读取预览图像
                 try
                 {
-                    using (FileStream ImageStream = new FileStream(value, FileMode.Open))
+                    if (File.Exists(value))
                     {
-                        ImageLabel.Image = Image.FromStream(ImageStream);
+                        UnityModule.DebugPrint("文章[{0}]目录图像存在，尝试读入图像...", ArticleID);
+                        //图像存在，尝试显示图像
+                        using (FileStream ImageStream = new FileStream(value, FileMode.Open))
+                        {
+                            ImageLabel.Image = Image.FromStream(ImageStream);
+                            ImageLabel.Text = string.Empty;
+                        }
+                    }
+                    else
+                    {
+                        UnityModule.DebugPrint("文章[{0}]目录图像不存在，尝试下载图像...", ArticleID);
+                        //图像不存在，尝试下载图像
+                        if (ImageLink == string.Empty) throw new Exception("图像下载连接为空");
+                        using (WebClient ImageClient = new WebClient()
+                        {
+                            BaseAddress = ImageLink,
+                        })
+                        {
+                            ImageClient.DownloadFileCompleted += new AsyncCompletedEventHandler((s,e)=> {
+                                if (e.Cancelled) return;
+                                if (e.Error == null)
+                                {
+                                    //异步下载成功，显示图像
+                                    this.Invoke(new Action(()=> {
+                                        try
+                                        {
+                                            using (FileStream ImageStream = new FileStream(value, FileMode.Open))
+                                            {
+                                                ImageLabel.Image = Image.FromStream(ImageStream);
+                                                ImageLabel.Text = string.Empty;
+                                                UnityModule.DebugPrint("文章[{0}]图像下载成功，尝试读入图像...", ArticleID);
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            UnityModule.DebugPrint("文章[{0}]图像下载失败：{1}", ArticleID, ex.Message);
+                                            ImageLabel.Text = ex.Message;
+                                        }
+                                    }));
+                                }
+                                else
+                                {
+                                    throw e.Error;
+                                }
+                            });
+                            ImageClient.DownloadFileAsync(new Uri(ImageLink), value);
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
+                    UnityModule.DebugPrint("文章[{0}]图像读入/下载失败：{1}", ArticleID, ex.Message);
                     ImageLabel.Text = ex.Message;
                 }
             }
+        }
+
+        private string _articleLink = string.Empty;
+        /// <summary>
+        /// 文章链接
+        /// </summary>
+        public string ArticleLink
+        {
+            get => _articleLink;
+            set => _articleLink = value;
+        }
+
+        private string _imageLink = string.Empty;
+        /// <summary>
+        /// 图像链接
+        /// </summary>
+        public string ImageLink
+        {
+            get => _imageLink;
+            set => _imageLink = value;
         }
 
         #endregion
@@ -101,12 +169,13 @@ namespace GamerSkyLite_CS.Controls
             AttachEvent();
         }
 
-        public ArticleCard(string articleID, string title="", string description="", string time="", string imagePath="") : this()
+        public ArticleCard(string articleID, string title = "", string description = "", string time = "", string imageLink = "", string imagePath="") : this()
         {
             ArticleID = articleID;
             Title = title;
             Description = description;
-            Time = time;
+            PublishTime = time;
+            ImageLink = imageLink;
             ImagePath = imagePath;
         }
 
@@ -140,8 +209,8 @@ namespace GamerSkyLite_CS.Controls
             ImageLabel.MouseLeave += CardMouseLeave;
             DescriptionLabel.MouseEnter += CardMouseEnter;
             DescriptionLabel.MouseLeave += CardMouseLeave;
-            TimeLabel.MouseEnter += CardMouseEnter;
-            TimeLabel.MouseLeave += CardMouseLeave;
+            PublishTimeLabel.MouseEnter += CardMouseEnter;
+            PublishTimeLabel.MouseLeave += CardMouseLeave;
         }
 
         #endregion

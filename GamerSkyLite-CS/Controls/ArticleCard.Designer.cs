@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.UnityLayoutPanel = new GamerSkyLite_CS.Controls.TableLayoutPanelEx();
-            this.TimeLabel = new System.Windows.Forms.Label();
+            this.PublishTimeLabel = new System.Windows.Forms.Label();
             this.DescriptionLabel = new System.Windows.Forms.Label();
             this.ImageLabel = new System.Windows.Forms.Label();
             this.TitleLabel = new System.Windows.Forms.Label();
@@ -45,7 +45,7 @@
             this.UnityLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.UnityLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.UnityLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.UnityLayoutPanel.Controls.Add(this.TimeLabel, 1, 2);
+            this.UnityLayoutPanel.Controls.Add(this.PublishTimeLabel, 1, 2);
             this.UnityLayoutPanel.Controls.Add(this.DescriptionLabel, 1, 1);
             this.UnityLayoutPanel.Controls.Add(this.ImageLabel, 0, 0);
             this.UnityLayoutPanel.Controls.Add(this.TitleLabel, 1, 0);
@@ -60,32 +60,33 @@
             this.UnityLayoutPanel.Size = new System.Drawing.Size(640, 112);
             this.UnityLayoutPanel.TabIndex = 0;
             // 
-            // TimeLabel
+            // PublishTimeLabel
             // 
-            this.TimeLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TimeLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.TimeLabel.ForeColor = System.Drawing.Color.DimGray;
-            this.TimeLabel.Image = global::GamerSkyLite_CS.UnityResource.ClockIcon;
-            this.TimeLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.TimeLabel.Location = new System.Drawing.Point(200, 92);
-            this.TimeLabel.Margin = new System.Windows.Forms.Padding(0);
-            this.TimeLabel.Name = "TimeLabel";
-            this.TimeLabel.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.TimeLabel.Size = new System.Drawing.Size(172, 20);
-            this.TimeLabel.TabIndex = 3;
-            this.TimeLabel.Text = "Time";
-            this.TimeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.PublishTimeLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PublishTimeLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.PublishTimeLabel.ForeColor = System.Drawing.Color.DimGray;
+            this.PublishTimeLabel.Image = global::GamerSkyLite_CS.UnityResource.ClockIcon;
+            this.PublishTimeLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PublishTimeLabel.Location = new System.Drawing.Point(200, 92);
+            this.PublishTimeLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.PublishTimeLabel.Name = "PublishTimeLabel";
+            this.PublishTimeLabel.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.PublishTimeLabel.Size = new System.Drawing.Size(172, 20);
+            this.PublishTimeLabel.TabIndex = 3;
+            this.PublishTimeLabel.Text = "Time";
+            this.PublishTimeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // DescriptionLabel
             // 
+            this.DescriptionLabel.AutoEllipsis = true;
             this.UnityLayoutPanel.SetColumnSpan(this.DescriptionLabel, 5);
             this.DescriptionLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DescriptionLabel.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.DescriptionLabel.Font = new System.Drawing.Font("微软雅黑", 9.5F);
             this.DescriptionLabel.ForeColor = System.Drawing.Color.DimGray;
             this.DescriptionLabel.Location = new System.Drawing.Point(200, 32);
             this.DescriptionLabel.Margin = new System.Windows.Forms.Padding(0);
             this.DescriptionLabel.Name = "DescriptionLabel";
-            this.DescriptionLabel.Padding = new System.Windows.Forms.Padding(5);
+            this.DescriptionLabel.Padding = new System.Windows.Forms.Padding(3);
             this.DescriptionLabel.Size = new System.Drawing.Size(440, 60);
             this.DescriptionLabel.TabIndex = 2;
             this.DescriptionLabel.Text = "Description";
@@ -112,7 +113,7 @@
             this.TitleLabel.Location = new System.Drawing.Point(200, 0);
             this.TitleLabel.Margin = new System.Windows.Forms.Padding(0);
             this.TitleLabel.Name = "TitleLabel";
-            this.TitleLabel.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.TitleLabel.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.TitleLabel.Size = new System.Drawing.Size(344, 32);
             this.TitleLabel.TabIndex = 1;
             this.TitleLabel.Text = "Title";
@@ -142,6 +143,6 @@
         private System.Windows.Forms.Label ImageLabel;
         private System.Windows.Forms.Label TitleLabel;
         private System.Windows.Forms.Label DescriptionLabel;
-        private System.Windows.Forms.Label TimeLabel;
+        private System.Windows.Forms.Label PublishTimeLabel;
     }
 }

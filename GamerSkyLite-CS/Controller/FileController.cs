@@ -48,7 +48,6 @@ namespace GamerSkyLite_CS.Controller
         /// <return>检测文件是否释放成功</return>
         public static bool SaveResource(byte[] ResourceByte, string FilePath)
         {
-            //TODO:需要测试
             using (FileStream ResourceStream = new FileStream(FilePath, FileMode.Create, FileAccess.Write))
             {
                 if (ResourceStream.CanWrite)

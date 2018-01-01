@@ -37,12 +37,7 @@
             this.MaxButton = new LeonUI.TitleButtons.MaxButton();
             this.CloseButton = new LeonUI.TitleButtons.CloseButton();
             this.CatalohLayoutPanel = new GamerSkyLite_CS.Controls.FlowLayoutPanelEx();
-            this.articleCard1 = new GamerSkyLite_CS.Controls.ArticleCard();
-            this.articleCard2 = new GamerSkyLite_CS.Controls.ArticleCard();
-            this.articleCard3 = new GamerSkyLite_CS.Controls.ArticleCard();
-            this.articleCard4 = new GamerSkyLite_CS.Controls.ArticleCard();
             this.TitlePanel.SuspendLayout();
-            this.CatalohLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // TitlePanel
@@ -133,10 +128,6 @@
             // CatalohLayoutPanel
             // 
             this.CatalohLayoutPanel.AutoScroll = true;
-            this.CatalohLayoutPanel.Controls.Add(this.articleCard1);
-            this.CatalohLayoutPanel.Controls.Add(this.articleCard2);
-            this.CatalohLayoutPanel.Controls.Add(this.articleCard3);
-            this.CatalohLayoutPanel.Controls.Add(this.articleCard4);
             this.CatalohLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CatalohLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.CatalohLayoutPanel.Location = new System.Drawing.Point(5, 37);
@@ -145,70 +136,6 @@
             this.CatalohLayoutPanel.Size = new System.Drawing.Size(790, 558);
             this.CatalohLayoutPanel.TabIndex = 1;
             this.CatalohLayoutPanel.WrapContents = false;
-            // 
-            // articleCard1
-            // 
-            this.articleCard1.ArticleID = "";
-            this.articleCard1.BackColor = System.Drawing.Color.White;
-            this.articleCard1.Description = "Description";
-            this.articleCard1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.articleCard1.ImagePath = "";
-            this.articleCard1.Location = new System.Drawing.Point(0, 0);
-            this.articleCard1.Margin = new System.Windows.Forms.Padding(0);
-            this.articleCard1.Name = "articleCard1";
-            this.articleCard1.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.articleCard1.Size = new System.Drawing.Size(640, 115);
-            this.articleCard1.TabIndex = 0;
-            this.articleCard1.Time = "Time";
-            this.articleCard1.Title = "Title";
-            // 
-            // articleCard2
-            // 
-            this.articleCard2.ArticleID = "";
-            this.articleCard2.BackColor = System.Drawing.Color.White;
-            this.articleCard2.Description = "Description";
-            this.articleCard2.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.articleCard2.ImagePath = "";
-            this.articleCard2.Location = new System.Drawing.Point(0, 115);
-            this.articleCard2.Margin = new System.Windows.Forms.Padding(0);
-            this.articleCard2.Name = "articleCard2";
-            this.articleCard2.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.articleCard2.Size = new System.Drawing.Size(640, 115);
-            this.articleCard2.TabIndex = 1;
-            this.articleCard2.Time = "Time";
-            this.articleCard2.Title = "Title";
-            // 
-            // articleCard3
-            // 
-            this.articleCard3.ArticleID = "";
-            this.articleCard3.BackColor = System.Drawing.Color.White;
-            this.articleCard3.Description = "Description";
-            this.articleCard3.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.articleCard3.ImagePath = "";
-            this.articleCard3.Location = new System.Drawing.Point(0, 230);
-            this.articleCard3.Margin = new System.Windows.Forms.Padding(0);
-            this.articleCard3.Name = "articleCard3";
-            this.articleCard3.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.articleCard3.Size = new System.Drawing.Size(640, 115);
-            this.articleCard3.TabIndex = 2;
-            this.articleCard3.Time = "Time";
-            this.articleCard3.Title = "Title";
-            // 
-            // articleCard4
-            // 
-            this.articleCard4.ArticleID = "";
-            this.articleCard4.BackColor = System.Drawing.Color.White;
-            this.articleCard4.Description = "Description";
-            this.articleCard4.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.articleCard4.ImagePath = "";
-            this.articleCard4.Location = new System.Drawing.Point(0, 345);
-            this.articleCard4.Margin = new System.Windows.Forms.Padding(0);
-            this.articleCard4.Name = "articleCard4";
-            this.articleCard4.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.articleCard4.Size = new System.Drawing.Size(640, 115);
-            this.articleCard4.TabIndex = 3;
-            this.articleCard4.Time = "Time";
-            this.articleCard4.Title = "Title";
             // 
             // MainForm
             // 
@@ -233,7 +160,6 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.TitlePanel.ResumeLayout(false);
-            this.CatalohLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -248,10 +174,6 @@
         private System.Windows.Forms.Label IconLabel;
         private System.Windows.Forms.Label TitleLabel;
         private GamerSkyLite_CS.Controls.FlowLayoutPanelEx CatalohLayoutPanel;
-        private Controls.ArticleCard articleCard1;
-        private Controls.ArticleCard articleCard2;
-        private Controls.ArticleCard articleCard3;
-        private Controls.ArticleCard articleCard4;
     }
 }
 
