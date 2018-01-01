@@ -146,6 +146,7 @@
             this.CatalogLayoutPanel.Size = new System.Drawing.Size(700, 558);
             this.CatalogLayoutPanel.TabIndex = 3;
             this.CatalogLayoutPanel.WrapContents = false;
+            this.CatalogLayoutPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.CatalogLayoutPanel_Paint);
             // 
             // MainForm
             // 

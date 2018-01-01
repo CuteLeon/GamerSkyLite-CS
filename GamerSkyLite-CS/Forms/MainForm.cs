@@ -291,8 +291,8 @@ namespace GamerSkyLite_CS
 
         private void CatalogLayoutPanel_Paint(object sender, PaintEventArgs e)
         {
-            if (CatalogLayoutPanel.Width > 800)
-                e.Graphics.DrawString("嘻嘻嘻~\n我不管，我最帅，\n我是你们的小可爱~~~", this.Font, Brushes.DeepSkyBlue, 800, 100);
+            if (CatalogLayoutPanel.Width > 700)
+                e.Graphics.DrawString("嘻嘻嘻~\n我不管，我最帅，\n我是你们的小可爱~~~", this.Font, Brushes.DeepSkyBlue, 700, 100);
         }
     }
 }
