@@ -22,22 +22,51 @@ namespace GamerSkyLite_CS
                 if (CatalogReader == null) throw new Exception("未从数据库中查询到文章目录项。");
                 if (CatalogReader.HasRows)
                 {
+                    DateTime GroupDate = DateTime.MaxValue, TempDate=DateTime.Today;
                     while (CatalogReader.Read())
                     {
-                        ArticleCard NewArticleCard = new ArticleCard()
+                        try
                         {
-                            ArticleID = CatalogReader["ArticleID"] as string,
-                            Title = CatalogReader["Title"] as string,
-                            ArticleLink = CatalogReader["ArticleLink"] as string,
-                            ImageLink = CatalogReader["ImageLink"] as string,
-                            ImagePath = CatalogReader["ImagePath"] as string,
-                            Description = CatalogReader["Description"] as string,
-                            PublishTime = CatalogReader["PublishTime"] as string,
-                        };
-                        UnityModule.DebugPrint("读取到文章：{0}-{1}", NewArticleCard.ArticleID, NewArticleCard.Title);
+                            ArticleCard NewArticleCard = new ArticleCard()
+                            {
+                                ArticleID = CatalogReader["ArticleID"] as string,
+                                Title = CatalogReader["Title"] as string,
+                                ArticleLink = CatalogReader["ArticleLink"] as string,
+                                ImageLink = CatalogReader["ImageLink"] as string,
+                                ImagePath = CatalogReader["ImagePath"] as string,
+                                Description = CatalogReader["Description"] as string,
+                                PublishTime = CatalogReader["PublishTime"] as string,
+                            };
+                            UnityModule.DebugPrint("读取到文章：{0}-{1}", NewArticleCard.ArticleID, NewArticleCard.Title);
+                            try
+                            {
+                                //按日期分割添加日期标签
+                                TempDate = Convert.ToDateTime((CatalogReader["PublishTime"] as string).Split(' ').First()).Date;
+                                if (TempDate != GroupDate)
+                                {
+                                    CatalohLayoutPanel.Controls.Add(new System.Windows.Forms.Label()
+                                    {
+                                        AutoSize = false,
+                                        Size = new System.Drawing.Size(150,30),
+                                        Font = new System.Drawing.Font(this.Font.FontFamily, 11, System.Drawing.FontStyle.Bold),
+                                        ImageAlign = System.Drawing.ContentAlignment.MiddleLeft,
+                                        TextAlign= System.Drawing.ContentAlignment.MiddleRight,
+                                        Image = UnityResource.ClockIcon,
+                                        Padding = new System.Windows.Forms.Padding(3, 8, 3, 0),
+                                        Text = TempDate.ToString("yyyy-MM-dd")
+                                    });
+                                    GroupDate = TempDate;
+                                }
+                            }
+                            catch { }
 
-                        CatalohLayoutPanel.Controls.Add(NewArticleCard);
-                        NewArticleCard.Show();
+                            CatalohLayoutPanel.Controls.Add(NewArticleCard);
+                            NewArticleCard.Show();
+                        }
+                        catch(Exception ex)
+                        {
+                            UnityModule.DebugPrint("读取新文章属性时遇到错误：{0} == {1}", CatalogReader["PublishTime"], ex.Message);
+                        }
                     }
                 }
                 CatalogReader.Close();
