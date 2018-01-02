@@ -40,7 +40,11 @@ namespace GamerSkyLite_CS.Controls
         public string Title
         {
             get => TitleLabel.Text;
-            set => TitleLabel.Text = value;
+            set
+            {
+                TitleLabel.Text = value;
+                ArticleFilePath = FileController.PathCombine(DownloadDirectory, value);
+            }
         }
 
         /// <summary>
@@ -172,7 +176,10 @@ namespace GamerSkyLite_CS.Controls
         /// 下载目录
         /// </summary>
         private string DownloadDirectory = string.Empty;
-
+        /// <summary>
+        /// 文章文件路径
+        /// </summary>
+        private string ArticleFilePath = string.Empty;
         /// <summary>
         /// 状态
         /// </summary>
@@ -278,6 +285,7 @@ namespace GamerSkyLite_CS.Controls
                                     try
                                     {
                                         DownloadArticle();
+                                        ExportArticle();
                                         State = StateEnum.DownloadFinish;
                                     }
                                     catch (ThreadAbortException) { }
@@ -299,7 +307,7 @@ namespace GamerSkyLite_CS.Controls
                                     StateLabel.Text = string.Format("下载完成：{0} / {1}，{2}个失败", ContentIndex, ContentCount, ErrorCount);
                                 else
                                     StateLabel.Text = string.Format("下载完成");
-                                StateLabel.ForeColor = Color.DeepSkyBlue;
+                                StateLabel.ForeColor = Color.Orange;
                                 DownloadButton.Text = "已完成";
                                 break;
                             }
@@ -560,7 +568,7 @@ namespace GamerSkyLite_CS.Controls
                             UnityModule.UnityDBController.ExecuteNonQuery("INSERT INTO ArticleBase (Link, Description, ImagePath, ArticleID) VALUES('{0}', '{1}', '{2}', '{3}')",
                                 Link,
                                 Description,
-                                FileController.PathCombine(FileController.PathCombine(UnityModule.ContentDirectory,ArticleID), Path.GetFileName(Link)),
+                                FileController.PathCombine(DownloadDirectory, Path.GetFileName(Link)),
                                 ArticleID
                                 );
                         }
@@ -656,6 +664,55 @@ namespace GamerSkyLite_CS.Controls
                         }
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// 导出文章
+        /// </summary>
+        private void ExportArticle()
+        {
+            StreamWriter ArticleStream = null;
+            try
+            {
+                ArticleStream = new StreamWriter(FileController.PathCombine(DownloadDirectory, Title) + ".html", false, Encoding.UTF8);
+                ArticleStream.Write(@"<html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /></head><body style=""width:70%;margin:0 auto""><center><pre><h1><strong>{0}</strong></h1></pre>" + "\n", Title);
+
+                using (OleDbDataAdapter ContentAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM ArticleBase WHERE ArticleID='{0}'", ArticleID))
+                {
+                    using (DataTable ContentTable = new DataTable())
+                    {
+                        ContentAdapter.Fill(ContentTable);
+                        if (ContentTable.Rows.Count > 0)
+                        {
+                            foreach (DataRow ContentRow in ContentTable.Rows)
+                            {
+                                try
+                                {
+                                    ArticleStream.WriteLine(@"<img src="".\{0}"" alt=""{1}""><br>{2}<br><hr>",Path.GetFileName(ContentRow["ImagePath"] as string), ContentRow["Link"], ContentRow["Description"]);
+                                }
+                                catch (ThreadAbortException) { }
+                                catch (Exception ex)
+                                {
+                                    UnityModule.DebugPrint("组装文章时遇到错误：{0}", ex.Message);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                ArticleStream.Write("\n<hr><<<< 文章结束 >>>></center></body></html>");
+                UnityModule.DebugPrint("文章组装完成：{0}", ArticleID);
+            }
+            catch (ThreadAbortException) { }
+            catch (Exception ex)
+            {
+                UnityModule.DebugPrint("导出文章时遇到错误：{0}", ex.Message);
+                throw ex;
+            }
+            finally
+            {
+                ArticleStream?.Close();
             }
         }
 

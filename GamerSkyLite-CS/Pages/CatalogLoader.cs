@@ -33,6 +33,7 @@ namespace GamerSkyLite_CS
                             {
                                 ArticleCard NewArticleCard = new ArticleCard()
                                 {
+                                    //赋值顺序不可更换
                                     ArticleID = CatalogReader["ArticleID"] as string,
                                     Title = CatalogReader["Title"] as string,
                                     ArticleLink = CatalogReader["ArticleLink"] as string,
