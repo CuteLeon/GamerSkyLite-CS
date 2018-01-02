@@ -13,6 +13,11 @@ namespace GamerSkyLite_CS
     class UnityModule
     {
         /// <summary>
+        /// 全局数据库连接
+        /// </summary>
+        public static DataBaseController UnityDBController = new DataBaseController();
+
+        /// <summary>
         /// 文章目录地址
         /// </summary>
         public static readonly string CatalogAddress = "http://www.gamersky.com/ent/qw/";

@@ -35,11 +35,6 @@ namespace GamerSkyLite_CS
         /// </summary>
         private bool AllowToClose = false;
 
-        /// <summary>
-        /// 全局数据库连接
-        /// </summary>
-        public DataBaseController UnityDBController = new DataBaseController();
-
         #endregion
 
         #region 窗体事件
@@ -110,7 +105,7 @@ namespace GamerSkyLite_CS
             }
 
             //连接数据库
-            if (UnityDBController.CreateConnection(UnityModule.DataBasePath))
+            if (UnityModule.UnityDBController.CreateConnection(UnityModule.DataBasePath))
             {
                 UnityModule.DebugPrint("数据库连接创建成功...");
             }
@@ -124,7 +119,7 @@ namespace GamerSkyLite_CS
             //更新文章目录
             try
             {
-                CatalogController.GetCatalog(UnityModule.CatalogAddress, UnityDBController);
+                CatalogController.GetCatalog(UnityModule.CatalogAddress, UnityModule.UnityDBController);
             }
             catch (Exception ex)
             {
@@ -132,7 +127,7 @@ namespace GamerSkyLite_CS
             }
 
             //加载文章目录
-            ThreadPool.QueueUserWorkItem(new WaitCallback((v) => { LoadCatalog(); }));
+            LoadCatalog();
         }
 
         //为窗体添加阴影
@@ -273,7 +268,7 @@ namespace GamerSkyLite_CS
             new Thread(new ThreadStart(delegate
             {
                 //关闭数据库连接
-                UnityDBController?.CloseConnection();
+                UnityModule.UnityDBController?.CloseConnection();
                 while (this.Opacity > 0)
                 {
                     this.Invoke(new Action(() =>

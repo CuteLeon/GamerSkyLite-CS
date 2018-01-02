@@ -19,7 +19,7 @@ namespace GamerSkyLite_CS
         private void LoadCatalog()
         {
             UnityModule.DebugPrint("开始读取目录列表...");
-            using (OleDbDataReader CatalogReader = UnityDBController.ExecuteReader("SELECT * FROM CatalogBase"))
+            using (OleDbDataReader CatalogReader = UnityModule.UnityDBController.ExecuteReader("SELECT * FROM CatalogBase"))
             {
                 if (CatalogReader == null) throw new Exception("未从数据库中查询到文章目录项。");
                 if (CatalogReader.HasRows)
@@ -38,7 +38,7 @@ namespace GamerSkyLite_CS
                                 ImagePath = CatalogReader["ImagePath"] as string,
                                 Description = CatalogReader["Description"] as string,
                                 PublishTime = CatalogReader["PublishTime"] as string,
-                            };
+                        };
                             UnityModule.DebugPrint("读取到文章：{0}-{1}", NewArticleCard.ArticleID, NewArticleCard.Title);
                             try
                             {

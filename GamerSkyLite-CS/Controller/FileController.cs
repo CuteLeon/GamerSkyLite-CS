@@ -17,7 +17,7 @@ namespace GamerSkyLite_CS.Controller
         /// <returns></returns>
         static public string LinkCombine(string WebSite, string Router)
         {
-            UnityModule.DebugPrint("合并链接地址：\"{0}\" + \"{1}\"", WebSite, Router);
+            //UnityModule.DebugPrint("合并链接地址：\"{0}\" + \"{1}\"", WebSite, Router);
             if (WebSite.EndsWith("/"))
                 return WebSite + (Router.StartsWith("/") ? Router.Substring(1) : Router);
             else
@@ -33,7 +33,7 @@ namespace GamerSkyLite_CS.Controller
         /// <returns></returns>
         static public string PathCombine(string DirectoryPath, string FileName)
         {
-            UnityModule.DebugPrint("合并文件路径：\"{0}\" + \"{1}\"",DirectoryPath,FileName);
+            //UnityModule.DebugPrint("合并文件路径：\"{0}\" + \"{1}\"",DirectoryPath,FileName);
             if (DirectoryPath.EndsWith("\\"))
                 return DirectoryPath + (FileName.StartsWith("\\") ? FileName.Substring(1) : FileName);
             else

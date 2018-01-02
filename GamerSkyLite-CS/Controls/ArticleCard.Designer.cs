@@ -84,7 +84,7 @@
             this.StateLabel.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.StateLabel.Size = new System.Drawing.Size(227, 28);
             this.StateLabel.TabIndex = 8;
-            this.StateLabel.Text = "State";
+            this.StateLabel.Text = "爸爸，点旁边的按钮开始下载...";
             this.StateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // DeleteButton
@@ -113,7 +113,7 @@
             // 
             this.PublishTimeLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PublishTimeLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.PublishTimeLabel.ForeColor = System.Drawing.Color.DimGray;
+            this.PublishTimeLabel.ForeColor = System.Drawing.Color.Silver;
             this.PublishTimeLabel.Image = global::GamerSkyLite_CS.UnityResource.ClockIcon;
             this.PublishTimeLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.PublishTimeLabel.Location = new System.Drawing.Point(201, 83);
@@ -197,6 +197,7 @@
             this.DownloadButton.TabIndex = 7;
             this.DownloadButton.Text = "下载";
             this.DownloadButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.DownloadButton.Click += new System.EventHandler(this.DownloadButton_Click);
             // 
             // ArticleCard
             // 

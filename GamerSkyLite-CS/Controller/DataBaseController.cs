@@ -55,6 +55,43 @@ namespace GamerSkyLite_CS.Controller
         }
 
         /// <summary>
+        /// 读取数据库至数据适配器
+        /// </summary>
+        /// <param name="SQLCommand">数据库读取命令</param>
+        /// <param name="SQLValue">数据库命令内包含的值</param>
+        /// <returns>读取结果</returns>
+        public OleDbDataAdapter ExecuteAdapter(string SQLCommand, params object[] SQLValue)
+        {
+            return ExecuteAdapter(string.Format(SQLCommand, SQLValue));
+        }
+
+        /// <summary>
+        /// 读取数据库至数据适配器
+        /// </summary>
+        /// <param name="SQLCommand">数据库读取命令</param>
+        /// <returns>读取结果</returns>
+        public OleDbDataAdapter ExecuteAdapter(string SQLCommand)
+        {
+            if (DataBaseConnection == null)
+            {
+                UnityModule.DebugPrint("数据库连接未创建，无法读取SQL:" + SQLCommand);
+                return null;
+            }
+
+            try
+            {
+                OleDbDataAdapter DataAdapter = new OleDbDataAdapter(SQLCommand, DataBaseConnection);
+                UnityModule.DebugPrint("命令执行成功：" + SQLCommand);
+                return DataAdapter;
+            }
+            catch (Exception ex)
+            {
+                UnityModule.DebugPrint("读取SQL遇到错误：\n\t" + SQLCommand + "\n\t" + ex.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
         /// 执行数据库命令
         /// </summary>
         /// <param name="SQLCommand">数据库读取命令</param>
@@ -184,6 +221,19 @@ namespace GamerSkyLite_CS.Controller
         }
 
         /// <summary>
+        /// 判断数据库是否连接
+        /// </summary>
+        /// <returns></returns>
+        public bool IsConnected()
+        {
+            if (DataBaseConnection == null) return false;
+            return (DataBaseConnection.State == ConnectionState.Open ||
+                DataBaseConnection.State == ConnectionState.Connecting ||
+                DataBaseConnection.State == ConnectionState.Fetching ||
+                DataBaseConnection.State == ConnectionState.Executing);
+        }
+
+        /// <summary>
         /// 关闭数据库连接
         /// </summary>
         public void CloseConnection()
@@ -192,7 +242,9 @@ namespace GamerSkyLite_CS.Controller
             try
             {
                 if (DataBaseConnection == null) return;
-                DataBaseConnection.Close();
+                DataBaseConnection?.Close();
+                DataBaseConnection?.Dispose();
+                DataBaseCommand?.Dispose();
                 DataBaseConnection = null;
                 DataBaseCommand = null;
             }
