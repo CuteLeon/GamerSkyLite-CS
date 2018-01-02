@@ -84,6 +84,7 @@ namespace GamerSkyLite_CS.Controls
                             ImageLabel.Text = string.Empty;
                         }
                     }
+                    catch (ThreadAbortException) { }
                     catch (Exception ex)
                     {
                         UnityModule.DebugPrint("文章[{0}]图像读入失败：{1}", ArticleID, ex.Message);
@@ -98,6 +99,7 @@ namespace GamerSkyLite_CS.Controls
                     using (WebClient ImageClient = new WebClient()
                     {
                         BaseAddress = ImageLink,
+                        Encoding = Encoding.UTF8,
                     })
                     {
                         try
@@ -118,6 +120,7 @@ namespace GamerSkyLite_CS.Controls
                                                 UnityModule.DebugPrint("文章[{0}]图像下载成功，尝试读入图像...", ArticleID);
                                             }
                                         }
+                                        catch (ThreadAbortException) { }
                                         catch (Exception ex)
                                         {
                                             UnityModule.DebugPrint("文章[{0}]图像下载后读入失败：{1}", ArticleID, ex.Message);
@@ -133,6 +136,7 @@ namespace GamerSkyLite_CS.Controls
                             });
                             ImageClient.DownloadFileAsync(new Uri(ImageLink), value);
                         }
+                        catch (ThreadAbortException) { }
                         catch (Exception ex)
                         {
                             UnityModule.DebugPrint("文章[{0}]图像下载失败：{1}", ArticleID, ex.Message);
@@ -215,12 +219,14 @@ namespace GamerSkyLite_CS.Controls
                                 AnalyseArticleThread?.Abort();
                                 AnalyseArticleThread = null;
 
-                                DownloadButton.Show();
                                 DownloadButton.Text = "下载";
                                 break;
                             }
                         case StateEnum.Analysing:
                             {
+                                PageIndex = 1;
+                                ContentIndex = 1;
+
                                 StateLabel.Text = "正在分析文章...";
                                 StateLabel.ForeColor = Color.DeepSkyBlue;
                                 DownloadButton.Text = "取消";
@@ -231,9 +237,11 @@ namespace GamerSkyLite_CS.Controls
                                         AnalyseArticle(ArticleLink);
                                         State = StateEnum.Downloading;
                                     }
+                                    catch (ThreadAbortException) { }
                                     catch (Exception ex)
                                     {
-                                        this.Invoke(new Action(() => {
+                                        this.Invoke(new Action(() =>
+                                        {
                                             StateLabel.Text = ex.Message;
                                             StateLabel.ForeColor = Color.OrangeRed;
                                         }));
@@ -245,6 +253,10 @@ namespace GamerSkyLite_CS.Controls
                             }
                         case StateEnum.AnalyseFinish:
                             {
+                                ContentIndex = 0;
+                                ErrorCount = 0;
+                                ContentCount = 0;
+
                                 DownloadArticleThread?.Abort();
                                 DownloadArticleThread = null;
                                 DownloadButton.Text = "继续";
@@ -252,6 +264,12 @@ namespace GamerSkyLite_CS.Controls
                             }
                         case StateEnum.Downloading:
                             {
+                                ContentIndex = 0;
+                                lock (UnityModule.UnityDBController)
+                                {
+                                    ContentCount = Convert.ToInt32(UnityModule.UnityDBController.ExecuteScalar("SELECT COUNT(ContentID) FROM ArticleBase WHERE ArticleID='{0}'", ArticleID));
+                                }
+
                                 StateLabel.Text = "正在下载文章...";
                                 StateLabel.ForeColor = Color.DeepSkyBlue;
                                 DownloadButton.Text = "取消";
@@ -262,6 +280,7 @@ namespace GamerSkyLite_CS.Controls
                                         DownloadArticle();
                                         State = StateEnum.DownloadFinish;
                                     }
+                                    catch (ThreadAbortException) { }
                                     catch (Exception ex)
                                     {
                                         this.Invoke(new Action(() => {
@@ -277,11 +296,11 @@ namespace GamerSkyLite_CS.Controls
                         case StateEnum.DownloadFinish:
                             {
                                 if (Directory.Exists(DownloadDirectory))
-                                    StateLabel.Text = string.Format("下载完成，缓存文件数：{0}", Directory.GetFiles(DownloadDirectory).Length);
+                                    StateLabel.Text = string.Format("下载完成：{0} / {1}，{2}个失败", ContentIndex, ContentCount, ErrorCount);
                                 else
                                     StateLabel.Text = string.Format("下载完成");
                                 StateLabel.ForeColor = Color.DeepSkyBlue;
-                                DownloadButton.Hide();
+                                DownloadButton.Text = "已完成";
                                 break;
                             }
                         default:
@@ -320,6 +339,23 @@ namespace GamerSkyLite_CS.Controls
         /// 下载进程
         /// </summary>
         private Thread DownloadArticleThread = null;
+
+        /// <summary>
+        /// 页码
+        /// </summary>
+        private int PageIndex = 0;
+        /// <summary>
+        /// 内容编码
+        /// </summary>
+        private int ContentIndex = 0;
+        /// <summary>
+        /// 内容总数
+        /// </summary>
+        private int ContentCount = 0;
+        /// <summary>
+        /// 错误总数
+        /// </summary>
+        private int ErrorCount = 0;
 
         #endregion
 
@@ -434,7 +470,6 @@ namespace GamerSkyLite_CS.Controls
             {
                 throw new Exception("分析失败，数据库连接不可用");
             }
-            //int ContentCount = Convert.ToInt32(UnityModule.UnityDBController.ExecuteScalar("SELECT COUNT(ContentID) FROM ArticleBase WHERE ArticleID='{0}'", ArticleID));
             string ContentString = string.Empty, PaginationString = string.Empty;
             //下载目录信息
             using (WebClient UnityWebClient = new WebClient()
@@ -447,6 +482,7 @@ namespace GamerSkyLite_CS.Controls
                 {
                     ContentString = UnityWebClient.DownloadString(PageAddress);
                 }
+                catch (ThreadAbortException) { }
                 catch (Exception ex)
                 {
                     UnityModule.DebugPrint("下载文章遇到错误：{0} - {1}", PageAddress, ex.Message);
@@ -511,6 +547,11 @@ namespace GamerSkyLite_CS.Controls
                     Description = TempDescription.Length>1?TempDescription.Last():"";
                     if (Description.StartsWith("\n")) Description = Description.Substring(1);
 
+                    this.Invoke(new Action(()=> {
+                        StateLabel.Text = string.Format("正在分析：{0} 页 / {1} 图", PageIndex, ContentIndex++);
+                    }));
+
+                    //不可去掉 lock(){} ，因为数据库无法响应并发
                     lock (UnityModule.UnityDBController)
                     {
                         if (UnityModule.UnityDBController.ExecuteScalar("SELECT ContentID FROM ArticleBase WHERE Link='{0}' AND ArticleID='{1}'", Link, ArticleID) == null) 
@@ -519,7 +560,7 @@ namespace GamerSkyLite_CS.Controls
                             UnityModule.UnityDBController.ExecuteNonQuery("INSERT INTO ArticleBase (Link, Description, ImagePath, ArticleID) VALUES('{0}', '{1}', '{2}', '{3}')",
                                 Link,
                                 Description,
-                                FileController.PathCombine(UnityModule.ContentDirectory, Path.GetFileName(Link)),
+                                FileController.PathCombine(FileController.PathCombine(UnityModule.ContentDirectory,ArticleID), Path.GetFileName(Link)),
                                 ArticleID
                                 );
                         }
@@ -527,46 +568,24 @@ namespace GamerSkyLite_CS.Controls
                 }
             }
 
-            /*
-                    TitlePattern = "<a href=\"(?<nextpagelink>.+?)\">下一页</a>";
-                    ItemRegex = new Regex(TitlePattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
-                    closure$__73 -.$VB$Local_ItemMatchResult = ItemRegex.Match(ItemHTMLs[1]);
-                    bool flag7 = !this.in_Downloading;
-                    if (!flag7)
-                    {
-                        bool flag8 = Operators.CompareString(closure$__73 -.$VB$Local_ItemMatchResult.Groups["nextpagelink"].Value, null, false) != 0;
-                        if (flag8)
-                        {
-                            MyProject.Forms.ReaderForm.Invoke(new VB$AnonymousDelegate_0(delegate
-                            {
-                                GamerSkyHomeProcess.GetHTML(closure$__73 -.$VB$Local_ItemMatchResult.Groups["nextpagelink"].Value, new Action<string>(closure$__73 -.$VB$Me.AnalysisPage));
-                            }));
-                        }
-                        else
-                        {
-                            bool flag9 = !this.in_Downloading;
-                            if (flag9)
-                            {
-                                this.HTMLWriter.Close();
-                                this.HTMLWriter.Dispose();
-                            }
-                            else
-                            {
-                                try
-                                {
-                                    File.WriteAllText(this.DownloadDirectory + "ImageLinks.txt", string.Join("\r\n", this.ContentList.Select((PagePreviewItem._Closure$__.$I73 - 1 == null) ? (PagePreviewItem._Closure$__.$I73 - 1 = new Func<PagePreviewItem.Content, string>(PagePreviewItem._Closure$__.$I._Lambda$__73 - 1)) : PagePreviewItem._Closure$__.$I73 - 1).ToArray<string>()));
-                                }
-                                catch (Exception expr_2FE)
-                                {
-                                    ProjectData.SetProjectError(expr_2FE);
-                                    ProjectData.ClearProjectError();
-                                }
-                                this.DownloadButton.Text = "开始下载文章图像...";
-                                this.DownloadImage();
-                            }
-                        }
-                    }
-             */
+            if (PaginationString != string.Empty)
+            {
+                //分析下一页
+                ContentPattern = "<a href=\"(?<NextPageLink>.+?)\">下一页</a>";
+                ContentRegex = new Regex(ContentPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+                ContentMatch = ContentRegex.Match(PaginationString);
+
+                if (ContentMatch.Success)
+                {
+                    PageIndex++;
+                    //递归分析下一页链接地址
+                    AnalyseArticle(ContentMatch.Groups["NextPageLink"].Value as string);
+                }
+                else
+                {
+                    //文章下载结束
+                }
+            }
         }
 
         /// <summary>
@@ -574,15 +593,68 @@ namespace GamerSkyLite_CS.Controls
         /// </summary>
         private void DownloadArticle()
         {
+            //检查缓存目录
             if (!Directory.Exists(DownloadDirectory))
             {
                 try
                 {
                     Directory.CreateDirectory(DownloadDirectory);
                 }
+                catch (ThreadAbortException) { }
                 catch (Exception ex)
                 {
                     throw ex;
+                }
+            }
+
+            //获取文章内容
+            lock (UnityModule.UnityDBController)
+            {
+                using (OleDbDataAdapter ContentAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM ArticleBase WHERE ArticleID='{0}'", ArticleID))
+                {
+                    using (DataTable ContentTable = new DataTable())
+                    {
+                        ContentAdapter.Fill(ContentTable);
+                        if (ContentTable.Rows.Count > 0)
+                        {
+                            string ContentLink = string.Empty, ContentPath = string.Empty;
+                            //遍历文章内容
+                            foreach (DataRow ContentRow in ContentTable.Rows)
+                            {
+                                ContentLink = ContentRow["Link"] as string;
+                                ContentPath = ContentRow["ImagePath"] as string;
+                                ContentIndex++;
+
+                                if (!File.Exists(ContentPath))
+                                {
+                                    //图像不存在，下载图像
+                                    using (WebClient ImageClient = new WebClient()
+                                    {
+                                        BaseAddress = ContentLink,
+                                        Encoding = Encoding.UTF8,
+                                    })
+                                    {
+                                        try
+                                        {
+                                            ImageClient.DownloadFile(ContentLink, ContentPath);
+                                            UnityModule.DebugPrint("图像下载成功：{0}", ContentLink);
+                                        }
+                                        catch (ThreadAbortException) { }
+                                        catch (Exception ex)
+                                        {
+                                            ErrorCount++;
+                                            UnityModule.DebugPrint("图像下载异常：{0}\n\t\t{1}", ContentLink, ex.Message);
+                                        }
+                                    }
+
+                                }
+
+                                this.Invoke(new Action(()=> {
+                                    StateLabel.Text = string.Format("正在下载：{0} / {1}，{2}个失败", ContentIndex, ContentCount, ErrorCount);
+                                }));
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -601,12 +673,13 @@ namespace GamerSkyLite_CS.Controls
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
+            State = StateEnum.None;
+
             ThreadPool.QueueUserWorkItem(new WaitCallback((v) =>
             {
-                if (UnityModule.UnityDBController != null && UnityModule.UnityDBController.IsConnected())
-                {
-                    UnityModule.UnityDBController.ExecuteNonQuery("DELETE FROM ArticleBase WHERE ArticleID='{0}'", ArticleID);
-                }
+                lock(UnityModule.UnityDBController)
+                    if (UnityModule.UnityDBController != null && UnityModule.UnityDBController.IsConnected())
+                        UnityModule.UnityDBController.ExecuteNonQuery("DELETE FROM ArticleBase WHERE ArticleID='{0}'", ArticleID);
 
                 //清空数据库项目
                 if (Directory.Exists(DownloadDirectory))
@@ -625,8 +698,6 @@ namespace GamerSkyLite_CS.Controls
                     else
                         StateLabel.Text = "爸爸，点旁边的按钮开始下载...";
                 }));
-
-                State = StateEnum.None;
             }));
         }
 
