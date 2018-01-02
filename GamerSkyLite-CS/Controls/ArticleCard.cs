@@ -19,6 +19,8 @@ namespace GamerSkyLite_CS.Controls
 {
     //TODO:启动时计算是否已经缓存文章，已经缓存的要区别显示
     //TODO:新加入的文章要区别显示
+    //TODO:下载完成 有错用Orange 无错误不显示错误 使用友好颜色
+    //TODO:下载文件时 文件存在 且 文件大小大于0 时才可跳过
 
     public partial class ArticleCard : UserControl
     {
