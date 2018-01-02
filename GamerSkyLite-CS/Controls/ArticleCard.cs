@@ -19,7 +19,6 @@ namespace GamerSkyLite_CS.Controls
 {
     //TODO:启动时计算是否已经缓存文章，已经缓存的要区别显示
     //TODO:新加入的文章要区别显示
-    //TODO:下载完成 有错用Orange 无错误不显示错误 使用友好颜色
     //TODO:下载文件时 文件存在 且 文件大小大于0 时才可跳过
 
     public partial class ArticleCard : UserControl
@@ -308,11 +307,16 @@ namespace GamerSkyLite_CS.Controls
                             }
                         case StateEnum.DownloadFinish:
                             {
-                                if (Directory.Exists(DownloadDirectory))
-                                    StateLabel.Text = string.Format("下载完成：{0} / {1}，{2}个失败", ContentIndex, ContentCount, ErrorCount);
+                                if (ErrorCount > 0)
+                                {
+                                    StateLabel.ForeColor = Color.Orange;
+                                    StateLabel.Text = string.Format("下载完成，共 {0} 个文件 / {1} 个失败", ContentCount, ErrorCount);
+                                }
                                 else
-                                    StateLabel.Text = string.Format("下载完成");
-                                StateLabel.ForeColor = Color.Orange;
+                                {
+                                    StateLabel.ForeColor = Color.SpringGreen;
+                                    StateLabel.Text = string.Format("下载完成，共 {0} 个文件", ContentCount);
+                                }
                                 DownloadButton.Text = "已完成";
                                 break;
                             }
