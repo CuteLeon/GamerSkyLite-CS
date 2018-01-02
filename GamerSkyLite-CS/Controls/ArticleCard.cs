@@ -17,6 +17,9 @@ using System.Text.RegularExpressions;
 
 namespace GamerSkyLite_CS.Controls
 {
+    //TODO:启动时计算是否已经缓存文章，已经缓存的要区别显示
+    //TODO:新加入的文章要区别显示
+
     public partial class ArticleCard : UserControl
     {
         #region 属性字段
@@ -519,13 +522,17 @@ namespace GamerSkyLite_CS.Controls
                 string[] ContentItems = Regex.Split(ContentString, "</p>");
                 string Link = string.Empty;
                 string Description = string.Empty;
+                string ContentWithoutNL = string.Empty;
 
                 foreach (string Content in ContentItems)
                 {
+                    //去除换行符
+                    ContentWithoutNL = Content.Replace("\n", "");
+
                     //使用第一种匹配策略获取图像路径
                     ContentPattern = "<a.*?shtml\\?(?<ImageLink>.+?)\"";
-                    ContentRegex = new Regex(ContentPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
-                    ContentMatch = ContentRegex.Match(Content);
+                    ContentRegex = new Regex(ContentPattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                    ContentMatch = ContentRegex.Match(ContentWithoutNL);
                     Link = string.Empty;
                     Description = string.Empty;
                     if (ContentMatch.Success)
@@ -537,8 +544,8 @@ namespace GamerSkyLite_CS.Controls
                     {
                         //匹配失败，切换策略获取图像路径
                         ContentPattern = "<img.*?src=\"(?<ImageLink>.+?)\"";
-                        ContentRegex = new Regex(ContentPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
-                        ContentMatch = ContentRegex.Match(Content);
+                        ContentRegex = new Regex(ContentPattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                        ContentMatch = ContentRegex.Match(ContentWithoutNL);
                         if (ContentMatch.Success)
                         {
                             //匹配成功
@@ -551,7 +558,7 @@ namespace GamerSkyLite_CS.Controls
                         }
                     }
                     //获取图像描述
-                    string[] TempDescription = Regex.Split(Content, "<br>");
+                    string[] TempDescription = Regex.Split(ContentWithoutNL, "<br>");
                     Description = TempDescription.Length>1?TempDescription.Last():"";
                     if (Description.StartsWith("\n")) Description = Description.Substring(1);
 
