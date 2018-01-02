@@ -20,7 +20,7 @@ namespace GamerSkyLite_CS.Controls
     //TODO:启动时计算是否已经缓存文章，已经缓存的要区别显示
     //TODO:新加入的文章要区别显示
     //TODO:下载文件时 文件存在 且 文件大小大于0 时才可跳过
-
+    
     public partial class ArticleCard : UserControl
     {
         #region 属性字段
@@ -629,55 +629,55 @@ namespace GamerSkyLite_CS.Controls
             }
 
             //获取文章内容
+            OleDbDataAdapter ContentAdapter = null;
             lock (UnityModule.UnityDBController)
             {
-                using (OleDbDataAdapter ContentAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM ArticleBase WHERE ArticleID='{0}'", ArticleID))
+                ContentAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM ArticleBase WHERE ArticleID='{0}'", ArticleID);
+            }
+            using (DataTable ContentTable = new DataTable())
+            {
+                ContentAdapter.Fill(ContentTable);
+                if (ContentTable.Rows.Count > 0)
                 {
-                    using (DataTable ContentTable = new DataTable())
+                    string ContentLink = string.Empty, ContentPath = string.Empty;
+                    //遍历文章内容
+                    foreach (DataRow ContentRow in ContentTable.Rows)
                     {
-                        ContentAdapter.Fill(ContentTable);
-                        if (ContentTable.Rows.Count > 0)
+                        ContentLink = ContentRow["Link"] as string;
+                        ContentPath = ContentRow["ImagePath"] as string;
+                        ContentIndex++;
+
+                        if (!File.Exists(ContentPath))
                         {
-                            string ContentLink = string.Empty, ContentPath = string.Empty;
-                            //遍历文章内容
-                            foreach (DataRow ContentRow in ContentTable.Rows)
+                            //图像不存在，下载图像
+                            using (WebClient ImageClient = new WebClient()
                             {
-                                ContentLink = ContentRow["Link"] as string;
-                                ContentPath = ContentRow["ImagePath"] as string;
-                                ContentIndex++;
-
-                                if (!File.Exists(ContentPath))
+                                BaseAddress = ContentLink,
+                                Encoding = Encoding.UTF8,
+                            })
+                            {
+                                try
                                 {
-                                    //图像不存在，下载图像
-                                    using (WebClient ImageClient = new WebClient()
-                                    {
-                                        BaseAddress = ContentLink,
-                                        Encoding = Encoding.UTF8,
-                                    })
-                                    {
-                                        try
-                                        {
-                                            ImageClient.DownloadFile(ContentLink, ContentPath);
-                                            UnityModule.DebugPrint("图像下载成功：{0}", ContentLink);
-                                        }
-                                        catch (ThreadAbortException) { }
-                                        catch (Exception ex)
-                                        {
-                                            ErrorCount++;
-                                            UnityModule.DebugPrint("图像下载异常：{0}\n\t\t{1}", ContentLink, ex.Message);
-                                        }
-                                    }
-
+                                    ImageClient.DownloadFile(ContentLink, ContentPath);
+                                    UnityModule.DebugPrint("图像下载成功：{0}", ContentLink);
                                 }
-
-                                this.Invoke(new Action(()=> {
-                                    StateLabel.Text = string.Format("正在下载：{0} / {1}，{2}个失败", ContentIndex, ContentCount, ErrorCount);
-                                }));
+                                catch (ThreadAbortException) { }
+                                catch (Exception ex)
+                                {
+                                    ErrorCount++;
+                                    UnityModule.DebugPrint("图像下载异常：{0}\n\t\t{1}", ContentLink, ex.Message);
+                                }
                             }
+
                         }
+
+                        this.Invoke(new Action(()=> {
+                            StateLabel.Text = string.Format("正在下载：{0} / {1}，{2}个失败", ContentIndex, ContentCount, ErrorCount);
+                        }));
                     }
                 }
             }
+            ContentAdapter.Dispose();
         }
 
         /// <summary>
@@ -691,28 +691,31 @@ namespace GamerSkyLite_CS.Controls
                 ArticleStream = new StreamWriter(FileController.PathCombine(DownloadDirectory, Title) + ".html", false, Encoding.UTF8);
                 ArticleStream.Write(@"<html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /></head><body style=""width:70%;margin:0 auto""><center><pre><h1><strong>{0}</strong></h1></pre>" + "\n", Title);
 
-                using (OleDbDataAdapter ContentAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM ArticleBase WHERE ArticleID='{0}'", ArticleID))
+                OleDbDataAdapter ContentAdapter = null;
+                lock (UnityModule.UnityDBController)
                 {
-                    using (DataTable ContentTable = new DataTable())
+                    ContentAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM ArticleBase WHERE ArticleID='{0}'", ArticleID);
+                }
+                using (DataTable ContentTable = new DataTable())
+                {
+                    ContentAdapter.Fill(ContentTable);
+                    if (ContentTable.Rows.Count > 0)
                     {
-                        ContentAdapter.Fill(ContentTable);
-                        if (ContentTable.Rows.Count > 0)
+                        foreach (DataRow ContentRow in ContentTable.Rows)
                         {
-                            foreach (DataRow ContentRow in ContentTable.Rows)
+                            try
                             {
-                                try
-                                {
-                                    ArticleStream.WriteLine(@"<img src="".\{0}"" alt=""{1}""><br>{2}<br><hr>",Path.GetFileName(ContentRow["ImagePath"] as string), ContentRow["Link"], ContentRow["Description"]);
-                                }
-                                catch (ThreadAbortException) { }
-                                catch (Exception ex)
-                                {
-                                    UnityModule.DebugPrint("组装文章时遇到错误：{0}", ex.Message);
-                                }
+                                ArticleStream.WriteLine(@"<img src="".\{0}"" alt=""{1}""><br>{2}<br><hr>",Path.GetFileName(ContentRow["ImagePath"] as string), ContentRow["Link"], ContentRow["Description"]);
+                            }
+                            catch (ThreadAbortException) { }
+                            catch (Exception ex)
+                            {
+                                UnityModule.DebugPrint("组装文章时遇到错误：{0}", ex.Message);
                             }
                         }
                     }
                 }
+                ContentAdapter.Dispose();
 
                 ArticleStream.Write("\n<hr><<<< 文章结束 >>>></center></body></html>");
                 UnityModule.DebugPrint("文章组装完成：{0}", ArticleID);
