@@ -19,7 +19,6 @@ namespace GamerSkyLite_CS.Controls
 {
     //TODO:启动时计算是否已经缓存文章，已经缓存的要区别显示
     //TODO:新加入的文章要区别显示
-    //TODO:下载文件时 文件存在 且 文件大小大于0 时才可跳过
     
     public partial class ArticleCard : UserControl
     {
@@ -646,6 +645,10 @@ namespace GamerSkyLite_CS.Controls
                         ContentLink = ContentRow["Link"] as string;
                         ContentPath = ContentRow["ImagePath"] as string;
                         ContentIndex++;
+
+                        //文件大小为0时删除
+                        if (File.Exists(ContentPath) && new FileInfo(ContentPath).Length == 0)
+                            try { File.Delete(ContentPath); } catch { }
 
                         if (!File.Exists(ContentPath))
                         {
