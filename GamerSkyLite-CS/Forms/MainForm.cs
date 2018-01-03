@@ -31,6 +31,16 @@ namespace GamerSkyLite_CS
 
         #region 私有变量
 
+        public new string Text
+        {
+            get => base.Text;
+            set
+            {
+                base.Text = value;
+                TitleLabel.Text = value;
+            }
+        }
+
         WebBrowser ArticleBrowser = null;
 
         /// <summary>
@@ -52,6 +62,7 @@ namespace GamerSkyLite_CS
                 {
                     case UIStateEnum.Catalog:
                         {
+                            this.Text = "GamerSky-Lite [需求才是第一生产力]";
                             ArticleBrowser?.Hide();
                             ArticleBrowser?.Dispose();
                             ArticleBrowser = null;
@@ -382,8 +393,12 @@ namespace GamerSkyLite_CS
 
         private void BrowseArticle(object sender, EventArgs e)
         {
-            UIState = UIStateEnum.Article;
-            ArticleBrowser.Navigate(string.Format((sender as ArticleCard).ArticleFilePath));
+            if (File.Exists((sender as ArticleCard).ArticleFilePath))
+            {
+                UIState = UIStateEnum.Article;
+                this.Text = string.Format("{0} / GamerSky-Lite", (sender as ArticleCard).Title);
+                ArticleBrowser.Navigate((sender as ArticleCard).ArticleFilePath);
+            }
         }
 
         /// <summary>
