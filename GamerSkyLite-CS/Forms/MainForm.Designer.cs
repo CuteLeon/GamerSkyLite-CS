@@ -37,7 +37,6 @@
             this.MaxButton = new LeonUI.TitleButtons.MaxButton();
             this.CloseButton = new LeonUI.TitleButtons.CloseButton();
             this.MainPanel = new GamerSkyLite_CS.Controls.PanelEx();
-            this.ArticleBrowser = new System.Windows.Forms.WebBrowser();
             this.CatalogLayoutPanel = new GamerSkyLite_CS.Controls.FlowLayoutPanelEx();
             this.ControlPanel = new GamerSkyLite_CS.Controls.FlowLayoutPanelEx();
             this.GoBackButton = new System.Windows.Forms.Label();
@@ -138,23 +137,12 @@
             // 
             // MainPanel
             // 
-            this.MainPanel.Controls.Add(this.ArticleBrowser);
             this.MainPanel.Controls.Add(this.CatalogLayoutPanel);
             this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainPanel.Location = new System.Drawing.Point(65, 37);
             this.MainPanel.Name = "MainPanel";
             this.MainPanel.Size = new System.Drawing.Size(730, 558);
             this.MainPanel.TabIndex = 4;
-            // 
-            // ArticleBrowser
-            // 
-            this.ArticleBrowser.Location = new System.Drawing.Point(136, 305);
-            this.ArticleBrowser.Margin = new System.Windows.Forms.Padding(0);
-            this.ArticleBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.ArticleBrowser.Name = "ArticleBrowser";
-            this.ArticleBrowser.Size = new System.Drawing.Size(250, 250);
-            this.ArticleBrowser.TabIndex = 4;
-            this.ArticleBrowser.Visible = false;
             // 
             // CatalogLayoutPanel
             // 
@@ -246,7 +234,6 @@
         private System.Windows.Forms.Label GoBackButton;
         private System.Windows.Forms.Label RefreshButton;
         private Controls.PanelEx MainPanel;
-        private System.Windows.Forms.WebBrowser ArticleBrowser;
     }
 }
 

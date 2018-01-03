@@ -18,7 +18,6 @@ using LeonUI.Forms;
 
 namespace GamerSkyLite_CS.Controls
 {
-    //TODO: CS增加截图
 
     public partial class ArticleCard : UserControl
     {
@@ -46,7 +45,7 @@ namespace GamerSkyLite_CS.Controls
             set
             {
                 TitleLabel.Text = value;
-                ArticleFilePath = FileController.PathCombine(DownloadDirectory, value);
+                ArticleFilePath = FileController.PathCombine(DownloadDirectory, value) + ".html";
             }
         }
 
@@ -189,11 +188,11 @@ namespace GamerSkyLite_CS.Controls
         /// <summary>
         /// 下载目录
         /// </summary>
-        private string DownloadDirectory = string.Empty;
+        public string DownloadDirectory = string.Empty;
         /// <summary>
         /// 文章文件路径
         /// </summary>
-        private string ArticleFilePath = string.Empty;
+        public string ArticleFilePath = string.Empty;
         /// <summary>
         /// 状态
         /// </summary>
@@ -265,8 +264,7 @@ namespace GamerSkyLite_CS.Controls
                                             AnalyseArticle(ArticleLink);
                                             State = StateEnum.Downloading;
                                         }
-                                        catch (ThreadAbortException) { return; }
-                                        catch (IOException) { }
+                                        catch (ThreadAbortException) { }
                                         catch (Exception ex)
                                         {
                                             try
@@ -321,7 +319,7 @@ namespace GamerSkyLite_CS.Controls
                                             ExportArticle();
                                             State = StateEnum.DownloadFinish;
                                         }
-                                        catch (ThreadAbortException) { return; }
+                                        catch (ThreadAbortException) { }
                                         catch (Exception ex)
                                         {
                                             try
@@ -383,10 +381,18 @@ namespace GamerSkyLite_CS.Controls
         #region 私有变量
 
         /// <summary>
+        /// 点击事件
+        /// </summary>
+        public new event EventHandler Click;
+
+        /// <summary>
         /// 鼠标进入事件
         /// </summary>
         EventHandler CardMouseEnter;
-
+        /// <summary>
+        /// 鼠标点击事件
+        /// </summary>
+        EventHandler CardClick;
         /// <summary>
         /// 鼠标离开事件
         /// </summary>
@@ -497,6 +503,15 @@ namespace GamerSkyLite_CS.Controls
             LocationButton.MouseLeave += ButtonMouseLeave;
             BrowseButton.MouseLeave += ButtonMouseLeave;
             DeleteButton.MouseLeave += ButtonMouseLeave;
+
+            CardClick = new EventHandler((s, e) => { Click?.Invoke(this, e); });
+            TitleLabel.Click += CardClick;
+            UnityLayoutPanel.Click += CardClick;
+            DescriptionLabel.Click += CardClick;
+            PublishTimeLabel.Click += CardClick;
+            StateLabel.Click += CardClick;
+            ImageLabel.Click += CardClick;
+            base.Click += CardClick;
 
             //释放时需要置空，结束分析和下载线程
             this.Disposed += new EventHandler((s, e) => {
@@ -780,7 +795,7 @@ namespace GamerSkyLite_CS.Controls
             StreamWriter ArticleStream = null;
             try
             {
-                ArticleStream = new StreamWriter(FileController.PathCombine(DownloadDirectory, Title) + ".html", false, Encoding.UTF8);
+                ArticleStream = new StreamWriter(ArticleFilePath, false, Encoding.UTF8);
                 ArticleStream.Write(@"<html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /></head><body style=""width:70%;margin:0 auto""><center><pre><h1><strong>{0}</strong></h1></pre>" + "\n", Title);
 
                 OleDbDataAdapter ContentAdapter = null;
@@ -797,7 +812,7 @@ namespace GamerSkyLite_CS.Controls
                         {
                             try
                             {
-                                ArticleStream.WriteLine(@"<img src="".\{0}"" alt=""{1}""><br>{2}<br><hr>",Path.GetFileName(ContentRow["ImagePath"] as string), ContentRow["Link"], ContentRow["Description"]);
+                                ArticleStream.WriteLine(@"<img src="".\{0}"" alt=""{1}""><br>{2}<br><hr>", Path.GetFileName(ContentRow["ImagePath"] as string), ContentRow["Link"], ContentRow["Description"]);
                             }
                             catch (ThreadAbortException ex) { throw ex; }
                             catch (Exception ex)
@@ -907,7 +922,7 @@ namespace GamerSkyLite_CS.Controls
                     }
                 case StateEnum.DownloadFinish:
                     {
-                        if (new LeonMessageBox("是否重新缓存？", "文章已经缓存，是否重新缓存？", LeonMessageBox.IconType.Question).ShowDialog(this)== DialogResult.OK)
+                        if (new LeonMessageBox("是否重新缓存？", "文章已经缓存，是否重新缓存？", LeonMessageBox.IconType.Question).ShowDialog(this) == DialogResult.OK)
                             State = StateEnum.Analysing;
                         break;
                     }

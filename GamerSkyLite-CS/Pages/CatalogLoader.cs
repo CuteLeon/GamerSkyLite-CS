@@ -51,7 +51,7 @@ namespace GamerSkyLite_CS
                                 Name = string.Format("Article_{0}", CatalogRow["ArticleID"] as string),
                             };
                             UnityModule.DebugPrint("读取到文章：{0}-{1}", NewArticleCard.ArticleID, NewArticleCard.Title);
-
+                            NewArticleCard.Click += BrowseArticle;
                             //按日期分割添加日期标签
                             TempDate = Convert.ToDateTime((CatalogRow["PublishTime"] as string).Split(' ').First()).Date;
                             this.Invoke(new Action(() =>

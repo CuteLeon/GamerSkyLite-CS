@@ -31,6 +31,8 @@ namespace GamerSkyLite_CS
 
         #region 私有变量
 
+        WebBrowser ArticleBrowser = null;
+
         /// <summary>
         /// 允许关闭
         /// </summary>
@@ -50,7 +52,10 @@ namespace GamerSkyLite_CS
                 {
                     case UIStateEnum.Catalog:
                         {
-                            ArticleBrowser.Hide();
+                            ArticleBrowser?.Hide();
+                            ArticleBrowser?.Dispose();
+                            ArticleBrowser = null;
+                            GC.Collect();
                             CatalogLayoutPanel.Show();
                             CatalogLayoutPanel.Dock = DockStyle.Fill;
                             break;
@@ -58,8 +63,20 @@ namespace GamerSkyLite_CS
                     case UIStateEnum.Article:
                         {
                             CatalogLayoutPanel.Hide();
-                            ArticleBrowser.Show();
-                            ArticleBrowser.Dock = DockStyle.Fill;
+                            if (ArticleBrowser == null)
+                            {
+                                ArticleBrowser = new WebBrowser()
+                                {
+                                    Margin = new Padding(0, 0, 0, 0),
+                                };
+                            }
+                            if (ArticleBrowser!=null)
+                            {
+                                MainPanel.Controls.Add(ArticleBrowser);
+                                ArticleBrowser.BringToFront();
+                                ArticleBrowser.Show();
+                                ArticleBrowser.Dock = DockStyle.Fill;
+                            }
                             break;
                         }
                 }
@@ -347,6 +364,7 @@ namespace GamerSkyLite_CS
                 CatalogControl.Dispose();
             }
             CatalogLayoutPanel.Controls.Clear();
+            GC.Collect();
 
             //更新文章目录
             try
@@ -362,6 +380,11 @@ namespace GamerSkyLite_CS
             LoadCatalog();
         }
 
+        private void BrowseArticle(object sender, EventArgs e)
+        {
+            UIState = UIStateEnum.Article;
+            ArticleBrowser.Navigate(string.Format((sender as ArticleCard).ArticleFilePath));
+        }
 
         /// <summary>
         /// 切换界面
@@ -396,10 +419,6 @@ namespace GamerSkyLite_CS
                 {
                     this.Close();
                 }
-            }
-            else if (e.KeyCode == Keys.Tab)
-            {
-                ExchangePanel();
             }
         }
 
