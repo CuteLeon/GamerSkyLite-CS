@@ -271,12 +271,18 @@ namespace GamerSkyLite_CS
                 UnityModule.UnityDBController?.CloseConnection();
                 while (this.Opacity > 0)
                 {
-                    this.Invoke(new Action(() =>
+                    try
                     {
-                        this.Top -= 1;
-                        this.Opacity -= 0.1;
-                    }));
-                    Thread.Sleep(30);
+                        this.Invoke(new Action(() =>
+                        {
+                            this.Top -= 1;
+                            this.Opacity -= 0.1;
+                        }));
+                        Thread.Sleep(30);
+                    }
+                    catch (ThreadAbortException) { }
+                    catch (IOException) { }
+                    catch (Exception) { }
                 }
                 this.Close();
             })).Start();

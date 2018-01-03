@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Threading;
+using System.IO;
 
 namespace GamerSkyLite_CS
 {
@@ -47,31 +49,28 @@ namespace GamerSkyLite_CS
                                 PublishTime = CatalogRow["PublishTime"] as string,
                             };
                             UnityModule.DebugPrint("读取到文章：{0}-{1}", NewArticleCard.ArticleID, NewArticleCard.Title);
-                            try
+
+                            //按日期分割添加日期标签
+                            TempDate = Convert.ToDateTime((CatalogRow["PublishTime"] as string).Split(' ').First()).Date;
+                            if (TempDate != GroupDate)
                             {
-                                //按日期分割添加日期标签
-                                TempDate = Convert.ToDateTime((CatalogRow["PublishTime"] as string).Split(' ').First()).Date;
-                                if (TempDate != GroupDate)
+                                this.Invoke(new Action(() =>
                                 {
-                                    this.Invoke(new Action(() =>
+                                    CatalogLayoutPanel.Controls.Add(new Label()
                                     {
-                                        CatalogLayoutPanel.Controls.Add(new System.Windows.Forms.Label()
-                                        {
-                                            AutoSize = false,
-                                            Size = new Size(150, 30),
-                                            Font = new Font(this.Font.FontFamily, 11, System.Drawing.FontStyle.Bold),
-                                            ForeColor = Color.DimGray,
-                                            ImageAlign = ContentAlignment.MiddleLeft,
-                                            TextAlign = ContentAlignment.MiddleRight,
-                                            Image = UnityResource.ClockIcon,
-                                            Padding = new Padding(3, 8, 3, 1),
-                                            Text = TempDate.ToString("yyyy-MM-dd")
-                                        });
-                                    }));
-                                    GroupDate = TempDate;
-                                }
+                                        AutoSize = false,
+                                        Size = new Size(150, 30),
+                                        Font = new Font(this.Font.FontFamily, 11, System.Drawing.FontStyle.Bold),
+                                        ForeColor = Color.DimGray,
+                                        ImageAlign = ContentAlignment.MiddleLeft,
+                                        TextAlign = ContentAlignment.MiddleRight,
+                                        Image = UnityResource.ClockIcon,
+                                        Padding = new Padding(3, 8, 3, 1),
+                                        Text = TempDate.ToString("yyyy-MM-dd")
+                                    });
+                                }));
+                                GroupDate = TempDate;
                             }
-                            catch { }
 
                             this.Invoke(new Action(() =>
                             {
@@ -81,6 +80,8 @@ namespace GamerSkyLite_CS
                                 Application.DoEvents();
                             }));
                         }
+                        catch (ThreadAbortException) { }
+                        catch (IOException) { }
                         catch (Exception ex)
                         {
                             UnityModule.DebugPrint("读取新文章属性时遇到错误：{0}", ex.Message);

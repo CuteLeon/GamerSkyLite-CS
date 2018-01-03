@@ -71,7 +71,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\ArticleController.cs" />
     <Compile Include="Controller\CatalogController.cs" />
     <Compile Include="Controller\DataBaseController.cs" />
     <Compile Include="Controller\FileController.cs" />
