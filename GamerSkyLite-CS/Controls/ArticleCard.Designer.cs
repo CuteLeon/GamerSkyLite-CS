@@ -81,7 +81,6 @@
             this.StateLabel.Location = new System.Drawing.Point(354, 83);
             this.StateLabel.Margin = new System.Windows.Forms.Padding(1);
             this.StateLabel.Name = "StateLabel";
-            this.StateLabel.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.StateLabel.Size = new System.Drawing.Size(227, 28);
             this.StateLabel.TabIndex = 8;
             this.StateLabel.Text = "爸爸，点旁边的按钮开始下载...";
@@ -119,7 +118,6 @@
             this.PublishTimeLabel.Location = new System.Drawing.Point(201, 83);
             this.PublishTimeLabel.Margin = new System.Windows.Forms.Padding(1);
             this.PublishTimeLabel.Name = "PublishTimeLabel";
-            this.PublishTimeLabel.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.PublishTimeLabel.Size = new System.Drawing.Size(151, 28);
             this.PublishTimeLabel.TabIndex = 3;
             this.PublishTimeLabel.Text = "Time";

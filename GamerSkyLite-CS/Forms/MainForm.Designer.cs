@@ -36,8 +36,8 @@
             this.RestoreButton = new LeonUI.TitleButtons.RestoreButton();
             this.MaxButton = new LeonUI.TitleButtons.MaxButton();
             this.CloseButton = new LeonUI.TitleButtons.CloseButton();
-            this.ControlPanel = new GamerSkyLite_CS.Controls.PanelEx();
             this.CatalogLayoutPanel = new GamerSkyLite_CS.Controls.FlowLayoutPanelEx();
+            this.ControlPanel = new GamerSkyLite_CS.Controls.PanelEx();
             this.TitlePanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -84,9 +84,10 @@
             this.MinButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.MinButton.Dock = System.Windows.Forms.DockStyle.Right;
             this.MinButton.Location = new System.Drawing.Point(670, 0);
+            this.MinButton.MaximumSize = new System.Drawing.Size(30, 30);
             this.MinButton.MinimumSize = new System.Drawing.Size(20, 20);
             this.MinButton.Name = "MinButton";
-            this.MinButton.Size = new System.Drawing.Size(30, 32);
+            this.MinButton.Size = new System.Drawing.Size(30, 30);
             this.MinButton.TabIndex = 4;
             // 
             // RestoreButton
@@ -96,9 +97,10 @@
             this.RestoreButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.RestoreButton.Dock = System.Windows.Forms.DockStyle.Right;
             this.RestoreButton.Location = new System.Drawing.Point(700, 0);
+            this.RestoreButton.MaximumSize = new System.Drawing.Size(30, 30);
             this.RestoreButton.MinimumSize = new System.Drawing.Size(20, 20);
             this.RestoreButton.Name = "RestoreButton";
-            this.RestoreButton.Size = new System.Drawing.Size(30, 32);
+            this.RestoreButton.Size = new System.Drawing.Size(30, 30);
             this.RestoreButton.TabIndex = 3;
             this.RestoreButton.Visible = false;
             // 
@@ -109,9 +111,10 @@
             this.MaxButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.MaxButton.Dock = System.Windows.Forms.DockStyle.Right;
             this.MaxButton.Location = new System.Drawing.Point(730, 0);
+            this.MaxButton.MaximumSize = new System.Drawing.Size(30, 30);
             this.MaxButton.MinimumSize = new System.Drawing.Size(20, 20);
             this.MaxButton.Name = "MaxButton";
-            this.MaxButton.Size = new System.Drawing.Size(30, 32);
+            this.MaxButton.Size = new System.Drawing.Size(30, 30);
             this.MaxButton.TabIndex = 2;
             // 
             // CloseButton
@@ -121,19 +124,11 @@
             this.CloseButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.CloseButton.Dock = System.Windows.Forms.DockStyle.Right;
             this.CloseButton.Location = new System.Drawing.Point(760, 0);
+            this.CloseButton.MaximumSize = new System.Drawing.Size(30, 30);
             this.CloseButton.MinimumSize = new System.Drawing.Size(20, 20);
             this.CloseButton.Name = "CloseButton";
-            this.CloseButton.Size = new System.Drawing.Size(30, 32);
+            this.CloseButton.Size = new System.Drawing.Size(30, 30);
             this.CloseButton.TabIndex = 1;
-            // 
-            // ControlPanel
-            // 
-            this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ControlPanel.Location = new System.Drawing.Point(5, 37);
-            this.ControlPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.ControlPanel.Name = "ControlPanel";
-            this.ControlPanel.Size = new System.Drawing.Size(90, 558);
-            this.ControlPanel.TabIndex = 2;
             // 
             // CatalogLayoutPanel
             // 
@@ -147,6 +142,15 @@
             this.CatalogLayoutPanel.TabIndex = 3;
             this.CatalogLayoutPanel.WrapContents = false;
             this.CatalogLayoutPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.CatalogLayoutPanel_Paint);
+            // 
+            // ControlPanel
+            // 
+            this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ControlPanel.Location = new System.Drawing.Point(5, 37);
+            this.ControlPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.ControlPanel.Name = "ControlPanel";
+            this.ControlPanel.Size = new System.Drawing.Size(90, 558);
+            this.ControlPanel.TabIndex = 2;
             // 
             // MainForm
             // 

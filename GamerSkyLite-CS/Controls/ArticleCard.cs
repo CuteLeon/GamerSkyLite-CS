@@ -14,12 +14,16 @@ using GamerSkyLite_CS.Controller;
 using System.Threading;
 using System.Data.OleDb;
 using System.Text.RegularExpressions;
+using LeonUI.Forms;
 
 namespace GamerSkyLite_CS.Controls
 {
     //TODO:启动时计算是否已经缓存文章，已经缓存的要区别显示
     //TODO:新加入的文章要区别显示
-    
+    //TODO: CS增加截图
+    //TODO:增加浏览器控件
+    //TODO:侧边增加刷新按钮；
+
     public partial class ArticleCard : UserControl
     {
         #region 属性字段
@@ -330,11 +334,11 @@ namespace GamerSkyLite_CS.Controls
                                     if (ErrorCount > 0)
                                     {
                                         StateLabel.ForeColor = Color.Orange;
-                                        StateLabel.Text = string.Format("下载完成，共 {0} 个文件 / {1} 个失败", ContentCount, ErrorCount);
+                                        StateLabel.Text = string.Format("下载完成，{0} 个文件 / {1} 个失败", ContentCount, ErrorCount);
                                     }
                                     else
                                     {
-                                        StateLabel.ForeColor = Color.SpringGreen;
+                                        StateLabel.ForeColor = Color.FromArgb(72, 225, 150);
                                         StateLabel.Text = string.Format("下载完成，共 {0} 个文件", ContentCount);
                                     }
                                     DownloadButton.Text = "已完成";
@@ -814,11 +818,15 @@ namespace GamerSkyLite_CS.Controls
                     //显示目录内文件总数
                     this.Invoke(new Action(() =>
                     {
-                        StateLabel.ForeColor = Color.DeepSkyBlue;
-                        if (Directory.Exists(DownloadDirectory))
-                            StateLabel.Text = string.Format("已下载文件数：{0}", Directory.GetFiles(DownloadDirectory));
-                        else
-                            StateLabel.Text = "爸爸，点旁边的按钮开始下载...";
+                        try
+                        {
+                            StateLabel.ForeColor = Color.DeepSkyBlue;
+                            if (Directory.Exists(DownloadDirectory))
+                                StateLabel.Text = string.Format("已下载文件数：{0}", Directory.GetFiles(DownloadDirectory));
+                            else
+                                StateLabel.Text = "爸爸，点旁边的按钮开始下载...";
+                        }
+                        catch { }
                     }));
                 }
                 catch (ThreadAbortException) { }
@@ -857,6 +865,8 @@ namespace GamerSkyLite_CS.Controls
                     }
                 case StateEnum.DownloadFinish:
                     {
+                        if (new LeonMessageBox("是否重新缓存？", "文章已经缓存，是否重新缓存？", LeonMessageBox.IconType.Question).ShowDialog(this)== DialogResult.OK)
+                            State = StateEnum.Analysing;
                         break;
                     }
             }
