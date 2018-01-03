@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GamerSkyLite_CS.Controller;
+using GamerSkyLite_CS.Controls;
 using LeonUI;
 using LeonUI.Forms;
 
@@ -35,6 +36,47 @@ namespace GamerSkyLite_CS
         /// </summary>
         private bool AllowToClose = false;
 
+        private UIStateEnum _uiState = UIStateEnum.Catalog;
+        /// <summary>
+        /// 界面状态
+        /// </summary>
+        private UIStateEnum UIState
+        {
+            get => _uiState;
+            set
+            {
+                _uiState = value;
+                switch (value)
+                {
+                    case UIStateEnum.Catalog:
+                        {
+                            ArticleBrowser.Hide();
+                            CatalogLayoutPanel.Show();
+                            CatalogLayoutPanel.Dock = DockStyle.Fill;
+                            break;
+                        }
+                    case UIStateEnum.Article:
+                        {
+                            CatalogLayoutPanel.Hide();
+                            ArticleBrowser.Show();
+                            ArticleBrowser.Dock = DockStyle.Fill;
+                            break;
+                        }
+                }
+            }
+        }
+        private enum UIStateEnum
+        {
+            /// <summary>
+            /// 目录界面
+            /// </summary>
+            Catalog=0,
+            /// <summary>
+            /// 文章界面
+            /// </summary>
+            Article=1,
+        }
+
         #endregion
 
         #region 窗体事件
@@ -53,21 +95,6 @@ namespace GamerSkyLite_CS
             InitializeApplication();
 
             AttachEvent();
-        }
-
-
-        private void MainForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.Escape:
-                    {
-                        //TODO:如果是浏览文章状态，则返回文章目录
-                        //TODO:如果是文章目录状态，则退出应用程序
-                        this.Close();
-                        break;
-                    }
-            }
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
@@ -116,18 +143,7 @@ namespace GamerSkyLite_CS
                 return;
             }
 
-            //更新文章目录
-            try
-            {
-                CatalogController.GetCatalog(UnityModule.CatalogAddress);
-            }
-            catch (Exception ex)
-            {
-                new LeonMessageBox("更新目录失败", "无法联网更新文章目录，请阅读离线文章。\n{0}", LeonMessageBox.IconType.Error, ex.Message).ShowDialog(this);
-            }
-
-            //加载文章目录
-            LoadCatalog();
+            RefreshCatalog();
         }
 
         //为窗体添加阴影
@@ -247,6 +263,21 @@ namespace GamerSkyLite_CS
                 }
             });
             this.SizeChanged += new EventHandler((s, e) => RedrawWindow(Handle, IntPtr.Zero, IntPtr.Zero, RDW_FRAME | RDW_IUPDATENOW | RDW_INVALIDATE));
+
+            EventHandler ButtonMouseEnter = new EventHandler((s, e) => { (s as Label).ImageIndex = 1; });
+            MouseEventHandler ButtonMouseDown = new MouseEventHandler((s, e) => { (s as Label).ImageIndex = 0; });
+            MouseEventHandler ButtonMouseUp = new MouseEventHandler((s, e) => { (s as Label).ImageIndex = 1; });
+            EventHandler ButtonMouseLeave = new EventHandler((s, e) => { (s as Label).ImageIndex = 0; });
+
+            GoBackButton.MouseEnter += ButtonMouseEnter;
+            GoBackButton.MouseDown += ButtonMouseDown;
+            GoBackButton.MouseUp += ButtonMouseUp;
+            GoBackButton.MouseLeave += ButtonMouseLeave;
+
+            RefreshButton.MouseEnter += ButtonMouseEnter;
+            RefreshButton.MouseDown += ButtonMouseDown;
+            RefreshButton.MouseUp += ButtonMouseUp;
+            RefreshButton.MouseLeave += ButtonMouseLeave;
         }
 
         /// <summary>
@@ -257,6 +288,24 @@ namespace GamerSkyLite_CS
             UnityModule.DebugPrint("初始化应用程序");
             this.Icon = UnityResource.GamerSky;
             IconLabel.Image = new Bitmap(UnityResource.GamerSky.ToBitmap(), 24, 24);
+
+            GoBackButton.ImageList = new ImageList
+            {
+                ColorDepth = ColorDepth.Depth24Bit,
+                ImageSize = new Size(50, 50),
+            };
+            GoBackButton.ImageList.Images.Add(UnityResource.GoBack_0);
+            GoBackButton.ImageList.Images.Add(UnityResource.GoBack_1);
+            GoBackButton.ImageIndex = 0;
+
+            RefreshButton.ImageList = new ImageList
+            {
+                ColorDepth = ColorDepth.Depth24Bit,
+                ImageSize = new Size(50, 50),
+            };
+            RefreshButton.ImageList.Images.Add(UnityResource.Refresh_0);
+            RefreshButton.ImageList.Images.Add(UnityResource.Refresh_1);
+            RefreshButton.ImageIndex = 0;
         }
 
         /// <summary>
@@ -280,20 +329,95 @@ namespace GamerSkyLite_CS
                         }));
                         Thread.Sleep(30);
                     }
-                    catch (ThreadAbortException) { }
-                    catch (IOException) { }
+                    catch (ThreadAbortException) { return; }
+                    catch (IOException) { return; }
                     catch (Exception) { }
                 }
                 this.Close();
             })).Start();
         }
 
+        /// <summary>
+        /// 刷新目录
+        /// </summary>
+        private void RefreshCatalog()
+        {
+            foreach (IComponent CatalogControl in CatalogLayoutPanel.Controls)
+            {
+                CatalogControl.Dispose();
+            }
+            CatalogLayoutPanel.Controls.Clear();
+
+            //更新文章目录
+            try
+            {
+                CatalogController.GetCatalog(UnityModule.CatalogAddress);
+            }
+            catch (Exception ex)
+            {
+                new LeonMessageBox("更新目录失败", "无法联网更新文章目录，请阅读离线文章。\n{0}", LeonMessageBox.IconType.Error, ex.Message).ShowDialog(this);
+            }
+
+            //加载文章目录
+            LoadCatalog();
+        }
+
+
+        /// <summary>
+        /// 切换界面
+        /// </summary>
+        private void ExchangePanel()
+        {
+            UIState = UIState == UIStateEnum.Article ? UIStateEnum.Catalog : UIStateEnum.Article;
+        }
+
         #endregion
 
         private void CatalogLayoutPanel_Paint(object sender, PaintEventArgs e)
         {
-            if (CatalogLayoutPanel.Width > 700)
-                e.Graphics.DrawString("嘻嘻嘻~\n我不管，我最帅，\n我是你们的小可爱~~~", this.Font, Brushes.DeepSkyBlue, 700, 100);
+            if (CatalogLayoutPanel.Width > 750)
+                e.Graphics.DrawString("嘻嘻嘻~\n我不管，我最帅，\n我是你们的小可爱~~~", this.Font, Brushes.DeepSkyBlue, 750, 100);
+        }
+
+        private void ControlPanel_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.DrawLine(Pens.Red, this.Width - 5, 0, this.Width - 5, this.Height - 1);
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape || e.KeyCode == Keys.Back)
+            {
+                if (UIState == UIStateEnum.Article)
+                {
+                    UIState = UIStateEnum.Catalog;
+                }
+                else
+                {
+                    this.Close();
+                }
+            }
+            else if (e.KeyCode == Keys.Tab)
+            {
+                ExchangePanel();
+            }
+        }
+
+        private void GoBackButton_Click(object sender, EventArgs e)
+        {
+            ExchangePanel();
+        }
+
+        private void RefreshButton_Click(object sender, EventArgs e)
+        {
+            if (UIState == UIStateEnum.Catalog)
+            {
+                RefreshCatalog();
+            }
+            else
+            {
+                ArticleBrowser.Refresh();
+            }
         }
     }
 }

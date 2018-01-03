@@ -36,9 +36,15 @@
             this.RestoreButton = new LeonUI.TitleButtons.RestoreButton();
             this.MaxButton = new LeonUI.TitleButtons.MaxButton();
             this.CloseButton = new LeonUI.TitleButtons.CloseButton();
+            this.MainPanel = new GamerSkyLite_CS.Controls.PanelEx();
+            this.ArticleBrowser = new System.Windows.Forms.WebBrowser();
             this.CatalogLayoutPanel = new GamerSkyLite_CS.Controls.FlowLayoutPanelEx();
-            this.ControlPanel = new GamerSkyLite_CS.Controls.PanelEx();
+            this.ControlPanel = new GamerSkyLite_CS.Controls.FlowLayoutPanelEx();
+            this.GoBackButton = new System.Windows.Forms.Label();
+            this.RefreshButton = new System.Windows.Forms.Label();
             this.TitlePanel.SuspendLayout();
+            this.MainPanel.SuspendLayout();
+            this.ControlPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // TitlePanel
@@ -130,27 +136,71 @@
             this.CloseButton.Size = new System.Drawing.Size(30, 30);
             this.CloseButton.TabIndex = 1;
             // 
+            // MainPanel
+            // 
+            this.MainPanel.Controls.Add(this.ArticleBrowser);
+            this.MainPanel.Controls.Add(this.CatalogLayoutPanel);
+            this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainPanel.Location = new System.Drawing.Point(65, 37);
+            this.MainPanel.Name = "MainPanel";
+            this.MainPanel.Size = new System.Drawing.Size(730, 558);
+            this.MainPanel.TabIndex = 4;
+            // 
+            // ArticleBrowser
+            // 
+            this.ArticleBrowser.Location = new System.Drawing.Point(136, 305);
+            this.ArticleBrowser.Margin = new System.Windows.Forms.Padding(0);
+            this.ArticleBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.ArticleBrowser.Name = "ArticleBrowser";
+            this.ArticleBrowser.Size = new System.Drawing.Size(250, 250);
+            this.ArticleBrowser.TabIndex = 4;
+            this.ArticleBrowser.Visible = false;
+            // 
             // CatalogLayoutPanel
             // 
             this.CatalogLayoutPanel.AutoScroll = true;
             this.CatalogLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CatalogLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.CatalogLayoutPanel.Location = new System.Drawing.Point(95, 37);
+            this.CatalogLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.CatalogLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
             this.CatalogLayoutPanel.Name = "CatalogLayoutPanel";
-            this.CatalogLayoutPanel.Size = new System.Drawing.Size(700, 558);
+            this.CatalogLayoutPanel.Size = new System.Drawing.Size(730, 558);
             this.CatalogLayoutPanel.TabIndex = 3;
             this.CatalogLayoutPanel.WrapContents = false;
             this.CatalogLayoutPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.CatalogLayoutPanel_Paint);
             // 
             // ControlPanel
             // 
+            this.ControlPanel.Controls.Add(this.GoBackButton);
+            this.ControlPanel.Controls.Add(this.RefreshButton);
             this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.ControlPanel.Location = new System.Drawing.Point(5, 37);
             this.ControlPanel.Margin = new System.Windows.Forms.Padding(0);
             this.ControlPanel.Name = "ControlPanel";
-            this.ControlPanel.Size = new System.Drawing.Size(90, 558);
+            this.ControlPanel.Padding = new System.Windows.Forms.Padding(0, 20, 0, 0);
+            this.ControlPanel.Size = new System.Drawing.Size(60, 558);
             this.ControlPanel.TabIndex = 2;
+            this.ControlPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.ControlPanel_Paint);
+            // 
+            // GoBackButton
+            // 
+            this.GoBackButton.Image = global::GamerSkyLite_CS.UnityResource.GoBack_0;
+            this.GoBackButton.Location = new System.Drawing.Point(5, 25);
+            this.GoBackButton.Margin = new System.Windows.Forms.Padding(5);
+            this.GoBackButton.Name = "GoBackButton";
+            this.GoBackButton.Size = new System.Drawing.Size(50, 50);
+            this.GoBackButton.TabIndex = 5;
+            this.GoBackButton.Click += new System.EventHandler(this.GoBackButton_Click);
+            // 
+            // RefreshButton
+            // 
+            this.RefreshButton.Image = global::GamerSkyLite_CS.UnityResource.Refresh_0;
+            this.RefreshButton.Location = new System.Drawing.Point(5, 85);
+            this.RefreshButton.Margin = new System.Windows.Forms.Padding(5);
+            this.RefreshButton.Name = "RefreshButton";
+            this.RefreshButton.Size = new System.Drawing.Size(50, 50);
+            this.RefreshButton.TabIndex = 6;
+            this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
             // 
             // MainForm
             // 
@@ -158,7 +208,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(800, 600);
-            this.Controls.Add(this.CatalogLayoutPanel);
+            this.Controls.Add(this.MainPanel);
             this.Controls.Add(this.ControlPanel);
             this.Controls.Add(this.TitlePanel);
             this.DoubleBuffered = true;
@@ -176,6 +226,8 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.TitlePanel.ResumeLayout(false);
+            this.MainPanel.ResumeLayout(false);
+            this.ControlPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -189,8 +241,12 @@
         private LeonUI.TitleButtons.CloseButton CloseButton;
         private System.Windows.Forms.Label IconLabel;
         private System.Windows.Forms.Label TitleLabel;
-        private Controls.PanelEx ControlPanel;
+        private Controls.FlowLayoutPanelEx ControlPanel;
         private Controls.FlowLayoutPanelEx CatalogLayoutPanel;
+        private System.Windows.Forms.Label GoBackButton;
+        private System.Windows.Forms.Label RefreshButton;
+        private Controls.PanelEx MainPanel;
+        private System.Windows.Forms.WebBrowser ArticleBrowser;
     }
 }
 

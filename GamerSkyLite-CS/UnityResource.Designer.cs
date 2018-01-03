@@ -143,6 +143,26 @@ namespace GamerSkyLite_CS {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap GoBack_0 {
+            get {
+                object obj = ResourceManager.GetObject("GoBack_0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap GoBack_1 {
+            get {
+                object obj = ResourceManager.GetObject("GoBack_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap Location_0 {
             get {
                 object obj = ResourceManager.GetObject("Location_0", resourceCulture);
@@ -156,6 +176,26 @@ namespace GamerSkyLite_CS {
         internal static System.Drawing.Bitmap Location_1 {
             get {
                 object obj = ResourceManager.GetObject("Location_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Refresh_0 {
+            get {
+                object obj = ResourceManager.GetObject("Refresh_0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Refresh_1 {
+            get {
+                object obj = ResourceManager.GetObject("Refresh_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

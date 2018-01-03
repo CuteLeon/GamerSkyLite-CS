@@ -54,9 +54,9 @@ namespace GamerSkyLite_CS
 
                             //按日期分割添加日期标签
                             TempDate = Convert.ToDateTime((CatalogRow["PublishTime"] as string).Split(' ').First()).Date;
-                            if (TempDate != GroupDate)
+                            this.Invoke(new Action(() =>
                             {
-                                this.Invoke(new Action(() =>
+                                if (TempDate != GroupDate)
                                 {
                                     CatalogLayoutPanel.Controls.Add(new Label()
                                     {
@@ -70,12 +70,9 @@ namespace GamerSkyLite_CS
                                         Padding = new Padding(3, 8, 3, 1),
                                         Text = TempDate.ToString("yyyy-MM-dd")
                                     });
-                                }));
                                 GroupDate = TempDate;
-                            }
+                                }
 
-                            this.Invoke(new Action(() =>
-                            {
                                 CatalogLayoutPanel.Controls.Add(NewArticleCard);
                                 NewArticleCard.Show();
                                 NewArticleCard.Ini();
@@ -83,8 +80,8 @@ namespace GamerSkyLite_CS
                                 Application.DoEvents();
                             }));
                         }
-                        catch (ThreadAbortException) { }
-                        catch (IOException) { }
+                        catch (ThreadAbortException) { return; }
+                        catch (IOException) { return; }
                         catch (Exception ex)
                         {
                             UnityModule.DebugPrint("读取新文章属性时遇到错误：{0}", ex.Message);

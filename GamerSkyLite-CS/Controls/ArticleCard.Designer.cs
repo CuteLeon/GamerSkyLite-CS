@@ -68,7 +68,7 @@
             this.UnityLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.UnityLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.UnityLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.UnityLayoutPanel.Size = new System.Drawing.Size(680, 112);
+            this.UnityLayoutPanel.Size = new System.Drawing.Size(710, 112);
             this.UnityLayoutPanel.TabIndex = 0;
             // 
             // StateLabel
@@ -79,10 +79,10 @@
             this.StateLabel.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.StateLabel.Image = global::GamerSkyLite_CS.UnityResource.DownloadIcon;
             this.StateLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.StateLabel.Location = new System.Drawing.Point(354, 83);
+            this.StateLabel.Location = new System.Drawing.Point(366, 83);
             this.StateLabel.Margin = new System.Windows.Forms.Padding(1);
             this.StateLabel.Name = "StateLabel";
-            this.StateLabel.Size = new System.Drawing.Size(227, 28);
+            this.StateLabel.Size = new System.Drawing.Size(245, 28);
             this.StateLabel.TabIndex = 8;
             this.StateLabel.Text = "爸爸，点旁边的按钮开始下载...";
             this.StateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -91,7 +91,7 @@
             // 
             this.DeleteButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DeleteButton.Image = global::GamerSkyLite_CS.UnityResource.Delete_0;
-            this.DeleteButton.Location = new System.Drawing.Point(648, 2);
+            this.DeleteButton.Location = new System.Drawing.Point(678, 2);
             this.DeleteButton.Margin = new System.Windows.Forms.Padding(2);
             this.DeleteButton.Name = "DeleteButton";
             this.DeleteButton.Size = new System.Drawing.Size(30, 28);
@@ -102,7 +102,7 @@
             // 
             this.BrowseButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BrowseButton.Image = global::GamerSkyLite_CS.UnityResource.Browser_0;
-            this.BrowseButton.Location = new System.Drawing.Point(616, 2);
+            this.BrowseButton.Location = new System.Drawing.Point(646, 2);
             this.BrowseButton.Margin = new System.Windows.Forms.Padding(2);
             this.BrowseButton.Name = "BrowseButton";
             this.BrowseButton.Size = new System.Drawing.Size(28, 28);
@@ -120,7 +120,7 @@
             this.PublishTimeLabel.Location = new System.Drawing.Point(201, 83);
             this.PublishTimeLabel.Margin = new System.Windows.Forms.Padding(1);
             this.PublishTimeLabel.Name = "PublishTimeLabel";
-            this.PublishTimeLabel.Size = new System.Drawing.Size(151, 28);
+            this.PublishTimeLabel.Size = new System.Drawing.Size(163, 28);
             this.PublishTimeLabel.TabIndex = 3;
             this.PublishTimeLabel.Text = "Time";
             this.PublishTimeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -136,7 +136,7 @@
             this.DescriptionLabel.Margin = new System.Windows.Forms.Padding(1);
             this.DescriptionLabel.Name = "DescriptionLabel";
             this.DescriptionLabel.Padding = new System.Windows.Forms.Padding(2);
-            this.DescriptionLabel.Size = new System.Drawing.Size(478, 48);
+            this.DescriptionLabel.Size = new System.Drawing.Size(508, 48);
             this.DescriptionLabel.TabIndex = 2;
             this.DescriptionLabel.Text = "Description";
             // 
@@ -164,7 +164,7 @@
             this.TitleLabel.Margin = new System.Windows.Forms.Padding(1);
             this.TitleLabel.Name = "TitleLabel";
             this.TitleLabel.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.TitleLabel.Size = new System.Drawing.Size(380, 30);
+            this.TitleLabel.Size = new System.Drawing.Size(410, 30);
             this.TitleLabel.TabIndex = 1;
             this.TitleLabel.Text = "Title";
             this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -173,7 +173,7 @@
             // 
             this.LocationButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LocationButton.Image = global::GamerSkyLite_CS.UnityResource.Location_0;
-            this.LocationButton.Location = new System.Drawing.Point(584, 2);
+            this.LocationButton.Location = new System.Drawing.Point(614, 2);
             this.LocationButton.Margin = new System.Windows.Forms.Padding(2);
             this.LocationButton.Name = "LocationButton";
             this.LocationButton.Size = new System.Drawing.Size(28, 28);
@@ -191,7 +191,7 @@
             this.DownloadButton.EnterBitmap = ((System.Drawing.Bitmap)(resources.GetObject("DownloadButton.EnterBitmap")));
             this.DownloadButton.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.DownloadButton.Image = ((System.Drawing.Image)(resources.GetObject("DownloadButton.Image")));
-            this.DownloadButton.Location = new System.Drawing.Point(585, 82);
+            this.DownloadButton.Location = new System.Drawing.Point(615, 82);
             this.DownloadButton.Name = "DownloadButton";
             this.DownloadButton.NormalBitmap = ((System.Drawing.Bitmap)(resources.GetObject("DownloadButton.NormalBitmap")));
             this.DownloadButton.Size = new System.Drawing.Size(92, 30);
@@ -211,7 +211,7 @@
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ArticleCard";
             this.Padding = new System.Windows.Forms.Padding(0, 3, 0, 5);
-            this.Size = new System.Drawing.Size(680, 120);
+            this.Size = new System.Drawing.Size(710, 120);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.ArticleCard_Paint);
             this.UnityLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);

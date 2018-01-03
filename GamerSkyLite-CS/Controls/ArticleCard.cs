@@ -19,8 +19,6 @@ using LeonUI.Forms;
 namespace GamerSkyLite_CS.Controls
 {
     //TODO: CS增加截图
-    //TODO:增加浏览器控件
-    //TODO:侧边增加刷新按钮；
 
     public partial class ArticleCard : UserControl
     {
@@ -113,7 +111,7 @@ namespace GamerSkyLite_CS.Controls
                     {
                         try
                         {
-                            ImageClient.DownloadFileCompleted += new AsyncCompletedEventHandler((s,e)=> {
+                            ImageClient.DownloadFileCompleted += new AsyncCompletedEventHandler((s, e) => {
                                 try
                                 {
                                     UnityModule.DebugPrint("图像下载完成：{0}", value);
@@ -204,11 +202,11 @@ namespace GamerSkyLite_CS.Controls
             /// <summary>
             /// 初始状态
             /// </summary>
-            None=0,
+            None = 0,
             /// <summary>
             /// 正在分析
             /// </summary>
-            Analysing=1,
+            Analysing = 1,
             /// <summary>
             /// 分析完成
             /// </summary>
@@ -216,7 +214,7 @@ namespace GamerSkyLite_CS.Controls
             /// <summary>
             /// 正在下载
             /// </summary>
-            Downloading=3,
+            Downloading = 3,
             /// <summary>
             /// 下载完成
             /// </summary>
@@ -234,7 +232,7 @@ namespace GamerSkyLite_CS.Controls
                 try
                 {
                     UnityModule.DebugPrint("更换文章[{0}]状态：{1}", ArticleID, value.ToString());
-                    this.Invoke(new Action(() =>{
+                    this.Invoke(new Action(() => {
                         _state = value;
                         switch (value)
                         {
@@ -250,6 +248,9 @@ namespace GamerSkyLite_CS.Controls
                                 }
                             case StateEnum.Analysing:
                                 {
+                                    AnalyseArticleThread?.Abort();
+                                    AnalyseArticleThread = null;
+
                                     PageIndex = 1;
                                     ContentIndex = 1;
 
@@ -264,7 +265,7 @@ namespace GamerSkyLite_CS.Controls
                                             AnalyseArticle(ArticleLink);
                                             State = StateEnum.Downloading;
                                         }
-                                        catch (ThreadAbortException) { }
+                                        catch (ThreadAbortException) { return; }
                                         catch (IOException) { }
                                         catch (Exception ex)
                                         {
@@ -277,9 +278,12 @@ namespace GamerSkyLite_CS.Controls
                                                 }));
                                                 State = StateEnum.None;
                                             }
-                                            catch (IOException) { }
+                                            catch (Exception) { }
                                         }
-                                    }));
+                                    }))
+                                    {
+                                        IsBackground = true,
+                                    };
                                     AnalyseArticleThread.Start();
                                     break;
                                 }
@@ -296,6 +300,9 @@ namespace GamerSkyLite_CS.Controls
                                 }
                             case StateEnum.Downloading:
                                 {
+                                    DownloadArticleThread?.Abort();
+                                    DownloadArticleThread = null;
+
                                     ContentIndex = 0;
                                     lock (UnityModule.UnityDBController)
                                     {
@@ -314,7 +321,7 @@ namespace GamerSkyLite_CS.Controls
                                             ExportArticle();
                                             State = StateEnum.DownloadFinish;
                                         }
-                                        catch (ThreadAbortException) { }
+                                        catch (ThreadAbortException) { return; }
                                         catch (Exception ex)
                                         {
                                             try
@@ -328,14 +335,20 @@ namespace GamerSkyLite_CS.Controls
                                             }
                                             catch (IOException) { }
                                         }
-                                    }));
+                                    }))
+                                    {
+                                        IsBackground = true,
+                                    };
                                     DownloadArticleThread.Start();
                                     break;
                                 }
                             case StateEnum.DownloadFinish:
                                 {
-                                if (Directory.Exists(DownloadDirectory))
-                                    ContentCount = Directory.GetFiles(DownloadDirectory).Length;
+                                    DownloadArticleThread?.Abort();
+                                    DownloadArticleThread = null;
+
+                                    if (Directory.Exists(DownloadDirectory))
+                                        ContentCount = Directory.GetFiles(DownloadDirectory).Length;
                                     if (ErrorCount > 0)
                                     {
                                         StateLabel.ForeColor = Color.Orange;
@@ -417,7 +430,7 @@ namespace GamerSkyLite_CS.Controls
             InitializeComponent();
         }
 
-        public ArticleCard(string articleID, string title , string description , string time , string imageLink , string imagePath, string articleLink, bool isNew) : this()
+        public ArticleCard(string articleID, string title, string description, string time, string imageLink, string imagePath, string articleLink, bool isNew) : this()
         {
             ArticleID = articleID;
             Title = title;
@@ -444,7 +457,7 @@ namespace GamerSkyLite_CS.Controls
         /// </summary>
         private void AttachEvent()
         {
-            CardMouseEnter = new EventHandler((s,e)=> {
+            CardMouseEnter = new EventHandler((s, e) => {
                 TitleLabel.ForeColor = Color.DeepSkyBlue;
             });
             CardMouseLeave = new EventHandler((s, e) => {
@@ -464,10 +477,10 @@ namespace GamerSkyLite_CS.Controls
             PublishTimeLabel.MouseEnter += CardMouseEnter;
             PublishTimeLabel.MouseLeave += CardMouseLeave;
 
-            ButtonMouseEnter = new EventHandler((s,e)=> {(s as Label).ImageIndex = 1;});
-            ButtonMouseDown = new MouseEventHandler((s,e)=> {(s as Label).ImageIndex = 0;});
-            ButtonMouseUp = new MouseEventHandler((s,e)=> {(s as Label).ImageIndex = 1;});
-            ButtonMouseLeave = new EventHandler((s,e)=> {(s as Label).ImageIndex = 0;});
+            ButtonMouseEnter = new EventHandler((s, e) => { (s as Label).ImageIndex = 1; });
+            ButtonMouseDown = new MouseEventHandler((s, e) => { (s as Label).ImageIndex = 0; });
+            ButtonMouseUp = new MouseEventHandler((s, e) => { (s as Label).ImageIndex = 1; });
+            ButtonMouseLeave = new EventHandler((s, e) => { (s as Label).ImageIndex = 0; });
 
             LocationButton.MouseEnter += ButtonMouseEnter;
             BrowseButton.MouseEnter += ButtonMouseEnter;
@@ -486,12 +499,14 @@ namespace GamerSkyLite_CS.Controls
             DeleteButton.MouseLeave += ButtonMouseLeave;
 
             //释放时需要置空，结束分析和下载线程
-            this.Disposed += new EventHandler((s, e)=> {
-                DownloadArticleThread?.Abort();
-                DownloadArticleThread = null;
+            this.Disposed += new EventHandler((s, e) => {
                 AnalyseArticleThread?.Abort();
+                DownloadArticleThread?.Abort();
                 AnalyseArticleThread = null;
+                DownloadArticleThread = null;
+
                 base.Dispose();
+                UnityModule.DebugPrint("Dispose: ArticleCard()");
             });
         }
 
@@ -559,7 +574,7 @@ namespace GamerSkyLite_CS.Controls
                 {
                     ContentString = UnityWebClient.DownloadString(PageAddress);
                 }
-                catch (ThreadAbortException) { }
+                catch (ThreadAbortException ex) { throw ex; }
                 catch (Exception ex)
                 {
                     UnityModule.DebugPrint("下载文章遇到错误：{0} - {1}", PageAddress, ex.Message);
@@ -650,7 +665,7 @@ namespace GamerSkyLite_CS.Controls
                             }
                         }
                     }
-                    catch (ThreadAbortException) { }
+                    catch (ThreadAbortException ex) { throw ex; }
                     catch (IOException) { }
                     catch (Exception) { }
                 }
@@ -734,7 +749,7 @@ namespace GamerSkyLite_CS.Controls
                                         ImageClient.DownloadFile(ContentLink, ContentPath);
                                         UnityModule.DebugPrint("图像下载成功：{0}", ContentLink);
                                     }
-                                    catch (ThreadAbortException) { }
+                                    catch (ThreadAbortException ex) { throw ex; }
                                     catch (Exception ex)
                                     {
                                         ErrorCount++;
@@ -748,7 +763,7 @@ namespace GamerSkyLite_CS.Controls
                                 StateLabel.Text = string.Format("正在下载：{0} / {1}，{2}个失败", ContentIndex, ContentCount, ErrorCount);
                             }));
                         }
-                        catch (ThreadAbortException) { }
+                        catch (ThreadAbortException ex) { throw ex; }
                         catch (IOException) { }
                         catch (Exception) { }
                     }
@@ -784,7 +799,7 @@ namespace GamerSkyLite_CS.Controls
                             {
                                 ArticleStream.WriteLine(@"<img src="".\{0}"" alt=""{1}""><br>{2}<br><hr>",Path.GetFileName(ContentRow["ImagePath"] as string), ContentRow["Link"], ContentRow["Description"]);
                             }
-                            catch (ThreadAbortException) { }
+                            catch (ThreadAbortException ex) { throw ex; }
                             catch (Exception ex)
                             {
                                 UnityModule.DebugPrint("组装文章时遇到错误：{0}", ex.Message);
@@ -797,7 +812,7 @@ namespace GamerSkyLite_CS.Controls
                 ArticleStream.Write("\n<hr><<<< 文章结束 >>>></center></body></html>");
                 UnityModule.DebugPrint("文章组装完成：{0}", ArticleID);
             }
-            catch (ThreadAbortException) { }
+            catch (ThreadAbortException ex) { throw ex; }
             catch (Exception ex)
             {
                 UnityModule.DebugPrint("导出文章时遇到错误：{0}", ex.Message);
@@ -856,7 +871,7 @@ namespace GamerSkyLite_CS.Controls
                         catch { }
                     }));
                 }
-                catch (ThreadAbortException) { }
+                catch (ThreadAbortException ex) { throw ex; }
                 catch (IOException) { }
                 catch (Exception) { }
             }));
