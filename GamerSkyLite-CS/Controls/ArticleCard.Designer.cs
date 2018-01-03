@@ -73,6 +73,7 @@
             // 
             // StateLabel
             // 
+            this.StateLabel.AutoEllipsis = true;
             this.StateLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.StateLabel.Font = new System.Drawing.Font("微软雅黑", 9.5F);
             this.StateLabel.ForeColor = System.Drawing.Color.DeepSkyBlue;
@@ -110,6 +111,7 @@
             // 
             // PublishTimeLabel
             // 
+            this.PublishTimeLabel.AutoEllipsis = true;
             this.PublishTimeLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PublishTimeLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.PublishTimeLabel.ForeColor = System.Drawing.Color.Silver;
@@ -128,7 +130,7 @@
             this.DescriptionLabel.AutoEllipsis = true;
             this.UnityLayoutPanel.SetColumnSpan(this.DescriptionLabel, 5);
             this.DescriptionLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DescriptionLabel.Font = new System.Drawing.Font("微软雅黑", 10.5F);
+            this.DescriptionLabel.Font = new System.Drawing.Font("微软雅黑", 9.5F);
             this.DescriptionLabel.ForeColor = System.Drawing.Color.DimGray;
             this.DescriptionLabel.Location = new System.Drawing.Point(201, 33);
             this.DescriptionLabel.Margin = new System.Windows.Forms.Padding(1);
@@ -154,6 +156,7 @@
             // 
             // TitleLabel
             // 
+            this.TitleLabel.AutoEllipsis = true;
             this.UnityLayoutPanel.SetColumnSpan(this.TitleLabel, 2);
             this.TitleLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TitleLabel.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));

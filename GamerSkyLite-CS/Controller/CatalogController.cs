@@ -20,7 +20,7 @@ namespace GamerSkyLite_CS.Controller
         /// </summary>
         /// <param name="CatalogAddress">文章目录地址</param>
         /// <param name="UnityDBController">数据库连接</param>
-        public static void GetCatalog(string CatalogAddress,DataBaseController UnityDBController)
+        public static void GetCatalog(string CatalogAddress)
         {
             UnityModule.DebugPrint("更新文章目录：{0}", CatalogAddress);
             string CatalogString = string.Empty;
@@ -73,24 +73,29 @@ namespace GamerSkyLite_CS.Controller
 
                     //预处理
                     if (!ArticleLink.StartsWith(UnityModule.WebSite)) ArticleLink = FileController.LinkCombine(UnityModule.WebSite, ArticleLink);
-                    Description = Description.Replace("\n", "");
-
-                    if (UnityDBController.ExecuteScalar("SELECT ArticleID FROM CatalogBase WHERE ArticleID='{0}'", ArticleID) == null)
+                    Title.Replace("'", "");
+                    Description = Description.Replace("\n", "").Replace("'", "");
+                    //lock (UnityModule.UnityDBController)
                     {
-                        UnityModule.DebugPrint("》》》发现新文章：{0}", ArticleID);
-                        UnityDBController.ExecuteNonQuery("INSERT INTO CatalogBase (ArticleID, Title, ArticleLink, ImagePath, ImageLink, Description, PublishTime) VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')",
-                            ArticleID,
-                            Title,
-                            ArticleLink,
-                            ImagePath,
-                            ImageLink,
-                            Description,
-                            PublishTime
-                        );
-                    }
-                    else
-                    {
-                        UnityModule.DebugPrint("》》》已经存在的文章：{0}", ArticleID);
+                        if (UnityModule.UnityDBController.ExecuteScalar("SELECT ArticleID FROM CatalogBase WHERE ArticleID='{0}'", ArticleID) == null)
+                        {
+                            UnityModule.DebugPrint("》》》发现新文章：{0}", ArticleID);
+                            UnityModule.UnityDBController.ExecuteNonQuery("INSERT INTO CatalogBase (ArticleID, Title, ArticleLink, ImagePath, ImageLink, Description, PublishTime, IsNew) VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', YES)",
+                                ArticleID,
+                                Title,
+                                ArticleLink,
+                                ImagePath,
+                                ImageLink,
+                                Description,
+                                PublishTime
+                            );
+                        }
+                        else
+                        {
+                            //去除新文章标识
+                            UnityModule.UnityDBController.ExecuteNonQuery("UPDATE CatalogBase SET IsNew = NO WHERE ArticleID='{0}'", ArticleID);
+                            UnityModule.DebugPrint("》》》已经存在的文章：{0}", ArticleID);
+                        }
                     }
                 }
             }

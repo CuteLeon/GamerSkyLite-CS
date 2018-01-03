@@ -119,7 +119,7 @@ namespace GamerSkyLite_CS
             //更新文章目录
             try
             {
-                CatalogController.GetCatalog(UnityModule.CatalogAddress, UnityModule.UnityDBController);
+                CatalogController.GetCatalog(UnityModule.CatalogAddress);
             }
             catch (Exception ex)
             {

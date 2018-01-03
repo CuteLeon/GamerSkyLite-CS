@@ -18,8 +18,6 @@ using LeonUI.Forms;
 
 namespace GamerSkyLite_CS.Controls
 {
-    //TODO:启动时计算是否已经缓存文章，已经缓存的要区别显示
-    //TODO:新加入的文章要区别显示
     //TODO: CS增加截图
     //TODO:增加浏览器控件
     //TODO:侧边增加刷新按钮；
@@ -165,6 +163,11 @@ namespace GamerSkyLite_CS.Controls
             }
         }
 
+        /// <summary>
+        /// 是否是新文章
+        /// </summary>
+        private bool IsNew = false;
+
         private string _articleLink = string.Empty;
         /// <summary>
         /// 文章链接
@@ -230,8 +233,8 @@ namespace GamerSkyLite_CS.Controls
             {
                 try
                 {
-                    this.Invoke(new Action(() =>
-                    {
+                    UnityModule.DebugPrint("更换文章[{0}]状态：{1}", ArticleID, value.ToString());
+                    this.Invoke(new Action(() =>{
                         _state = value;
                         switch (value)
                         {
@@ -331,6 +334,8 @@ namespace GamerSkyLite_CS.Controls
                                 }
                             case StateEnum.DownloadFinish:
                                 {
+                                if (Directory.Exists(DownloadDirectory))
+                                    ContentCount = Directory.GetFiles(DownloadDirectory).Length;
                                     if (ErrorCount > 0)
                                     {
                                         StateLabel.ForeColor = Color.Orange;
@@ -353,7 +358,10 @@ namespace GamerSkyLite_CS.Controls
                     }));
                 }
                 catch (ThreadAbortException) { }
-                catch (IOException) { }
+                catch (IOException ex)
+                {
+                    UnityModule.DebugPrint("文章[{0}]更改State时遇到IOException异常：{1}", ArticleID, ex.Message);
+                }
                 catch (Exception) { }
             }
         }
@@ -404,14 +412,12 @@ namespace GamerSkyLite_CS.Controls
 
         #endregion
 
-        public ArticleCard()
+        private ArticleCard()
         {
             InitializeComponent();
-            InitializeControl();
-            AttachEvent();
         }
 
-        public ArticleCard(string articleID, string title , string description , string time , string imageLink , string imagePath) : this()
+        public ArticleCard(string articleID, string title , string description , string time , string imageLink , string imagePath, string articleLink, bool isNew) : this()
         {
             ArticleID = articleID;
             Title = title;
@@ -419,6 +425,11 @@ namespace GamerSkyLite_CS.Controls
             PublishTime = time;
             ImageLink = imageLink;
             ImagePath = imagePath;
+            ArticleLink = articleLink;
+            IsNew = isNew;
+
+            InitializeControl();
+            AttachEvent();
         }
 
         private void ArticleCard_Paint(object sender, PaintEventArgs e)
@@ -434,10 +445,10 @@ namespace GamerSkyLite_CS.Controls
         private void AttachEvent()
         {
             CardMouseEnter = new EventHandler((s,e)=> {
-                TitleLabel.ForeColor = Color.OrangeRed;
+                TitleLabel.ForeColor = Color.DeepSkyBlue;
             });
             CardMouseLeave = new EventHandler((s, e) => {
-                TitleLabel.ForeColor = Color.Black;
+                TitleLabel.ForeColor = IsNew ? Color.OrangeRed : Color.Black;
             });
 
             this.MouseEnter += CardMouseEnter;
@@ -476,7 +487,10 @@ namespace GamerSkyLite_CS.Controls
 
             //释放时需要置空，结束分析和下载线程
             this.Disposed += new EventHandler((s, e)=> {
-                State = StateEnum.None;
+                DownloadArticleThread?.Abort();
+                DownloadArticleThread = null;
+                AnalyseArticleThread?.Abort();
+                AnalyseArticleThread = null;
                 base.Dispose();
             });
         }
@@ -488,7 +502,8 @@ namespace GamerSkyLite_CS.Controls
         {
             LocationButton.ImageList = new ImageList
             {
-                ImageSize = new Size(28, 28)
+                ColorDepth = ColorDepth.Depth24Bit,
+                ImageSize = new Size(28, 28),
             };
             LocationButton.ImageList.Images.Add(UnityResource.Location_0);
             LocationButton.ImageList.Images.Add(UnityResource.Location_1);
@@ -496,7 +511,8 @@ namespace GamerSkyLite_CS.Controls
 
             BrowseButton.ImageList = new ImageList()
             {
-                ImageSize = new Size(28, 28)
+                ColorDepth = ColorDepth.Depth24Bit,
+                ImageSize = new Size(28, 28),
             };
             BrowseButton.ImageList.Images.Add(UnityResource.Browser_0);
             BrowseButton.ImageList.Images.Add(UnityResource.Browser_1);
@@ -504,11 +520,22 @@ namespace GamerSkyLite_CS.Controls
 
             DeleteButton.ImageList = new ImageList()
             {
-                ImageSize = new Size(28, 28)
+                ColorDepth = ColorDepth.Depth24Bit,
+                ImageSize = new Size(28, 28),
             };
             DeleteButton.ImageList.Images.Add(UnityResource.Delete_0);
             DeleteButton.ImageList.Images.Add(UnityResource.Delete_1);
             DeleteButton.ImageIndex = 0;
+        }
+
+        public void Ini()
+        {
+            TitleLabel.ForeColor = IsNew ? Color.OrangeRed : Color.Black;
+            TitleLabel.Font = new Font(TitleLabel.Font, IsNew ? FontStyle.Bold : FontStyle.Regular);
+
+            //已经缓存的文章置为下载完成状态
+            if (Directory.Exists(DownloadDirectory) && Directory.GetFiles(DownloadDirectory).Length > 0)
+                State = StateEnum.DownloadFinish;
         }
 
         /// <summary>

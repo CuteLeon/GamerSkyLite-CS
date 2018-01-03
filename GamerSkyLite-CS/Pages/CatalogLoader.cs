@@ -37,16 +37,18 @@ namespace GamerSkyLite_CS
                     {
                         try
                         {
-                            ArticleCard NewArticleCard = new ArticleCard()
+                            ArticleCard NewArticleCard = new ArticleCard(
+                                CatalogRow["ArticleID"] as string,
+                                CatalogRow["Title"] as string,
+                                CatalogRow["Description"] as string,
+                                CatalogRow["PublishTime"] as string,
+                                CatalogRow["ImageLink"] as string,
+                                CatalogRow["ImagePath"] as string,
+                                CatalogRow["ArticleLink"] as string,
+                                Convert.ToBoolean(CatalogRow["IsNew"])
+                                )
                             {
-                                //赋值顺序不可更换
-                                ArticleID = CatalogRow["ArticleID"] as string,
-                                Title = CatalogRow["Title"] as string,
-                                ArticleLink = CatalogRow["ArticleLink"] as string,
-                                ImageLink = CatalogRow["ImageLink"] as string,
-                                ImagePath = CatalogRow["ImagePath"] as string,
-                                Description = CatalogRow["Description"] as string,
-                                PublishTime = CatalogRow["PublishTime"] as string,
+                                Name = string.Format("Article_{0}", CatalogRow["ArticleID"] as string),
                             };
                             UnityModule.DebugPrint("读取到文章：{0}-{1}", NewArticleCard.ArticleID, NewArticleCard.Title);
 
@@ -76,6 +78,7 @@ namespace GamerSkyLite_CS
                             {
                                 CatalogLayoutPanel.Controls.Add(NewArticleCard);
                                 NewArticleCard.Show();
+                                NewArticleCard.Ini();
                                 CatalogLayoutPanel.Invalidate();
                                 Application.DoEvents();
                             }));
@@ -92,6 +95,20 @@ namespace GamerSkyLite_CS
             CatalogAdapter.Dispose();
 
             UnityModule.DebugPrint("======<<<目录加载完毕！>>>======");
+        }
+
+        /// <summary>
+        /// 扫描本地缓存文章
+        /// </summary>
+        private void ScanLocalArticle()
+        {
+            foreach (string ArticleDirectory in Directory.GetDirectories(UnityModule.ContentDirectory))
+            {
+                if (CatalogLayoutPanel.Controls.Find("Article_" + Path.GetDirectoryName(ArticleDirectory), false).Length == 0)
+                {
+                    //加入缓存的文章
+                }
+            }
         }
 
     }
