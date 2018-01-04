@@ -658,7 +658,6 @@ namespace GamerSkyLite_CS.Controls
                         //获取图像描述
                         string[] TempDescription = Regex.Split(ContentWithoutNL, "<br>");
                         Description = TempDescription.Length > 1 ? TempDescription.Last() : "";
-                        if (Description.StartsWith("\n")) Description = Description.Substring(1);
 
                         this.Invoke(new Action(() =>
                         {
