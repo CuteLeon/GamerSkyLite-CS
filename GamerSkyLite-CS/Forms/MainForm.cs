@@ -63,16 +63,21 @@ namespace GamerSkyLite_CS
                     case UIStateEnum.Catalog:
                         {
                             this.Text = "GamerSky-Lite [需求才是第一生产力]";
+                            LogPanel.Hide();
                             ArticleBrowser?.Hide();
                             ArticleBrowser?.Dispose();
                             ArticleBrowser = null;
                             GC.Collect();
+
+                            MainPanel.Show();
+                            MainPanel.Dock = DockStyle.Fill;
                             CatalogLayoutPanel.Show();
                             CatalogLayoutPanel.Dock = DockStyle.Fill;
                             break;
                         }
                     case UIStateEnum.Article:
                         {
+                            LogPanel.Hide();
                             CatalogLayoutPanel.Hide();
                             if (ArticleBrowser == null)
                             {
@@ -81,13 +86,19 @@ namespace GamerSkyLite_CS
                                     Margin = new Padding(0, 0, 0, 0),
                                 };
                             }
-                            if (ArticleBrowser!=null)
-                            {
-                                MainPanel.Controls.Add(ArticleBrowser);
-                                ArticleBrowser.BringToFront();
-                                ArticleBrowser.Show();
-                                ArticleBrowser.Dock = DockStyle.Fill;
-                            }
+                            MainPanel.Show();
+                            MainPanel.Dock = DockStyle.Fill;
+                            MainPanel.Controls.Add(ArticleBrowser);
+                            ArticleBrowser.BringToFront();
+                            ArticleBrowser.Show();
+                            ArticleBrowser.Dock = DockStyle.Fill;
+                            break;
+                        }
+                    case UIStateEnum.Log:
+                        {
+                            MainPanel.Hide();
+                            LogPanel.Show();
+                            LogPanel.Dock = DockStyle.Fill;
                             break;
                         }
                 }
@@ -103,6 +114,10 @@ namespace GamerSkyLite_CS
             /// 文章界面
             /// </summary>
             Article=1,
+            /// <summary>
+            /// Log界面
+            /// </summary>
+            Log=2,
         }
 
         #endregion
@@ -306,6 +321,19 @@ namespace GamerSkyLite_CS
             RefreshButton.MouseDown += ButtonMouseDown;
             RefreshButton.MouseUp += ButtonMouseUp;
             RefreshButton.MouseLeave += ButtonMouseLeave;
+
+            LogButton.MouseEnter += ButtonMouseEnter;
+            LogButton.MouseDown += ButtonMouseDown;
+            LogButton.MouseUp += ButtonMouseUp;
+            LogButton.MouseLeave += ButtonMouseLeave;
+
+            SQLTextBox.GotFocus += new EventHandler((s,e)=> {
+                if (SQLTextBox.Text == "输入SQL指令，按Enter键执行...") SQLTextBox.Text = "";
+            });
+            SQLTextBox.LostFocus += new EventHandler((s, e) =>
+            {
+                if (SQLTextBox.Text == "") SQLTextBox.Text = "输入SQL指令，按Enter键执行...";
+            });
         }
 
         /// <summary>
@@ -334,6 +362,17 @@ namespace GamerSkyLite_CS
             RefreshButton.ImageList.Images.Add(UnityResource.Refresh_0);
             RefreshButton.ImageList.Images.Add(UnityResource.Refresh_1);
             RefreshButton.ImageIndex = 0;
+
+            LogButton.ImageList = new ImageList
+            {
+                ColorDepth = ColorDepth.Depth24Bit,
+                ImageSize = new Size(50, 50),
+            };
+            LogButton.ImageList.Images.Add(UnityResource.Log_0);
+            LogButton.ImageList.Images.Add(UnityResource.Log_1);
+            LogButton.ImageIndex = 0;
+
+            UIState = UIStateEnum.Catalog;
         }
 
         /// <summary>
@@ -401,14 +440,6 @@ namespace GamerSkyLite_CS
             }
         }
 
-        /// <summary>
-        /// 切换界面
-        /// </summary>
-        private void ExchangePanel()
-        {
-            UIState = UIState == UIStateEnum.Article ? UIStateEnum.Catalog : UIStateEnum.Article;
-        }
-
         #endregion
 
         private void CatalogLayoutPanel_Paint(object sender, PaintEventArgs e)
@@ -424,22 +455,49 @@ namespace GamerSkyLite_CS
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Escape || e.KeyCode == Keys.Back)
+            if (e.KeyCode == Keys.Escape)
             {
-                if (UIState == UIStateEnum.Article)
+                switch (UIState)
                 {
-                    UIState = UIStateEnum.Catalog;
-                }
-                else
-                {
-                    this.Close();
+                    case UIStateEnum.Catalog:
+                        {
+                            this.Close();
+                            break;
+                        }
+                    case UIStateEnum.Article:
+                        {
+                            UIState = UIStateEnum.Catalog;
+                            break;
+                        }
+                    case UIStateEnum.Log:
+                        {
+                            UIState = (ArticleBrowser == null ? UIStateEnum.Catalog : UIStateEnum.Article);
+                            break;
+                        }
                 }
             }
         }
 
         private void GoBackButton_Click(object sender, EventArgs e)
         {
-            ExchangePanel();
+            switch (UIState)
+            {
+                case UIStateEnum.Catalog:
+                    {
+                        this.Close();
+                        break;
+                    }
+                case UIStateEnum.Article:
+                    {
+                        UIState = UIStateEnum.Catalog;
+                        break;
+                    }
+                case UIStateEnum.Log:
+                    {
+                        UIState = (ArticleBrowser == null ? UIStateEnum.Catalog : UIStateEnum.Article);
+                        break;
+                    }
+            }
         }
 
         private void RefreshButton_Click(object sender, EventArgs e)
@@ -448,10 +506,23 @@ namespace GamerSkyLite_CS
             {
                 RefreshCatalog();
             }
-            else
+            else if (UIState == UIStateEnum.Article)
             {
                 ArticleBrowser.Refresh();
             }
+        }
+
+        private void LogButton_Click(object sender, EventArgs e)
+        {
+            UIState = UIStateEnum.Log;
+        }
+
+        private void SQLTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                if(SQLTextBox.Text !="")
+                    lock (UnityModule.UnityDBController)
+                        UnityModule.UnityDBController.ExecuteNonQuery(SQLTextBox.Text);
         }
     }
 }

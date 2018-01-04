@@ -89,7 +89,15 @@ namespace GamerSkyLite_CS
         /// <param name="DebugMessage">调试信息</param>
         static public void DebugPrint(string DebugMessage)
         {
-            Debug.Print(string.Format("{0}    {1}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), DebugMessage));
+            try
+            {
+                string LogMessage = string.Format("{0}    {1}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), DebugMessage);
+                Debug.Print(LogMessage);
+                Program.UnityMainForm.Invoke(new Action(()=> {
+                    Program.UnityMainForm.LogTextBox.AppendText(LogMessage + Environment.NewLine);
+                }));
+            }
+            catch { }
         }
 
         /// <summary>

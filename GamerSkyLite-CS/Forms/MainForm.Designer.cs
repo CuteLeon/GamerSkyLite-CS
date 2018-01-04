@@ -36,12 +36,17 @@
             this.RestoreButton = new LeonUI.TitleButtons.RestoreButton();
             this.MaxButton = new LeonUI.TitleButtons.MaxButton();
             this.CloseButton = new LeonUI.TitleButtons.CloseButton();
+            this.LogPanel = new GamerSkyLite_CS.Controls.PanelEx();
+            this.LogTextBox = new System.Windows.Forms.TextBox();
+            this.SQLTextBox = new System.Windows.Forms.TextBox();
             this.MainPanel = new GamerSkyLite_CS.Controls.PanelEx();
             this.CatalogLayoutPanel = new GamerSkyLite_CS.Controls.FlowLayoutPanelEx();
             this.ControlPanel = new GamerSkyLite_CS.Controls.FlowLayoutPanelEx();
             this.GoBackButton = new System.Windows.Forms.Label();
             this.RefreshButton = new System.Windows.Forms.Label();
+            this.LogButton = new System.Windows.Forms.Label();
             this.TitlePanel.SuspendLayout();
+            this.LogPanel.SuspendLayout();
             this.MainPanel.SuspendLayout();
             this.ControlPanel.SuspendLayout();
             this.SuspendLayout();
@@ -135,24 +140,64 @@
             this.CloseButton.Size = new System.Drawing.Size(30, 30);
             this.CloseButton.TabIndex = 1;
             // 
+            // LogPanel
+            // 
+            this.LogPanel.Controls.Add(this.LogTextBox);
+            this.LogPanel.Controls.Add(this.SQLTextBox);
+            this.LogPanel.Location = new System.Drawing.Point(65, 328);
+            this.LogPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.LogPanel.Name = "LogPanel";
+            this.LogPanel.Padding = new System.Windows.Forms.Padding(5);
+            this.LogPanel.Size = new System.Drawing.Size(727, 267);
+            this.LogPanel.TabIndex = 5;
+            // 
+            // LogTextBox
+            // 
+            this.LogTextBox.BackColor = System.Drawing.Color.White;
+            this.LogTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.LogTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LogTextBox.Location = new System.Drawing.Point(5, 27);
+            this.LogTextBox.Multiline = true;
+            this.LogTextBox.Name = "LogTextBox";
+            this.LogTextBox.ReadOnly = true;
+            this.LogTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.LogTextBox.Size = new System.Drawing.Size(717, 235);
+            this.LogTextBox.TabIndex = 6;
+            this.LogTextBox.WordWrap = false;
+            // 
+            // SQLTextBox
+            // 
+            this.SQLTextBox.BackColor = System.Drawing.Color.White;
+            this.SQLTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.SQLTextBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.SQLTextBox.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.SQLTextBox.ForeColor = System.Drawing.Color.OrangeRed;
+            this.SQLTextBox.Location = new System.Drawing.Point(5, 5);
+            this.SQLTextBox.Margin = new System.Windows.Forms.Padding(0);
+            this.SQLTextBox.Name = "SQLTextBox";
+            this.SQLTextBox.Size = new System.Drawing.Size(717, 22);
+            this.SQLTextBox.TabIndex = 5;
+            this.SQLTextBox.Text = "输入SQL指令，按Enter键执行...";
+            this.SQLTextBox.WordWrap = false;
+            this.SQLTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SQLTextBox_KeyDown);
+            // 
             // MainPanel
             // 
             this.MainPanel.Controls.Add(this.CatalogLayoutPanel);
-            this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainPanel.Location = new System.Drawing.Point(65, 37);
+            this.MainPanel.Margin = new System.Windows.Forms.Padding(0);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(730, 558);
+            this.MainPanel.Size = new System.Drawing.Size(730, 285);
             this.MainPanel.TabIndex = 4;
             // 
             // CatalogLayoutPanel
             // 
             this.CatalogLayoutPanel.AutoScroll = true;
-            this.CatalogLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CatalogLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.CatalogLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.CatalogLayoutPanel.Location = new System.Drawing.Point(21, 13);
             this.CatalogLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
             this.CatalogLayoutPanel.Name = "CatalogLayoutPanel";
-            this.CatalogLayoutPanel.Size = new System.Drawing.Size(730, 558);
+            this.CatalogLayoutPanel.Size = new System.Drawing.Size(520, 261);
             this.CatalogLayoutPanel.TabIndex = 3;
             this.CatalogLayoutPanel.WrapContents = false;
             this.CatalogLayoutPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.CatalogLayoutPanel_Paint);
@@ -161,6 +206,7 @@
             // 
             this.ControlPanel.Controls.Add(this.GoBackButton);
             this.ControlPanel.Controls.Add(this.RefreshButton);
+            this.ControlPanel.Controls.Add(this.LogButton);
             this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.ControlPanel.Location = new System.Drawing.Point(5, 37);
             this.ControlPanel.Margin = new System.Windows.Forms.Padding(0);
@@ -190,12 +236,23 @@
             this.RefreshButton.TabIndex = 6;
             this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
             // 
+            // LogButton
+            // 
+            this.LogButton.Image = global::GamerSkyLite_CS.UnityResource.Log_0;
+            this.LogButton.Location = new System.Drawing.Point(5, 145);
+            this.LogButton.Margin = new System.Windows.Forms.Padding(5);
+            this.LogButton.Name = "LogButton";
+            this.LogButton.Size = new System.Drawing.Size(50, 50);
+            this.LogButton.TabIndex = 7;
+            this.LogButton.Click += new System.EventHandler(this.LogButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(800, 600);
+            this.Controls.Add(this.LogPanel);
             this.Controls.Add(this.MainPanel);
             this.Controls.Add(this.ControlPanel);
             this.Controls.Add(this.TitlePanel);
@@ -214,6 +271,8 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.TitlePanel.ResumeLayout(false);
+            this.LogPanel.ResumeLayout(false);
+            this.LogPanel.PerformLayout();
             this.MainPanel.ResumeLayout(false);
             this.ControlPanel.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -234,6 +293,10 @@
         private System.Windows.Forms.Label GoBackButton;
         private System.Windows.Forms.Label RefreshButton;
         private Controls.PanelEx MainPanel;
+        private System.Windows.Forms.Label LogButton;
+        private Controls.PanelEx LogPanel;
+        public System.Windows.Forms.TextBox SQLTextBox;
+        public System.Windows.Forms.TextBox LogTextBox;
     }
 }
 

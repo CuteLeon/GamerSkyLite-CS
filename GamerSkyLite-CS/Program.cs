@@ -8,6 +8,8 @@ namespace GamerSkyLite_CS
 {
     static class Program
     {
+        public static MainForm UnityMainForm = null;
+
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -16,7 +18,8 @@ namespace GamerSkyLite_CS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            UnityMainForm = new MainForm();
+            Application.Run(UnityMainForm);
         }
     }
 }
