@@ -25,7 +25,7 @@ namespace GamerSkyLite_CS
             OleDbDataAdapter CatalogAdapter = null;
             lock (UnityModule.UnityDBController)
             {
-                CatalogAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM CatalogBase");
+                CatalogAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM CatalogBase ORDER BY PublishTime DESC");
             }
             using (DataTable CatalogTable = new DataTable())
             {
