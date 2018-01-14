@@ -20,7 +20,7 @@ namespace GamerSkyLite_CS
         /// <summary>
         /// 文章目录地址
         /// </summary>
-        public static readonly string CatalogAddress = "http://www.gamersky.com/ent/qw/";
+        public static readonly string[] CatalogAddressList = new string[] { "http://www.gamersky.com/ent/qw/", "http://www.gamersky.com/ent/discovery/" };
         /// <summary>
         /// 网站地址
         /// </summary>

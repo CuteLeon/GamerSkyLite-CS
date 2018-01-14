@@ -19,6 +19,8 @@ namespace GamerSkyLite_CS
 {
     public partial class MainForm : Form
     {
+        //TODO:被下载过的文章才可以把IsNew置为No
+
         #region "REDRAW"
         const int WM_SIZE = 0x5;
         const int SIZE_MAXIMIZED = 0x2;
@@ -419,7 +421,8 @@ namespace GamerSkyLite_CS
             //更新文章目录
             try
             {
-                CatalogController.GetCatalog(UnityModule.CatalogAddress);
+                foreach(string CatalogAddress in UnityModule.CatalogAddressList)
+                    CatalogController.GetCatalog(CatalogAddress);
             }
             catch (Exception ex)
             {
