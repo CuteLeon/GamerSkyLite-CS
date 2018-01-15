@@ -92,8 +92,6 @@ namespace GamerSkyLite_CS.Controller
                         }
                         else
                         {
-                            //去除新文章标识
-                            UnityModule.UnityDBController.ExecuteNonQuery("UPDATE CatalogBase SET IsNew = NO WHERE ArticleID='{0}'", ArticleID);
                             UnityModule.DebugPrint("》》》已经存在的文章：{0}", ArticleID);
                         }
                     }

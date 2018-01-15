@@ -358,6 +358,8 @@ namespace GamerSkyLite_CS.Controls
                                         StateLabel.Text = string.Format("下载完成，共 {0} 个文件", ContentCount);
                                     }
                                     DownloadButton.Text = "已完成";
+                                    //文章状态置为非新文章
+                                    UnityModule.UnityDBController.ExecuteNonQuery("UPDATE CatalogBase SET IsNew = NO WHERE ArticleID='{0}'", ArticleID);
                                     break;
                                 }
                             default:
