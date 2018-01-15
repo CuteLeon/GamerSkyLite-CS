@@ -504,6 +504,7 @@ namespace GamerSkyLite_CS
 
         private void RefreshButton_Click(object sender, EventArgs e)
         {
+            RefreshButton.Enabled = false;
             if (UIState == UIStateEnum.Catalog)
             {
                 RefreshCatalog();
@@ -512,6 +513,7 @@ namespace GamerSkyLite_CS
             {
                 ArticleBrowser.Refresh();
             }
+            RefreshButton.Enabled = true;
         }
 
         private void LogButton_Click(object sender, EventArgs e)
