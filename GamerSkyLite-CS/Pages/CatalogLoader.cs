@@ -39,11 +39,11 @@ namespace GamerSkyLite_CS
                         {
                             ArticleCard NewArticleCard = new ArticleCard(
                                 CatalogRow["ArticleID"] as string,
-                                CatalogRow["Title"] as string,
-                                CatalogRow["Description"] as string,
-                                CatalogRow["PublishTime"] as string,
-                                CatalogRow["ImageLink"] as string,
-                                CatalogRow["ImagePath"] as string,
+                                CatalogRow["Title"] as string ?? string.Format("文章-{0}", CatalogRow["ArticleID"] as string),
+                                CatalogRow["Description"] as string ?? "文章描述",
+                                CatalogRow["PublishTime"] as string ?? "yyyy-MM-dd hh:mm:ss",
+                                CatalogRow["ImageLink"] as string ?? "",
+                                CatalogRow["ImagePath"] as string ?? "",
                                 CatalogRow["ArticleLink"] as string,
                                 Convert.ToBoolean(CatalogRow["IsNew"])
                                 )
@@ -53,7 +53,7 @@ namespace GamerSkyLite_CS
                             UnityModule.DebugPrint("读取到文章：{0}-{1}", NewArticleCard.ArticleID, NewArticleCard.Title);
                             NewArticleCard.Click += BrowseArticle;
                             //按日期分割添加日期标签
-                            TempDate = Convert.ToDateTime((CatalogRow["PublishTime"] as string).Split(' ').First()).Date;
+                            TempDate = Convert.ToDateTime((CatalogRow["PublishTime"] as string ?? DateTime.Now.ToString("yyy-MM-dd hh:mm:ss")).Split(' ').First() ?? "").Date;
                             this.Invoke(new Action(() =>
                             {
                                 if (TempDate != GroupDate)

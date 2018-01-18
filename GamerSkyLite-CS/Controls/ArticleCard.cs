@@ -101,7 +101,12 @@ namespace GamerSkyLite_CS.Controls
                 {
                     UnityModule.DebugPrint("文章[{0}]目录图像不存在，尝试下载图像...", ArticleID);
                     //图像不存在，尝试下载图像
-                    if (ImageLink == string.Empty) throw new Exception("图像下载连接为空");
+                    if (ImageLink == string.Empty)
+                    {
+                        ImageLabel.Text = "图像下载连接为空，\n无法下载图像";
+                        //throw new Exception("图像下载连接为空");
+                        return; 
+                    }
                     using (WebClient ImageClient = new WebClient()
                     {
                         BaseAddress = ImageLink,
