@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -13,6 +15,7 @@ using System.Windows.Forms;
 using GamerSkyLite_CS.Controller;
 using GamerSkyLite_CS.Controls;
 using LeonUI;
+using LeonUI.Controls;
 using LeonUI.Forms;
 
 namespace GamerSkyLite_CS
@@ -287,7 +290,6 @@ namespace GamerSkyLite_CS
             UnityModule.DebugPrint("初始化事件列表");
             TitlePanel.MouseDown += new MouseEventHandler(UnityModule.MoveFormViaMouse);
             TitleLabel.MouseDown += new MouseEventHandler(UnityModule.MoveFormViaMouse);
-            IconLabel.MouseDown += new MouseEventHandler(UnityModule.MoveFormViaMouse);
 
             this.Resize += new EventHandler((s, e) => {
                 switch (this.WindowState)
@@ -527,6 +529,110 @@ namespace GamerSkyLite_CS
                 if(SQLTextBox.Text !="")
                     lock (UnityModule.UnityDBController)
                         UnityModule.UnityDBController.ExecuteNonQuery(SQLTextBox.Text);
+        }
+
+        private void IconLabel_Click(object sender, EventArgs e)
+        {
+            //最近发现经常发布了新文章后并没有发布在文章目录界面，我们来手动扫描~
+            int StartIndex = 1004000;
+            int EndIndex = 1006000;
+            string DateString = "201801";
+
+            using (Form InputForm = new Form()
+            {
+                BackColor = Color.White,
+                FormBorderStyle = FormBorderStyle.FixedToolWindow,
+                Size = new Size(240, 100),
+                StartPosition = FormStartPosition.CenterParent,
+                KeyPreview = true,
+            })
+            {
+                RoundedTextBox InputTextBox = new RoundedTextBox()
+                {
+                    BackColor = Color.White,
+                    Font = this.Font,
+                    ForeColor = Color.OrangeRed,
+                    TextAlign = HorizontalAlignment.Center,
+                    Dock = DockStyle.Top,
+                    Visible = true,
+                };
+                RoundedButton InputButton = new RoundedButton()
+                {
+                    Dock = DockStyle.Bottom,
+                    Text = "确定",
+                    BackColor = Color.White,
+                    Font = this.Font,
+                    ForeColor = Color.OrangeRed,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Height = 34,
+                    Visible = true,
+                };
+
+                InputForm.KeyDown += new KeyEventHandler((s, v) => { if (v.KeyCode == Keys.Enter) InputForm.DialogResult = DialogResult.OK; else if (v.KeyCode == Keys.Escape) InputForm.DialogResult = DialogResult.Cancel; });
+                InputButton.Click += new EventHandler((s, v) => { InputForm.DialogResult = DialogResult.OK; });
+
+                InputForm.Controls.Add(InputTextBox);
+                InputForm.Controls.Add(InputButton);
+
+                InputForm.Text = "请输入日期编码";
+                InputTextBox.Text = DateString;
+                if (InputForm.ShowDialog(this) != DialogResult.OK) return;
+                DateString = InputTextBox.Text.Trim();
+                UnityModule.DebugPrint("输入日期编码：{0}", DateString);
+
+                InputForm.Text = "请输入开始Index:";
+                InputTextBox.Text = StartIndex.ToString();
+                if (InputForm.ShowDialog(this) != DialogResult.OK) return;
+                if (!int.TryParse(InputTextBox.Text.Trim(), out StartIndex))  return;
+                UnityModule.DebugPrint("输入开始Index：{0}", StartIndex.ToString());
+
+                InputForm.Text = "请输入结束Index:";
+                InputTextBox.Text = EndIndex.ToString();
+                if (InputForm.ShowDialog(this) != DialogResult.OK) return;
+                if (!int.TryParse(InputTextBox.Text.Trim(), out EndIndex)) return;
+                UnityModule.DebugPrint("输入结束Index：{0}", EndIndex.ToString());
+
+                UnityModule.DebugPrint("======<开始并行扫描文章>======");
+                //开始扫描
+                ThreadPool.QueueUserWorkItem(new WaitCallback((x) => {
+                    Parallel.For(StartIndex, EndIndex, delegate (int Index) {
+                        try
+                        {
+                            using (WebClient ScanClient = new WebClient())
+                            {
+                                string Address = string.Format("http://www.gamersky.com/ent/{0}/{1}.shtml", DateString, Index);
+                                if (ScanClient.DownloadString(Address).Length > 0)
+                                {
+                                    if (((int)UnityModule.UnityDBController.ExecuteScalar("SELECT COUNT(*) FROM CatalogBase WHERE ArticleLink = '{0}'", Address)) == 0)
+                                    {
+                                        UnityModule.DebugPrint("发现新文章：{0}", Index);
+                                        UnityModule.UnityDBController.ExecuteNonQuery("INSERT INTO CatalogBase (ArticleID, Title, ArticleLink, ImagePath, ImageLink, Description, PublishTime, IsNew) VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', YES)",
+                                            Index.ToString(),
+                                            "扫描文章：" + Index.ToString(),
+                                            Address,
+                                            string.Empty,
+                                            string.Empty,
+                                            "手动扫描到的文章。",
+                                            DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                                        );
+                                    }
+                                }
+                            }
+                        }
+                        catch { }
+                    });
+                    UnityModule.DebugPrint("======<文章手动扫描结束>======");
+
+                    this.Invoke(new Action(()=> {
+                        new LeonMessageBox("文章手动扫描结束", "文章手动扫描结束，请手动刷新文章目录。", LeonMessageBox.IconType.Info).ShowDialog(this);
+                    }));
+                }));
+            }
+        }
+
+        private void ControlPanel_DoubleClick(object sender, EventArgs e)
+        {
+            Process.Start(Application.StartupPath);
         }
     }
 }

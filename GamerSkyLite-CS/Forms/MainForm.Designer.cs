@@ -86,6 +86,7 @@
             this.IconLabel.Name = "IconLabel";
             this.IconLabel.Size = new System.Drawing.Size(32, 32);
             this.IconLabel.TabIndex = 6;
+            this.IconLabel.Click += new System.EventHandler(this.IconLabel_Click);
             // 
             // MinButton
             // 
@@ -215,6 +216,7 @@
             this.ControlPanel.Size = new System.Drawing.Size(60, 558);
             this.ControlPanel.TabIndex = 2;
             this.ControlPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.ControlPanel_Paint);
+            this.ControlPanel.DoubleClick += new System.EventHandler(this.ControlPanel_DoubleClick);
             // 
             // GoBackButton
             // 
