@@ -165,10 +165,21 @@ namespace GamerSkyLite_CS.Controls
             }
         }
 
+        private bool _isNew = false;
         /// <summary>
         /// 是否是新文章
         /// </summary>
-        private bool IsNew = false;
+        public bool IsNew
+        {
+            get => _isNew;
+            set
+            {
+                _isNew = value;
+                TitleLabel.ForeColor = _isNew ? Color.OrangeRed : Color.Black;
+                TitleLabel.Font = new Font(TitleLabel.Font, _isNew ? FontStyle.Bold : FontStyle.Regular);
+
+            }
+        }
 
         private string _articleLink = string.Empty;
         /// <summary>
@@ -383,6 +394,7 @@ namespace GamerSkyLite_CS.Controls
                 catch (Exception) { }
             }
         }
+
         #endregion
 
         #region 私有变量
@@ -495,10 +507,12 @@ namespace GamerSkyLite_CS.Controls
             ButtonMouseUp = new MouseEventHandler((s, e) => { (s as Label).ImageIndex = 1; });
             ButtonMouseLeave = new EventHandler((s, e) => { (s as Label).ImageIndex = 0; });
 
+            ReadedButton.MouseEnter += ButtonMouseEnter;
             LocationButton.MouseEnter += ButtonMouseEnter;
             BrowseButton.MouseEnter += ButtonMouseEnter;
             DeleteButton.MouseEnter += ButtonMouseEnter;
 
+            ReadedButton.MouseDown += ButtonMouseDown;
             LocationButton.MouseDown += ButtonMouseDown;
             BrowseButton.MouseDown += ButtonMouseDown;
             DeleteButton.MouseDown += ButtonMouseDown;
@@ -507,6 +521,7 @@ namespace GamerSkyLite_CS.Controls
             BrowseButton.MouseUp += ButtonMouseUp;
             DeleteButton.MouseUp += ButtonMouseUp;
 
+            ReadedButton.MouseLeave += ButtonMouseLeave;
             LocationButton.MouseLeave += ButtonMouseLeave;
             BrowseButton.MouseLeave += ButtonMouseLeave;
             DeleteButton.MouseLeave += ButtonMouseLeave;
@@ -537,6 +552,15 @@ namespace GamerSkyLite_CS.Controls
         /// </summary>
         private void InitializeControl()
         {
+            ReadedButton.ImageList = new ImageList
+            {
+                ColorDepth = ColorDepth.Depth24Bit,
+                ImageSize = new Size(28, 28),
+            };
+            ReadedButton.ImageList.Images.Add(UnityResource.Flag_0);
+            ReadedButton.ImageList.Images.Add(UnityResource.Flag_1);
+            ReadedButton.ImageIndex = 0;
+
             LocationButton.ImageList = new ImageList
             {
                 ColorDepth = ColorDepth.Depth24Bit,
@@ -567,9 +591,6 @@ namespace GamerSkyLite_CS.Controls
 
         public void Ini()
         {
-            TitleLabel.ForeColor = IsNew ? Color.OrangeRed : Color.Black;
-            TitleLabel.Font = new Font(TitleLabel.Font, IsNew ? FontStyle.Bold : FontStyle.Regular);
-
             //已经缓存的文章置为下载完成状态
             if (Directory.Exists(DownloadDirectory) && Directory.GetFiles(DownloadDirectory).Length > 0)
                 State = StateEnum.DownloadFinish;
@@ -933,6 +954,13 @@ namespace GamerSkyLite_CS.Controls
                         break;
                     }
             }
+        }
+
+        private void ReadedButton_Click(object sender, EventArgs e)
+        {
+            if (new LeonMessageBox("Gamer-Sky", "要将此文章置为已读吗？", LeonMessageBox.IconType.Question).ShowDialog(this) == DialogResult.OK) 
+                if (UnityModule.UnityDBController.ExecuteNonQuery("UPDATE CatalogBase SET IsNew = NO WHERE ArticleID = '{0}'", ArticleID))
+                    IsNew = false;
         }
 
     }

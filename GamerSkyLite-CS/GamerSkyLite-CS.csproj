@@ -192,6 +192,8 @@
     <Content Include="LeonUI.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Flag_1.png" />
+    <None Include="Resources\Flag_0.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

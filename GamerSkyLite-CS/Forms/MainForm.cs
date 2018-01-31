@@ -315,6 +315,10 @@ namespace GamerSkyLite_CS
             MouseEventHandler ButtonMouseUp = new MouseEventHandler((s, e) => { (s as Label).ImageIndex = 1; });
             EventHandler ButtonMouseLeave = new EventHandler((s, e) => { (s as Label).ImageIndex = 0; });
 
+            ReadedButton.MouseEnter += ButtonMouseEnter;
+            ReadedButton.MouseDown += ButtonMouseDown;
+            ReadedButton.MouseLeave += ButtonMouseLeave;
+
             GoBackButton.MouseEnter += ButtonMouseEnter;
             GoBackButton.MouseDown += ButtonMouseDown;
             GoBackButton.MouseUp += ButtonMouseUp;
@@ -347,6 +351,15 @@ namespace GamerSkyLite_CS
             UnityModule.DebugPrint("初始化应用程序");
             this.Icon = UnityResource.GamerSky;
             IconLabel.Image = new Bitmap(UnityResource.GamerSky.ToBitmap(), 24, 24);
+
+            ReadedButton.ImageList = new ImageList
+            {
+                ColorDepth = ColorDepth.Depth24Bit,
+                ImageSize = new Size(28, 28),
+            };
+            ReadedButton.ImageList.Images.Add(UnityResource.Flag_0);
+            ReadedButton.ImageList.Images.Add(UnityResource.Flag_1);
+            ReadedButton.ImageIndex = 0;
 
             GoBackButton.ImageList = new ImageList
             {
@@ -634,5 +647,15 @@ namespace GamerSkyLite_CS
         {
             Process.Start(Application.StartupPath);
         }
+
+        private void ReadedButton_Click(object sender, EventArgs e)
+        {
+            if (new LeonMessageBox("Gamer-Sky","要将所有文章置为已读吗？",LeonMessageBox.IconType.Question).ShowDialog(this) == DialogResult.OK)
+                foreach (IComponent CatalogControl in CatalogLayoutPanel.Controls)
+                    if (CatalogControl is ArticleCard && (CatalogControl as ArticleCard).IsNew)
+                        if (UnityModule.UnityDBController.ExecuteNonQuery("UPDATE CatalogBase SET IsNew = NO WHERE ArticleID = '{0}'", (CatalogControl as ArticleCard).ArticleID))
+                            (CatalogControl as ArticleCard).IsNew = false;
+        }
+
     }
 }

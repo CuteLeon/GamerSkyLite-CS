@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TitlePanel = new System.Windows.Forms.Panel();
-            this.TitleLabel = new System.Windows.Forms.Label();
+            this.ReadedButton = new System.Windows.Forms.Label();
             this.IconLabel = new System.Windows.Forms.Label();
             this.MinButton = new LeonUI.TitleButtons.MinButton();
             this.RestoreButton = new LeonUI.TitleButtons.RestoreButton();
@@ -45,6 +45,7 @@
             this.GoBackButton = new System.Windows.Forms.Label();
             this.RefreshButton = new System.Windows.Forms.Label();
             this.LogButton = new System.Windows.Forms.Label();
+            this.TitleLabel = new System.Windows.Forms.Label();
             this.TitlePanel.SuspendLayout();
             this.LogPanel.SuspendLayout();
             this.MainPanel.SuspendLayout();
@@ -54,6 +55,7 @@
             // TitlePanel
             // 
             this.TitlePanel.Controls.Add(this.TitleLabel);
+            this.TitlePanel.Controls.Add(this.ReadedButton);
             this.TitlePanel.Controls.Add(this.IconLabel);
             this.TitlePanel.Controls.Add(this.MinButton);
             this.TitlePanel.Controls.Add(this.RestoreButton);
@@ -65,18 +67,16 @@
             this.TitlePanel.Size = new System.Drawing.Size(790, 32);
             this.TitlePanel.TabIndex = 0;
             // 
-            // TitleLabel
+            // ReadedButton
             // 
-            this.TitleLabel.AutoEllipsis = true;
-            this.TitleLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TitleLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.TitleLabel.Location = new System.Drawing.Point(32, 0);
-            this.TitleLabel.Name = "TitleLabel";
-            this.TitleLabel.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.TitleLabel.Size = new System.Drawing.Size(638, 32);
-            this.TitleLabel.TabIndex = 7;
-            this.TitleLabel.Text = "GamerSky-Lite [需求才是第一生产力]";
-            this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ReadedButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.ReadedButton.Image = global::GamerSkyLite_CS.UnityResource.Flag_0;
+            this.ReadedButton.Location = new System.Drawing.Point(642, 0);
+            this.ReadedButton.Margin = new System.Windows.Forms.Padding(2);
+            this.ReadedButton.Name = "ReadedButton";
+            this.ReadedButton.Size = new System.Drawing.Size(28, 32);
+            this.ReadedButton.TabIndex = 10;
+            this.ReadedButton.Click += new System.EventHandler(this.ReadedButton_Click);
             // 
             // IconLabel
             // 
@@ -248,6 +248,19 @@
             this.LogButton.TabIndex = 7;
             this.LogButton.Click += new System.EventHandler(this.LogButton_Click);
             // 
+            // TitleLabel
+            // 
+            this.TitleLabel.AutoEllipsis = true;
+            this.TitleLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TitleLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.TitleLabel.Location = new System.Drawing.Point(32, 0);
+            this.TitleLabel.Name = "TitleLabel";
+            this.TitleLabel.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.TitleLabel.Size = new System.Drawing.Size(610, 32);
+            this.TitleLabel.TabIndex = 11;
+            this.TitleLabel.Text = "GamerSky-Lite [需求才是第一生产力]";
+            this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -289,7 +302,6 @@
         private LeonUI.TitleButtons.MaxButton MaxButton;
         private LeonUI.TitleButtons.CloseButton CloseButton;
         private System.Windows.Forms.Label IconLabel;
-        private System.Windows.Forms.Label TitleLabel;
         private Controls.FlowLayoutPanelEx ControlPanel;
         private Controls.FlowLayoutPanelEx CatalogLayoutPanel;
         private System.Windows.Forms.Label GoBackButton;
@@ -299,6 +311,8 @@
         private Controls.PanelEx LogPanel;
         public System.Windows.Forms.TextBox SQLTextBox;
         public System.Windows.Forms.TextBox LogTextBox;
+        private System.Windows.Forms.Label ReadedButton;
+        private System.Windows.Forms.Label TitleLabel;
     }
 }
 

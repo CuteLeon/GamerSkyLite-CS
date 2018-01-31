@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ArticleCard));
             this.UnityLayoutPanel = new GamerSkyLite_CS.Controls.TableLayoutPanelEx();
+            this.ReadedButton = new System.Windows.Forms.Label();
             this.StateLabel = new System.Windows.Forms.Label();
             this.DeleteButton = new System.Windows.Forms.Label();
             this.BrowseButton = new System.Windows.Forms.Label();
@@ -44,22 +45,24 @@
             // 
             // UnityLayoutPanel
             // 
-            this.UnityLayoutPanel.ColumnCount = 6;
+            this.UnityLayoutPanel.ColumnCount = 7;
             this.UnityLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.UnityLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.UnityLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.UnityLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.UnityLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.UnityLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.UnityLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this.UnityLayoutPanel.Controls.Add(this.ReadedButton, 3, 0);
             this.UnityLayoutPanel.Controls.Add(this.StateLabel, 2, 2);
-            this.UnityLayoutPanel.Controls.Add(this.DeleteButton, 5, 0);
-            this.UnityLayoutPanel.Controls.Add(this.BrowseButton, 4, 0);
+            this.UnityLayoutPanel.Controls.Add(this.DeleteButton, 6, 0);
+            this.UnityLayoutPanel.Controls.Add(this.BrowseButton, 5, 0);
             this.UnityLayoutPanel.Controls.Add(this.PublishTimeLabel, 1, 2);
             this.UnityLayoutPanel.Controls.Add(this.DescriptionLabel, 1, 1);
             this.UnityLayoutPanel.Controls.Add(this.ImageLabel, 0, 0);
             this.UnityLayoutPanel.Controls.Add(this.TitleLabel, 1, 0);
-            this.UnityLayoutPanel.Controls.Add(this.LocationButton, 3, 0);
-            this.UnityLayoutPanel.Controls.Add(this.DownloadButton, 3, 2);
+            this.UnityLayoutPanel.Controls.Add(this.LocationButton, 4, 0);
+            this.UnityLayoutPanel.Controls.Add(this.DownloadButton, 4, 2);
             this.UnityLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.UnityLayoutPanel.Location = new System.Drawing.Point(0, 3);
             this.UnityLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
@@ -71,6 +74,17 @@
             this.UnityLayoutPanel.Size = new System.Drawing.Size(710, 112);
             this.UnityLayoutPanel.TabIndex = 0;
             // 
+            // ReadedButton
+            // 
+            this.ReadedButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ReadedButton.Image = global::GamerSkyLite_CS.UnityResource.Flag_0;
+            this.ReadedButton.Location = new System.Drawing.Point(582, 2);
+            this.ReadedButton.Margin = new System.Windows.Forms.Padding(2);
+            this.ReadedButton.Name = "ReadedButton";
+            this.ReadedButton.Size = new System.Drawing.Size(28, 28);
+            this.ReadedButton.TabIndex = 9;
+            this.ReadedButton.Click += new System.EventHandler(this.ReadedButton_Click);
+            // 
             // StateLabel
             // 
             this.StateLabel.AutoEllipsis = true;
@@ -79,10 +93,10 @@
             this.StateLabel.ForeColor = System.Drawing.Color.DeepSkyBlue;
             this.StateLabel.Image = global::GamerSkyLite_CS.UnityResource.DownloadIcon;
             this.StateLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.StateLabel.Location = new System.Drawing.Point(366, 83);
+            this.StateLabel.Location = new System.Drawing.Point(353, 83);
             this.StateLabel.Margin = new System.Windows.Forms.Padding(1);
             this.StateLabel.Name = "StateLabel";
-            this.StateLabel.Size = new System.Drawing.Size(245, 28);
+            this.StateLabel.Size = new System.Drawing.Size(226, 28);
             this.StateLabel.TabIndex = 8;
             this.StateLabel.Text = "爸爸，点旁边的按钮开始下载...";
             this.StateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -120,7 +134,7 @@
             this.PublishTimeLabel.Location = new System.Drawing.Point(201, 83);
             this.PublishTimeLabel.Margin = new System.Windows.Forms.Padding(1);
             this.PublishTimeLabel.Name = "PublishTimeLabel";
-            this.PublishTimeLabel.Size = new System.Drawing.Size(163, 28);
+            this.PublishTimeLabel.Size = new System.Drawing.Size(150, 28);
             this.PublishTimeLabel.TabIndex = 3;
             this.PublishTimeLabel.Text = "Time";
             this.PublishTimeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -128,7 +142,7 @@
             // DescriptionLabel
             // 
             this.DescriptionLabel.AutoEllipsis = true;
-            this.UnityLayoutPanel.SetColumnSpan(this.DescriptionLabel, 5);
+            this.UnityLayoutPanel.SetColumnSpan(this.DescriptionLabel, 6);
             this.DescriptionLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DescriptionLabel.Font = new System.Drawing.Font("微软雅黑", 9.5F);
             this.DescriptionLabel.ForeColor = System.Drawing.Color.DimGray;
@@ -164,7 +178,7 @@
             this.TitleLabel.Margin = new System.Windows.Forms.Padding(1);
             this.TitleLabel.Name = "TitleLabel";
             this.TitleLabel.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.TitleLabel.Size = new System.Drawing.Size(410, 30);
+            this.TitleLabel.Size = new System.Drawing.Size(378, 30);
             this.TitleLabel.TabIndex = 1;
             this.TitleLabel.Text = "Title";
             this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -230,5 +244,6 @@
         private System.Windows.Forms.Label BrowseButton;
         private LeonUI.Controls.RoundedButton DownloadButton;
         private System.Windows.Forms.Label StateLabel;
+        private System.Windows.Forms.Label ReadedButton;
     }
 }
