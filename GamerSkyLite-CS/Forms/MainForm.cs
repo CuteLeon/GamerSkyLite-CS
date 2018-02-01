@@ -67,6 +67,7 @@ namespace GamerSkyLite_CS
                     case UIStateEnum.Catalog:
                         {
                             this.Text = "GamerSky-Lite [需求才是第一生产力]";
+                            ReadedButton.Show();
                             LogPanel.Hide();
                             ArticleBrowser?.Hide();
                             ArticleBrowser?.Dispose();
@@ -81,6 +82,7 @@ namespace GamerSkyLite_CS
                         }
                     case UIStateEnum.Article:
                         {
+                            ReadedButton.Hide();
                             LogPanel.Hide();
                             CatalogLayoutPanel.Hide();
                             if (ArticleBrowser == null)
@@ -100,6 +102,7 @@ namespace GamerSkyLite_CS
                         }
                     case UIStateEnum.Log:
                         {
+                            ReadedButton.Hide();
                             MainPanel.Hide();
                             LogPanel.Show();
                             LogPanel.Dock = DockStyle.Fill;

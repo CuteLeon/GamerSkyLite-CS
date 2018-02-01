@@ -175,9 +175,9 @@ namespace GamerSkyLite_CS.Controls
             set
             {
                 _isNew = value;
+                ReadedButton.Visible = value;
                 TitleLabel.ForeColor = _isNew ? Color.OrangeRed : Color.Black;
                 TitleLabel.Font = new Font(TitleLabel.Font, _isNew ? FontStyle.Bold : FontStyle.Regular);
-
             }
         }
 
@@ -880,43 +880,67 @@ namespace GamerSkyLite_CS.Controls
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            State = StateEnum.None;
-
-            ThreadPool.QueueUserWorkItem(new WaitCallback((v) =>
+            if (State != StateEnum.None)
             {
-                try
+                DeleteButton.Enabled = false;
+                State = StateEnum.None;
+
+                ThreadPool.QueueUserWorkItem(new WaitCallback((v) =>
                 {
-                    lock (UnityModule.UnityDBController)
-                        if (UnityModule.UnityDBController != null && UnityModule.UnityDBController.IsConnected())
-                            UnityModule.UnityDBController.ExecuteNonQuery("DELETE FROM ArticleBase WHERE ArticleID='{0}'", ArticleID);
-
-                    //清空数据库项目
-                    if (Directory.Exists(DownloadDirectory))
+                    try
                     {
-                        //删除缓存文件和文件夹
-                        foreach (string FilePath in Directory.GetFiles(DownloadDirectory))
-                            try { File.Delete(FilePath); } catch { }
-                        try { Directory.Delete(DownloadDirectory); } catch { }
-                    }
+                        lock (UnityModule.UnityDBController)
+                            if (UnityModule.UnityDBController != null && UnityModule.UnityDBController.IsConnected())
+                                UnityModule.UnityDBController.ExecuteNonQuery("DELETE FROM ArticleBase WHERE ArticleID='{0}'", ArticleID);
 
-                    //显示目录内文件总数
-                    this.Invoke(new Action(() =>
-                    {
-                        try
+                        //清空数据库项目
+                        if (Directory.Exists(DownloadDirectory))
                         {
-                            StateLabel.ForeColor = Color.DeepSkyBlue;
-                            if (Directory.Exists(DownloadDirectory))
-                                StateLabel.Text = string.Format("已下载文件数：{0}", Directory.GetFiles(DownloadDirectory));
-                            else
-                                StateLabel.Text = "爸爸，点旁边的按钮开始下载...";
+                            //删除缓存文件和文件夹
+                            foreach (string FilePath in Directory.GetFiles(DownloadDirectory))
+                                try { File.Delete(FilePath); } catch { }
+                            try { Directory.Delete(DownloadDirectory); } catch { }
                         }
-                        catch { }
+
+                        //显示目录内文件总数
+                        this.Invoke(new Action(() =>
+                        {
+                            try
+                            {
+                                StateLabel.ForeColor = Color.DeepSkyBlue;
+                                if (Directory.Exists(DownloadDirectory))
+                                    StateLabel.Text = string.Format("已下载文件数：{0}", Directory.GetFiles(DownloadDirectory));
+                                else
+                                    StateLabel.Text = "爸爸，点旁边的按钮开始下载...";
+                            }
+                            catch { }
+                        }));
+                    }
+                    catch (ThreadAbortException ex) { throw ex; }
+                    catch (IOException) { }
+                    catch (Exception) { }
+
+                    this.Invoke(new Action(()=> {
+                        DeleteButton.Enabled = true;
                     }));
+                }));
+            }
+            else
+            {
+                if (new LeonMessageBox("Gamer-Sky", "要彻底删除此文章记录吗？", LeonMessageBox.IconType.Question).ShowDialog(this) == DialogResult.OK) 
+                {
+                    UnityModule.UnityDBController.ExecuteNonQuery("DELETE FROM CatalogBase WHERE ArticleID='{0}'", ArticleID);
+                    try
+                    {
+                        if(File.Exists(ImagePath)) File.Delete(this.ImagePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        UnityModule.DebugPrint("彻底删除文章预览图像失败：{0}", ex.Message);
+                    }
+                    this.Dispose();
                 }
-                catch (ThreadAbortException ex) { throw ex; }
-                catch (IOException) { }
-                catch (Exception) { }
-            }));
+            }
         }
 
         private void DownloadButton_Click(object sender, EventArgs e)

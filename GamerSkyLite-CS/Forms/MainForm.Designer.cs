@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TitlePanel = new System.Windows.Forms.Panel();
+            this.TitleLabel = new System.Windows.Forms.Label();
             this.ReadedButton = new System.Windows.Forms.Label();
             this.IconLabel = new System.Windows.Forms.Label();
             this.MinButton = new LeonUI.TitleButtons.MinButton();
@@ -45,7 +46,6 @@
             this.GoBackButton = new System.Windows.Forms.Label();
             this.RefreshButton = new System.Windows.Forms.Label();
             this.LogButton = new System.Windows.Forms.Label();
-            this.TitleLabel = new System.Windows.Forms.Label();
             this.TitlePanel.SuspendLayout();
             this.LogPanel.SuspendLayout();
             this.MainPanel.SuspendLayout();
@@ -66,6 +66,19 @@
             this.TitlePanel.Name = "TitlePanel";
             this.TitlePanel.Size = new System.Drawing.Size(790, 32);
             this.TitlePanel.TabIndex = 0;
+            // 
+            // TitleLabel
+            // 
+            this.TitleLabel.AutoEllipsis = true;
+            this.TitleLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TitleLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.TitleLabel.Location = new System.Drawing.Point(32, 0);
+            this.TitleLabel.Name = "TitleLabel";
+            this.TitleLabel.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.TitleLabel.Size = new System.Drawing.Size(610, 32);
+            this.TitleLabel.TabIndex = 11;
+            this.TitleLabel.Text = "GamerSky-Lite [需求才是第一生产力]";
+            this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ReadedButton
             // 
@@ -247,19 +260,6 @@
             this.LogButton.Size = new System.Drawing.Size(50, 50);
             this.LogButton.TabIndex = 7;
             this.LogButton.Click += new System.EventHandler(this.LogButton_Click);
-            // 
-            // TitleLabel
-            // 
-            this.TitleLabel.AutoEllipsis = true;
-            this.TitleLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TitleLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.TitleLabel.Location = new System.Drawing.Point(32, 0);
-            this.TitleLabel.Name = "TitleLabel";
-            this.TitleLabel.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.TitleLabel.Size = new System.Drawing.Size(610, 32);
-            this.TitleLabel.TabIndex = 11;
-            this.TitleLabel.Text = "GamerSky-Lite [需求才是第一生产力]";
-            this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainForm
             // 
