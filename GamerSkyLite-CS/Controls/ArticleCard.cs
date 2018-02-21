@@ -634,7 +634,8 @@ namespace GamerSkyLite_CS.Controls
             if (ContentString == string.Empty) throw new Exception("文章页面匹配失败");
 
             int PaginationStart = ContentString.IndexOf("<!--{pe.begin.pagination}-->");
-            if (PaginationStart < 0) throw new Exception("未发现 Pagination 断句");
+            if (PaginationStart < 0)
+                return ;
 
             //分割文章内容和换页按钮(上下行位置不可交换)
             PaginationString = ContentString.Substring(PaginationStart);
