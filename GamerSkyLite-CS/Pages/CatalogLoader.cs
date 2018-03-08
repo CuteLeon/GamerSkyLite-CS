@@ -72,8 +72,9 @@ namespace GamerSkyLite_CS
                                     });
                                 GroupDate = TempDate;
                                 }
-
                                 CatalogLayoutPanel.Controls.Add(NewArticleCard);
+                                if (NewArticleCard.IsNew)
+                                    CatalogLayoutPanel.Controls.SetChildIndex(NewArticleCard, 0);
                                 NewArticleCard.Show();
                                 NewArticleCard.Ini();
                                 CatalogLayoutPanel.Invalidate();
