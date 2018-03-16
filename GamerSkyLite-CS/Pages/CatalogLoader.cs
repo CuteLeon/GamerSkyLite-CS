@@ -32,6 +32,7 @@ namespace GamerSkyLite_CS
                 CatalogAdapter.Fill(CatalogTable);
                 if (CatalogTable.Rows.Count>0)
                 {
+                    int NewCardIndex = 0;
                     DateTime GroupDate = DateTime.MaxValue, TempDate = DateTime.Today;
                     foreach(DataRow CatalogRow in CatalogTable.Rows)
                     {
@@ -74,7 +75,10 @@ namespace GamerSkyLite_CS
                                 }
                                 CatalogLayoutPanel.Controls.Add(NewArticleCard);
                                 if (NewArticleCard.IsNew)
-                                    CatalogLayoutPanel.Controls.SetChildIndex(NewArticleCard, 0);
+                                {
+                                    CatalogLayoutPanel.Controls.SetChildIndex(NewArticleCard, NewCardIndex);
+                                    NewCardIndex++;
+                                }
                                 NewArticleCard.Show();
                                 NewArticleCard.Ini();
                                 CatalogLayoutPanel.Invalidate();
