@@ -314,7 +314,7 @@ namespace GamerSkyLite_CS
             this.SizeChanged += new EventHandler((s, e) => RedrawWindow(Handle, IntPtr.Zero, IntPtr.Zero, RDW_FRAME | RDW_IUPDATENOW | RDW_INVALIDATE));
             this.Activated += new EventHandler((s, e) => RedrawWindow(Handle, IntPtr.Zero, IntPtr.Zero, RDW_FRAME | RDW_IUPDATENOW | RDW_INVALIDATE));
             CatalogLayoutPanel.ControlRemoved += new ControlEventHandler((s,e)=> {
-                if (CatalogLayoutPanel.Controls.Count < 0) return;
+                if (CatalogLayoutPanel.Controls.Count <= 0) return;
                 int ControlIndex = CatalogLayoutPanel.Controls.Count - 1;
                 if (CatalogLayoutPanel.Controls[ControlIndex] is Label)
                 {
