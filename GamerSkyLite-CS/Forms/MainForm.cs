@@ -552,8 +552,7 @@ namespace GamerSkyLite_CS
         {
             if (e.KeyCode == Keys.Enter)
                 if(SQLTextBox.Text !="")
-                    lock (UnityModule.UnityDBController)
-                        UnityModule.UnityDBController.ExecuteNonQuery(SQLTextBox.Text);
+                    UnityModule.UnityDBController.ExecuteNonQuery(SQLTextBox.Text);
         }
 
         private void IconLabel_Click(object sender, EventArgs e)

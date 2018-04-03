@@ -318,10 +318,7 @@ namespace GamerSkyLite_CS.Controls
                                     DownloadArticleThread = null;
 
                                     ContentIndex = 0;
-                                    lock (UnityModule.UnityDBController)
-                                    {
-                                        ContentCount = Convert.ToInt32(UnityModule.UnityDBController.ExecuteScalar("SELECT COUNT(ContentID) FROM ArticleBase WHERE ArticleID='{0}'", ArticleID));
-                                    }
+                                    ContentCount = Convert.ToInt32(UnityModule.UnityDBController.ExecuteScalar("SELECT COUNT(ContentID) FROM ArticleBase WHERE ArticleID='{0}'", ArticleID));
 
                                     StateLabel.Text = "正在下载文章...";
                                     StateLabel.ForeColor = Color.DeepSkyBlue;
@@ -751,10 +748,8 @@ namespace GamerSkyLite_CS.Controls
 
             //获取文章内容
             OleDbDataAdapter ContentAdapter = null;
-            lock (UnityModule.UnityDBController)
-            {
-                ContentAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM ArticleBase WHERE ArticleID='{0}'", ArticleID);
-            }
+            ContentAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM ArticleBase WHERE ArticleID='{0}'", ArticleID);
+
             using (DataTable ContentTable = new DataTable())
             {
                 ContentAdapter.Fill(ContentTable);
@@ -823,10 +818,8 @@ namespace GamerSkyLite_CS.Controls
                 ArticleStream.Write(@"<html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /></head><body style=""width:70%;margin:0 auto""><center><pre><h1><strong>{0}</strong></h1></pre>" + "\n", Title);
 
                 OleDbDataAdapter ContentAdapter = null;
-                lock (UnityModule.UnityDBController)
-                {
-                    ContentAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM ArticleBase WHERE ArticleID='{0}'", ArticleID);
-                }
+                ContentAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM ArticleBase WHERE ArticleID='{0}'", ArticleID);
+
                 using (DataTable ContentTable = new DataTable())
                 {
                     ContentAdapter.Fill(ContentTable);
@@ -886,9 +879,8 @@ namespace GamerSkyLite_CS.Controls
                 {
                     try
                     {
-                        lock (UnityModule.UnityDBController)
-                            if (UnityModule.UnityDBController != null && UnityModule.UnityDBController.IsConnected())
-                                UnityModule.UnityDBController.ExecuteNonQuery("DELETE FROM ArticleBase WHERE ArticleID='{0}'", ArticleID);
+                        if (UnityModule.UnityDBController != null && UnityModule.UnityDBController.IsConnected())
+                            UnityModule.UnityDBController.ExecuteNonQuery("DELETE FROM ArticleBase WHERE ArticleID='{0}'", ArticleID);
 
                         //清空数据库项目
                         if (Directory.Exists(DownloadDirectory))

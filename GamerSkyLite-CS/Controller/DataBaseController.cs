@@ -81,8 +81,11 @@ namespace GamerSkyLite_CS.Controller
 
             try
             {
-                Monitor.Enter(DataBaseCommand);
-                OleDbDataAdapter DataAdapter = new OleDbDataAdapter(SQLCommand, DataBaseConnection);
+                OleDbDataAdapter DataAdapter;
+                lock (DataBaseConnection)
+                {
+                    DataAdapter = new OleDbDataAdapter(SQLCommand, DataBaseConnection);
+                }
                 UnityModule.DebugPrint("命令执行成功：" + SQLCommand);
                 return DataAdapter;
             }
@@ -90,10 +93,6 @@ namespace GamerSkyLite_CS.Controller
             {
                 UnityModule.DebugPrint("读取SQL遇到错误：\n\t" + SQLCommand + "\n\t" + ex.Message);
                 return null;
-            }
-            finally
-            {
-                Monitor.Exit(DataBaseCommand);
             }
         }
 
@@ -128,9 +127,11 @@ namespace GamerSkyLite_CS.Controller
 
             try
             {
-                Monitor.Enter(DataBaseCommand);
-                DataBaseCommand.CommandText = SQLCommand;
-                DataBaseCommand.ExecuteNonQuery();
+                lock (DataBaseCommand)
+                {
+                    DataBaseCommand.CommandText = SQLCommand;
+                    DataBaseCommand.ExecuteNonQuery();
+                }
                 UnityModule.DebugPrint("命令执行成功：" + SQLCommand);
                 return true;
             }
@@ -138,10 +139,6 @@ namespace GamerSkyLite_CS.Controller
             {
                 UnityModule.DebugPrint("执行SQL遇到错误：\n\t" + SQLCommand + "\n\t" + ex.Message);
                 return false;
-            }
-            finally
-            {
-                Monitor.Exit(DataBaseCommand);
             }
         }
 
@@ -176,9 +173,12 @@ namespace GamerSkyLite_CS.Controller
 
             try
             {
-                Monitor.Enter(DataBaseCommand);
-                DataBaseCommand.CommandText = SQLCommand;
-                OleDbDataReader DataReader=DataBaseCommand.ExecuteReader();
+                OleDbDataReader DataReader;
+                lock (DataBaseCommand)
+                {
+                    DataBaseCommand.CommandText = SQLCommand;
+                    DataReader = DataBaseCommand.ExecuteReader();
+                }
                 UnityModule.DebugPrint("命令执行成功：" + SQLCommand);
                 return DataReader;
             }
@@ -186,10 +186,6 @@ namespace GamerSkyLite_CS.Controller
             {
                 UnityModule.DebugPrint("读取SQL遇到错误：\n\t" + SQLCommand + "\n\t" + ex.Message);
                 return null;
-            }
-            finally
-            {
-                Monitor.Exit(DataBaseCommand);
             }
         }
 
@@ -224,9 +220,11 @@ namespace GamerSkyLite_CS.Controller
 
             try
             {
-                Monitor.Enter(DataBaseCommand);
-                DataBaseCommand.CommandText = SQLCommand;
-                object DataValue = DataBaseCommand.ExecuteScalar();
+                object DataValue;
+                lock (DataBaseCommand){
+                    DataBaseCommand.CommandText = SQLCommand;
+                    DataValue = DataBaseCommand.ExecuteScalar();
+                }
                 UnityModule.DebugPrint("命令执行成功：" + SQLCommand);
                 return DataValue;
             }
@@ -234,10 +232,6 @@ namespace GamerSkyLite_CS.Controller
             {
                 UnityModule.DebugPrint("读取SQL遇到错误：\n\t\t\t" + SQLCommand + "\n\t\t\t" + ex.Message);
                 return null;
-            }
-            finally
-            {
-                Monitor.Exit(DataBaseCommand);
             }
         }
 

@@ -23,10 +23,9 @@ namespace GamerSkyLite_CS
             UnityModule.DebugPrint("开始读取目录列表...");
             
             OleDbDataAdapter CatalogAdapter = null;
-            lock (UnityModule.UnityDBController)
-            {
-                CatalogAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM CatalogBase ORDER BY PublishTime DESC");
-            }
+            
+            CatalogAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM CatalogBase ORDER BY PublishTime DESC");
+
             using (DataTable CatalogTable = new DataTable())
             {
                 CatalogAdapter.Fill(CatalogTable);

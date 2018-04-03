@@ -75,25 +75,22 @@ namespace GamerSkyLite_CS.Controller
                     if (!ArticleLink.StartsWith(UnityModule.WebSite)) ArticleLink = FileController.LinkCombine(UnityModule.WebSite, ArticleLink);
                     Title.Replace("'", "");
                     Description = Description.Replace("\n", "").Replace("'", "");
-                    //lock (UnityModule.UnityDBController)
+                    if (UnityModule.UnityDBController.ExecuteScalar("SELECT ArticleID FROM CatalogBase WHERE ArticleID='{0}'", ArticleID) == null)
                     {
-                        if (UnityModule.UnityDBController.ExecuteScalar("SELECT ArticleID FROM CatalogBase WHERE ArticleID='{0}'", ArticleID) == null)
-                        {
-                            UnityModule.DebugPrint("》》》发现新文章：{0}", ArticleID);
-                            UnityModule.UnityDBController.ExecuteNonQuery("INSERT INTO CatalogBase (ArticleID, Title, ArticleLink, ImagePath, ImageLink, Description, PublishTime, IsNew) VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', YES)",
-                                ArticleID,
-                                Title,
-                                ArticleLink,
-                                ImagePath,
-                                ImageLink,
-                                Description,
-                                PublishTime
-                            );
-                        }
-                        else
-                        {
-                            UnityModule.DebugPrint("》》》已经存在的文章：{0}", ArticleID);
-                        }
+                        UnityModule.DebugPrint("》》》发现新文章：{0}", ArticleID);
+                        UnityModule.UnityDBController.ExecuteNonQuery("INSERT INTO CatalogBase (ArticleID, Title, ArticleLink, ImagePath, ImageLink, Description, PublishTime, IsNew) VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', YES)",
+                            ArticleID,
+                            Title,
+                            ArticleLink,
+                            ImagePath,
+                            ImageLink,
+                            Description,
+                            PublishTime
+                        );
+                    }
+                    else
+                    {
+                        UnityModule.DebugPrint("》》》已经存在的文章：{0}", ArticleID);
                     }
                 }
             }
