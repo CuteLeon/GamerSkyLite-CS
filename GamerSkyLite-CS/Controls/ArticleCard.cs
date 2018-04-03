@@ -693,19 +693,15 @@ namespace GamerSkyLite_CS.Controls
                             StateLabel.Text = string.Format("正在分析：{0} 页 / {1} 图", PageIndex, ContentIndex++);
                         }));
 
-                        //不可去掉 lock(){} ，因为数据库无法响应并发
-                        lock (UnityModule.UnityDBController)
+                        if (UnityModule.UnityDBController.ExecuteScalar("SELECT ContentID FROM ArticleBase WHERE Link='{0}' AND ArticleID='{1}'", Link, ArticleID) == null)
                         {
-                            if (UnityModule.UnityDBController.ExecuteScalar("SELECT ContentID FROM ArticleBase WHERE Link='{0}' AND ArticleID='{1}'", Link, ArticleID) == null)
-                            {
-                                //内容信息不存在，储存进入数据库
-                                UnityModule.UnityDBController.ExecuteNonQuery("INSERT INTO ArticleBase (Link, Description, ImagePath, ArticleID) VALUES('{0}', '{1}', '{2}', '{3}')",
-                                    Link,
-                                    Description,
-                                    FileController.PathCombine(DownloadDirectory, Path.GetFileName(Link)),
-                                    ArticleID
-                                    );
-                            }
+                            //内容信息不存在，储存进入数据库
+                            UnityModule.UnityDBController.ExecuteNonQuery("INSERT INTO ArticleBase (Link, Description, ImagePath, ArticleID) VALUES('{0}', '{1}', '{2}', '{3}')",
+                                Link,
+                                Description,
+                                FileController.PathCombine(DownloadDirectory, Path.GetFileName(Link)),
+                                ArticleID
+                                );
                         }
                     }
                     catch (ThreadAbortException ex) { throw ex; }
