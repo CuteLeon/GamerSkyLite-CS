@@ -444,11 +444,11 @@ namespace GamerSkyLite_CS
             CatalogLayoutPanel.Controls.Clear();
             GC.Collect();
 
+                foreach(string CatalogAddress in UnityModule.CatalogAddressList)
+                    CatalogController.GetCatalog(CatalogAddress);
             //更新文章目录
             try
             {
-                foreach(string CatalogAddress in UnityModule.CatalogAddressList)
-                    CatalogController.GetCatalog(CatalogAddress);
             }
             catch (Exception ex)
             {
@@ -552,7 +552,8 @@ namespace GamerSkyLite_CS
         {
             if (e.KeyCode == Keys.Enter)
                 if(SQLTextBox.Text !="")
-                    UnityModule.UnityDBController.ExecuteNonQuery(SQLTextBox.Text);
+                    lock (UnityModule.UnityDBController)
+                        UnityModule.UnityDBController.ExecuteNonQuery(SQLTextBox.Text);
         }
 
         private void IconLabel_Click(object sender, EventArgs e)
@@ -624,6 +625,9 @@ namespace GamerSkyLite_CS
                         {
                             using (WebClient ScanClient = new WebClient())
                             {
+                                ScanClient.Headers.Add(HttpRequestHeader.Accept, "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+                                ScanClient.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36");
+
                                 string Address = string.Format("http://www.gamersky.com/ent/{0}/{1}.shtml", DateString, Index);
                                 if (ScanClient.DownloadString(Address).Length > 0)
                                 {
