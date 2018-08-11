@@ -821,7 +821,7 @@ namespace GamerSkyLite_CS.Controls
             try
             {
                 ArticleStream = new StreamWriter(ArticleFilePath, false, Encoding.UTF8);
-                ArticleStream.Write(@"<html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /></head><body style=""width:70%;margin:0 auto""><center><pre><h1><strong>{0}</strong></h1></pre>" + "\n", Title);
+                ArticleStream.Write("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><style>{0}</style></head><body style=\"width:70%;margin:0 auto\"><center><pre><h1><strong>{1}</strong></h1></pre>\n", "body{text-align: center} img{widows: auto!important;height: auto!important;}", Title);
 
                 OleDbDataAdapter ContentAdapter = null;
                 ContentAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM ArticleBase WHERE ArticleID='{0}'", ArticleID);
@@ -835,7 +835,7 @@ namespace GamerSkyLite_CS.Controls
                         {
                             try
                             {
-                                ArticleStream.WriteLine(@"<img src="".\{0}"" alt=""{1}""><br>{2}<br><hr>", Path.GetFileName(ContentRow["ImagePath"] as string), ContentRow["Link"], ContentRow["Description"]);
+                                ArticleStream.WriteLine(@"<img class=""lazyimage"" onclick=""click2load(this)"" data-src="".\{0}"" alt=""点击以重新加载图片    {1}""><br>{2}<br><hr>", Path.GetFileName(ContentRow["ImagePath"] as string), ContentRow["Link"], ContentRow["Description"]);
                             }
                             catch (ThreadAbortException ex) { throw ex; }
                             catch (Exception ex)
@@ -846,8 +846,56 @@ namespace GamerSkyLite_CS.Controls
                     }
                 }
                 ContentAdapter.Dispose();
-
-                ArticleStream.Write("\n<hr><<<< 文章结束 >>>></center></body></html>");
+                //<script>window.onload = function(){ window.scrollTo(1, 1); window.scrollTo(0, 0); };if (!document.getElementsByClassName){document.getElementsByClassName = function(className, element){var children = (element || document).getElementsByTagName('*');var elements = new Array();for (var i = 0; i < children.length; i++){var child = children[i];var classNames = child.className.split(' ');for (var j = 0; j < classNames.length; j++){if (classNames[j] == className){elements.push(child);break;}}}return elements;};}var aImg = document.getElementsByClassName('lazyimage');var len = aImg.length;var n = 0;//存储图片加载到的位置，避免每次都从第一张图片开始遍历window.onscroll = function() {var seeHeight = document.documentElement.scrollHeight;var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;for (var i = n; i < len; i++){if (aImg[i].offsetTop < seeHeight + scrollTop){if (aImg[i].getAttribute('src') == null || aImg[i].getAttribute('src') == ''){aImg[i].src = aImg[i].getAttribute('data-src');}n = i + 1;}}};</script>
+                ArticleStream.Write(@"<<<< 文章结束 >>>></center>
+<script>
+    function click2load(sender){
+        if(sender.getAttribute('src') == null || sender.getAttribute('src') == '')
+            sender.src = sender.getAttribute('data-src');
+        else
+            sender.removeAttribute('src');
+    }
+    window.onload = function(){ window.scrollTo(1, 1); window.scrollTo(0, 0); };
+    if (!document.getElementsByClassName){
+        document.getElementsByClassName = function(className, element){
+            var children = (element || document).getElementsByTagName('*');
+            var elements = new Array();
+            for (var i = 0; i < children.length; i++)
+            {
+                var child = children[i];
+                var classNames = child.className.split(' ');
+                for (var j = 0; j < classNames.length; j++)
+                {
+                    if (classNames[j] == className)
+                    {
+                        elements.push(child);
+                        break;
+                    }
+                }
+            }
+            return elements;
+        };
+    }
+    var aImg = document.getElementsByClassName('lazyimage');
+    var len = aImg.length;
+    var n = 0;//存储图片加载到的位置，避免每次都从第一张图片开始遍历
+    window.onscroll = function() {
+        var seeHeight = document.documentElement.scrollHeight;
+        var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+        for (var i = n; i < len; i++)
+        {
+            if (aImg[i].offsetTop < seeHeight + scrollTop)
+            {
+                if (aImg[i].getAttribute('src') == null || aImg[i].getAttribute('src') == '')
+                {
+                    aImg[i].src = aImg[i].getAttribute('data-src');
+                }
+                n = i + 1;
+            }
+        }
+    };
+</script>
+</body></html>");
                 UnityModule.DebugPrint("文章组装完成：{0}", ArticleID);
             }
             catch (ThreadAbortException ex) { throw ex; }
