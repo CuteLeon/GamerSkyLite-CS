@@ -855,7 +855,7 @@ namespace GamerSkyLite_CS.Controls
         else
             sender.removeAttribute('src');
     }
-    window.onload = function(){ window.scrollTo(1, 1); window.scrollTo(0, 0); };
+    window.onload = function(){  loadImages(); };
     if (!document.getElementsByClassName){
         document.getElementsByClassName = function(className, element){
             var children = (element || document).getElementsByTagName('*');
@@ -879,7 +879,7 @@ namespace GamerSkyLite_CS.Controls
     var aImg = document.getElementsByClassName('lazyimage');
     var len = aImg.length;
     var n = 0;//存储图片加载到的位置，避免每次都从第一张图片开始遍历
-    window.onscroll = function() {
+    function loadImages() {
         var seeHeight = document.documentElement.scrollHeight;
         var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
         for (var i = n; i < len; i++)
@@ -894,6 +894,7 @@ namespace GamerSkyLite_CS.Controls
             }
         }
     };
+    window.onscroll = loadImages;
 </script>
 </body></html>");
                 UnityModule.DebugPrint("文章组装完成：{0}", ArticleID);
