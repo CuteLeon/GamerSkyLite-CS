@@ -321,7 +321,7 @@ namespace GamerSkyLite_CS.Controls
                                     DownloadArticleThread = null;
 
                                     ContentIndex = 0;
-                                    ContentCount = Convert.ToInt32(UnityModule.UnityDBController.ExecuteScalar("SELECT COUNT(ContentID) FROM ArticleBase WHERE ArticleID='{0}'", ArticleID));
+                                    ContentCount = Convert.ToInt32(UnityModule.UnityDBController.ExecuteScalar("SELECT COUNT(ContentID) FROM ArticleBase WHERE ArticleID=@ID", new Tuple<string, object>("@ID", ArticleID)));
 
                                     StateLabel.Text = "正在下载文章...";
                                     StateLabel.ForeColor = Color.DeepSkyBlue;
@@ -375,7 +375,7 @@ namespace GamerSkyLite_CS.Controls
                                     }
                                     DownloadButton.Text = "已完成";
                                     //文章状态置为非新文章
-                                    UnityModule.UnityDBController.ExecuteNonQuery("UPDATE CatalogBase SET IsNew = NO WHERE ArticleID='{0}'", ArticleID);
+                                    UnityModule.UnityDBController.ExecuteNonQuery("UPDATE CatalogBase SET IsNew = NO WHERE ArticleID=@ID", new Tuple<string, object>("@ID", ArticleID));
                                     break;
                                 }
                             default:
@@ -696,14 +696,14 @@ namespace GamerSkyLite_CS.Controls
                             StateLabel.Text = string.Format("正在分析：{0} 页 / {1} 图", PageIndex, ContentIndex++);
                         }));
 
-                        if (UnityModule.UnityDBController.ExecuteScalar("SELECT ContentID FROM ArticleBase WHERE Link='{0}' AND ArticleID='{1}'", Link, ArticleID) == null)
+                        if (UnityModule.UnityDBController.ExecuteScalar("SELECT ContentID FROM ArticleBase WHERE Link=@Link AND ArticleID=@ID", new Tuple<string, object>("@Link", Link), new Tuple<string, object>("@ID", ArticleID)) == null)
                         {
                             //内容信息不存在，储存进入数据库
-                            UnityModule.UnityDBController.ExecuteNonQuery("INSERT INTO ArticleBase (Link, Description, ImagePath, ArticleID) VALUES('{0}', '{1}', '{2}', '{3}')",
-                                Link,
-                                Description,
-                                FileController.PathCombine(DownloadDirectory, Path.GetFileName(Link)),
-                                ArticleID
+                            UnityModule.UnityDBController.ExecuteNonQuery("INSERT INTO ArticleBase (Link, Description, ImagePath, ArticleID) VALUES(@Link, @Description, @ImagePath, @ArticleID)",
+                                new Tuple<string, object>("@Link", Link),
+                                new Tuple<string, object>("@Description", Description),
+                                new Tuple<string, object>("@ImagePath", FileController.PathCombine(DownloadDirectory, Path.GetFileName(Link))),
+                                new Tuple<string, object>("@ArticleID", ArticleID)
                                 );
                         }
                     }
@@ -754,7 +754,7 @@ namespace GamerSkyLite_CS.Controls
 
             //获取文章内容
             OleDbDataAdapter ContentAdapter = null;
-            ContentAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM ArticleBase WHERE ArticleID='{0}'", ArticleID);
+            ContentAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM ArticleBase WHERE ArticleID=@ID", new Tuple<string, object>("@ID", ArticleID));
 
             using (DataTable ContentTable = new DataTable())
             {
@@ -824,7 +824,7 @@ namespace GamerSkyLite_CS.Controls
                 ArticleStream.Write("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><style>{0}</style></head><body style=\"width:70%;margin:0 auto\"><center><pre><h1><strong>{1}</strong></h1></pre>\n", "body{text-align: center} img{widows: auto!important;height: auto!important;}", Title);
 
                 OleDbDataAdapter ContentAdapter = null;
-                ContentAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM ArticleBase WHERE ArticleID='{0}'", ArticleID);
+                ContentAdapter = UnityModule.UnityDBController.ExecuteAdapter("SELECT * FROM ArticleBase WHERE ArticleID=@ID", new Tuple<string, object>("@ID", ArticleID));
 
                 using (DataTable ContentTable = new DataTable())
                 {
@@ -935,7 +935,7 @@ namespace GamerSkyLite_CS.Controls
                     try
                     {
                         if (UnityModule.UnityDBController != null && UnityModule.UnityDBController.IsConnected())
-                            UnityModule.UnityDBController.ExecuteNonQuery("DELETE FROM ArticleBase WHERE ArticleID='{0}'", ArticleID);
+                            UnityModule.UnityDBController.ExecuteNonQuery("DELETE FROM ArticleBase WHERE ArticleID=@ID", new Tuple<string, object>("@ID", ArticleID));
 
                         //清空数据库项目
                         if (Directory.Exists(DownloadDirectory))
@@ -973,7 +973,7 @@ namespace GamerSkyLite_CS.Controls
             {
                 if (new LeonMessageBox("Gamer-Sky", "要彻底删除此文章记录吗？", LeonMessageBox.IconType.Question).ShowDialog(this) == DialogResult.OK) 
                 {
-                    UnityModule.UnityDBController.ExecuteNonQuery("DELETE FROM CatalogBase WHERE ArticleID='{0}'", ArticleID);
+                    UnityModule.UnityDBController.ExecuteNonQuery("DELETE FROM CatalogBase WHERE ArticleID=@ID", new Tuple<string, object>("@ID", ArticleID));
                     try
                     {
                         if(File.Exists(ImagePath)) File.Delete(this.ImagePath);
@@ -1027,7 +1027,7 @@ namespace GamerSkyLite_CS.Controls
         private void ReadedButton_Click(object sender, EventArgs e)
         {
             if (new LeonMessageBox("Gamer-Sky", "要将此文章置为已读吗？", LeonMessageBox.IconType.Question).ShowDialog(this) == DialogResult.OK) 
-                if (UnityModule.UnityDBController.ExecuteNonQuery("UPDATE CatalogBase SET IsNew = NO WHERE ArticleID = '{0}'", ArticleID))
+                if (UnityModule.UnityDBController.ExecuteNonQuery("UPDATE CatalogBase SET IsNew = NO WHERE ArticleID = @ID", new Tuple<string, object>("@ID", ArticleID)))
                     IsNew = false;
         }
 

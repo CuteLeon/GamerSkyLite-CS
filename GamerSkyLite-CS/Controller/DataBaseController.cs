@@ -61,9 +61,41 @@ namespace GamerSkyLite_CS.Controller
         /// <param name="SQLCommand">数据库读取命令</param>
         /// <param name="SQLValue">数据库命令内包含的值</param>
         /// <returns>读取结果</returns>
-        public OleDbDataAdapter ExecuteAdapter(string SQLCommand, params object[] SQLValue)
+        public OleDbDataAdapter ExecuteAdapter(string SQLCommand, params Tuple<string, object>[] SQLValues)
         {
-            return ExecuteAdapter(string.Format(SQLCommand, SQLValue));
+            if (DataBaseConnection == null)
+            {
+                UnityModule.DebugPrint("数据库连接未创建，无法读取SQL:" + SQLCommand);
+                return null;
+            }
+            if (DataBaseConnection.State != ConnectionState.Open)
+            {
+                UnityModule.DebugPrint("数据库状态为：" + DataBaseConnection.State.ToString() + "；无法读取SQL:" + SQLCommand);
+                return null;
+            }
+
+            try
+            {
+                OleDbDataAdapter DataAdapter;
+                lock (DataBaseCommand)
+                {
+                    DataBaseCommand.Parameters.Clear();
+                    DataBaseCommand.CommandText = SQLCommand;
+                    foreach (var value in SQLValues)
+                    {
+                        DataBaseCommand.Parameters.AddWithValue(value.Item1, value.Item2);
+                    }
+
+                    DataAdapter = new OleDbDataAdapter(DataBaseCommand);
+                }
+                UnityModule.DebugPrint("命令执行成功：" + SQLCommand);
+                return DataAdapter;
+            }
+            catch (Exception ex)
+            {
+                UnityModule.DebugPrint("读取SQL遇到错误：\n\t" + SQLCommand + "\n\t" + ex.Message);
+                return null;
+            }
         }
 
         /// <summary>
@@ -78,12 +110,18 @@ namespace GamerSkyLite_CS.Controller
                 UnityModule.DebugPrint("数据库连接未创建，无法读取SQL:" + SQLCommand);
                 return null;
             }
+            if (DataBaseConnection.State != ConnectionState.Open)
+            {
+                UnityModule.DebugPrint("数据库状态为：" + DataBaseConnection.State.ToString() + "；无法读取SQL:" + SQLCommand);
+                return null;
+            }
 
             try
             {
                 OleDbDataAdapter DataAdapter;
-                lock (DataBaseConnection)
+                lock (DataBaseCommand)
                 {
+                    DataBaseCommand.Parameters.Clear();
                     DataAdapter = new OleDbDataAdapter(SQLCommand, DataBaseConnection);
                 }
                 UnityModule.DebugPrint("命令执行成功：" + SQLCommand);
@@ -102,9 +140,39 @@ namespace GamerSkyLite_CS.Controller
         /// <param name="SQLCommand">数据库读取命令</param>
         /// <param name="SQLValue">数据库命令内包含的值</param>
         /// <returns>读取结果</returns>
-        public bool ExecuteNonQuery(string SQLCommand, params object[] SQLValue)
+        public bool ExecuteNonQuery(string SQLCommand, params Tuple<string, object>[] SQLValues)
         {
-            return ExecuteNonQuery(string.Format(SQLCommand, SQLValue));
+            if (DataBaseConnection == null)
+            {
+                UnityModule.DebugPrint("数据库连接未创建，无法读取SQL:" + SQLCommand);
+                return false;
+            }
+            if (DataBaseConnection.State != ConnectionState.Open)
+            {
+                UnityModule.DebugPrint("数据库状态为：" + DataBaseConnection.State.ToString() + "；无法读取SQL:" + SQLCommand);
+                return false;
+            }
+
+            try
+            {
+                lock (DataBaseCommand)
+                {
+                    DataBaseCommand.Parameters.Clear();
+                    DataBaseCommand.CommandText = SQLCommand;
+                    foreach (var value in SQLValues)
+                    {
+                        DataBaseCommand.Parameters.AddWithValue(value.Item1, value.Item2);
+                    }
+                    DataBaseCommand.ExecuteNonQuery();
+                    UnityModule.DebugPrint("命令执行成功：" + SQLCommand);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                UnityModule.DebugPrint("读取SQL遇到错误：\n\t" + SQLCommand + "\n\t" + ex.Message);
+                return false;
+            }
         }
 
         /// <summary>
@@ -129,6 +197,7 @@ namespace GamerSkyLite_CS.Controller
             {
                 lock (DataBaseCommand)
                 {
+                    DataBaseCommand.Parameters.Clear();
                     DataBaseCommand.CommandText = SQLCommand;
                     DataBaseCommand.ExecuteNonQuery();
                 }
@@ -148,9 +217,41 @@ namespace GamerSkyLite_CS.Controller
         /// <param name="SQLCommand">数据库读取命令</param>
         /// <param name="SQLValue">数据库命令内包含的值</param>
         /// <returns>读取结果</returns>
-        public OleDbDataReader ExecuteReader(string SQLCommand, params object[] SQLValue)
+        public OleDbDataReader ExecuteReader(string SQLCommand, params Tuple<string, object>[] SQLValues)
         {
-            return ExecuteReader(string.Format(SQLCommand, SQLValue));
+            if (DataBaseConnection == null)
+            {
+                UnityModule.DebugPrint("数据库连接未创建，无法读取SQL:" + SQLCommand);
+                return null;
+            }
+            if (DataBaseConnection.State != ConnectionState.Open)
+            {
+                UnityModule.DebugPrint("数据库状态为：" + DataBaseConnection.State.ToString() + "；无法读取SQL:" + SQLCommand);
+                return null;
+            }
+
+            try
+            {
+                OleDbDataReader DataReader;
+
+                lock (DataBaseCommand)
+                {
+                    DataBaseCommand.Parameters.Clear();
+                    DataBaseCommand.CommandText = SQLCommand;
+                    foreach (var value in SQLValues)
+                    {
+                        DataBaseCommand.Parameters.AddWithValue(value.Item1, value.Item2);
+                    }
+                    DataReader = DataBaseCommand.ExecuteReader();
+                    UnityModule.DebugPrint("命令执行成功：" + SQLCommand);
+                }
+                return DataReader;
+            }
+            catch (Exception ex)
+            {
+                UnityModule.DebugPrint("读取SQL遇到错误：\n\t" + SQLCommand + "\n\t" + ex.Message);
+                return null;
+            }
         }
 
         /// <summary>
@@ -176,6 +277,7 @@ namespace GamerSkyLite_CS.Controller
                 OleDbDataReader DataReader;
                 lock (DataBaseCommand)
                 {
+                    DataBaseCommand.Parameters.Clear();
                     DataBaseCommand.CommandText = SQLCommand;
                     DataReader = DataBaseCommand.ExecuteReader();
                 }
@@ -195,9 +297,41 @@ namespace GamerSkyLite_CS.Controller
         /// <param name="SQLCommand">数据库读取命令</param>
         /// <param name="SQLValue">数据库命令内包含的值</param>
         /// <returns>读取结果</returns>
-        public object ExecuteScalar(string SQLCommand,params object[] SQLValue)
+        public object ExecuteScalar(string SQLCommand,params Tuple<string, object>[] SQLValues)
         {
-            return ExecuteScalar(string.Format(SQLCommand, SQLValue));
+            if (DataBaseConnection == null)
+            {
+                UnityModule.DebugPrint("数据库连接未创建，无法读取SQL:" + SQLCommand);
+                return null;
+            }
+            if (DataBaseConnection.State != ConnectionState.Open)
+            {
+                UnityModule.DebugPrint("数据库状态为：" + DataBaseConnection.State.ToString() + "；无法读取SQL:" + SQLCommand);
+                return null;
+            }
+
+            try
+            {
+                object DataValue;
+
+                lock (DataBaseCommand)
+                {
+                    DataBaseCommand.Parameters.Clear();
+                    DataBaseCommand.CommandText = SQLCommand;
+                    foreach (var value in SQLValues)
+                    {
+                        DataBaseCommand.Parameters.AddWithValue(value.Item1, value.Item2);
+                    }
+                    DataValue = DataBaseCommand.ExecuteScalar();
+                    UnityModule.DebugPrint("命令执行成功：" + SQLCommand);
+                }
+                return DataValue;
+            }
+            catch (Exception ex)
+            {
+                UnityModule.DebugPrint("读取SQL遇到错误：\n\t" + SQLCommand + "\n\t" + ex.Message);
+                return null;
+            }
         }
 
         /// <summary>
@@ -221,7 +355,9 @@ namespace GamerSkyLite_CS.Controller
             try
             {
                 object DataValue;
-                lock (DataBaseCommand){
+                lock (DataBaseCommand)
+                {
+                    DataBaseCommand.Parameters.Clear();
                     DataBaseCommand.CommandText = SQLCommand;
                     DataValue = DataBaseCommand.ExecuteScalar();
                 }
