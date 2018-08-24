@@ -631,18 +631,17 @@ namespace GamerSkyLite_CS
                                 string Address = string.Format("http://www.gamersky.com/ent/{0}/{1}.shtml", DateString, Index);
                                 if (ScanClient.DownloadString(Address).Length > 0)
                                 {
-                                    if (((int)UnityModule.UnityDBController.ExecuteScalar("SELECT COUNT(*) FROM CatalogBase WHERE ArticleLink = @Address", new Tuple<string, object>("@Address", Address))) == 0)
+                                    if (((int)UnityModule.UnityDBController.ExecuteScalar("SELECT COUNT(*) FROM CatalogBase WHERE ArticleLink = '{0}'", Address)) == 0)
                                     {
                                         UnityModule.DebugPrint("发现新文章：{0}", Index);
-                                        UnityModule.UnityDBController.ExecuteNonQuery(
-                                            "INSERT INTO CatalogBase (ArticleID, Title, ArticleLink, ImagePath, ImageLink, Description, PublishTime, IsNew) VALUES(@ArticleID, @Title, @ArticleLink, @ImagePath, @ImageLink, @Description, @PublishTime, YES)",
-                                            new Tuple<string, object>("@ArticleID", Index.ToString()),
-                                             new Tuple<string, object>("@Title", "扫描文章：" + Index.ToString()),
-                                             new Tuple<string, object>("@ArticleLink", Address),
-                                             new Tuple<string, object>("@ImagePath", string.Empty),
-                                             new Tuple<string, object>("@ImageLink", string.Empty),
-                                             new Tuple<string, object>("@Description", "手动扫描到的文章。"),
-                                             new Tuple<string, object>("@PublishTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
+                                        UnityModule.UnityDBController.ExecuteNonQuery("INSERT INTO CatalogBase (ArticleID, Title, ArticleLink, ImagePath, ImageLink, Description, PublishTime, IsNew) VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', YES)",
+                                            Index.ToString(),
+                                            "扫描文章：" + Index.ToString(),
+                                            Address,
+                                            string.Empty,
+                                            string.Empty,
+                                            "手动扫描到的文章。",
+                                            DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
                                         );
                                     }
                                 }
@@ -669,7 +668,7 @@ namespace GamerSkyLite_CS
             if (new LeonMessageBox("Gamer-Sky","要将所有文章置为已读吗？",LeonMessageBox.IconType.Question).ShowDialog(this) == DialogResult.OK)
                 foreach (IComponent CatalogControl in CatalogLayoutPanel.Controls)
                     if (CatalogControl is ArticleCard && (CatalogControl as ArticleCard).IsNew)
-                        if (UnityModule.UnityDBController.ExecuteNonQuery("UPDATE CatalogBase SET IsNew = NO WHERE ArticleID = @ID", new Tuple<string, object>("@ID", (CatalogControl as ArticleCard).ArticleID)))
+                        if (UnityModule.UnityDBController.ExecuteNonQuery("UPDATE CatalogBase SET IsNew = NO WHERE ArticleID = '{0}'", (CatalogControl as ArticleCard).ArticleID))
                             (CatalogControl as ArticleCard).IsNew = false;
         }
 
