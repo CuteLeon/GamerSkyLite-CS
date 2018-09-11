@@ -20,11 +20,11 @@ namespace GamerSkyLite_CS
         /// <summary>
         /// 文章目录地址
         /// </summary>
-        public static readonly string[] CatalogAddressList = new string[] { "http://www.gamersky.com/ent/qw/", "http://www.gamersky.com/ent/discovery/" };
+        public static readonly string[] CatalogAddressList = new string[] { "https://www.gamersky.com/ent/qw/", "https://www.gamersky.com/ent/discovery/" };
         /// <summary>
         /// 网站地址
         /// </summary>
-        public static readonly string WebSite = "http://www.gamersky.com";
+        public static readonly string WebSite = "https://www.gamersky.com";
         /// <summary>
         /// 数据库文件名称
         /// </summary>
