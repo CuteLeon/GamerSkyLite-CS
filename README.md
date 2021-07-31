@@ -4,7 +4,7 @@
 # 截图
 
 ## 目录
-![image](./生成/Catalog.png)
+![image](https://raw.github.com/CuteLeon/GamerSkyLite-CS/master/生成/Catalog.png)
 
 ## 文章
-![image](./生成/Article.png)
+![image](https://raw.github.com/CuteLeon/GamerSkyLite-CS/master/生成/Article.png)
