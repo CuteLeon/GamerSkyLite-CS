@@ -93,8 +93,8 @@ namespace GamerSkyLite_CS
             {
                 string LogMessage = string.Format("{0}    {1}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), DebugMessage);
                 Debug.Print(LogMessage);
-                Program.UnityMainForm.Invoke(new Action(()=> {
-                    Program.UnityMainForm.LogTextBox.AppendText(LogMessage + Environment.NewLine);
+                Program.UnityMainForm?.Invoke(new Action(()=> {
+                    Program.UnityMainForm?.LogTextBox?.AppendText(LogMessage + Environment.NewLine);
                 }));
             }
             catch { }

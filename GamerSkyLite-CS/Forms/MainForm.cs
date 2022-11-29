@@ -133,8 +133,8 @@ namespace GamerSkyLite_CS
 
         public MainForm()
         {
-            UnityModule.DebugPrint("构造 MainForm() ...");
             InitializeComponent();
+            UnityModule.DebugPrint("构造 MainForm() ...");
 
             SetStyle(ControlStyles.AllPaintingInWmPaint |
                  ControlStyles.OptimizedDoubleBuffer |
